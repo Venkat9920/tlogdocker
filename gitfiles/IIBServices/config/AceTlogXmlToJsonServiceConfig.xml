@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ServiceConfig version="1.0.0">
+  <system>
+    <property name="maxBackoutCount" type="integer">40</property>
+    <property name="enableMaxBackoutCount" type="boolean">true</property>
+    <property name="rollbackDelay" type="integer">5000</property>
+    <property name="configReloadInterval" type="integer">10000</property>
+  </system>
+
+  <application name="AceTlogXmlToJsonService">
+    <property name="isEnabled" type="boolean">true</property>
+    <property name="debugMode" type="boolean">true</property>
+	
+	<propertyList name="itemCodeList">
+      <item key="9066" value="PITT MOOCHO MEAL CARD"/> 
+      <item key="9100" value="CAMPUS XPRESS CARD"/>
+      <item key="9405" value="ONLINE PAYMENT PAYPAL TENDER"/>
+      <item key="9407" value="COMDATA FLEET CARD"/>	  
+	  <item key="9408" value="EFS FLEET CARD"/>
+      <item key="9409" value="TCH FLEET CARD"/>
+      <item key="9420" value="DOORDSH TNDR"/>
+      <item key="9422" value="GRUBHUB TNDR"/>	  
+	  <item key="9423" value="UBER EATS TNDR"/>
+      <item key="9471" value="FLEET ONE FLEET CARD"/>
+      <item key="9472" value="T-CHEK FLEET CARD"/>
+      <item key="9537" value="AMEX ONLINE TENDER"/>	  
+	  <item key="9538" value="DISCOVER ONLINE TENDER"/>
+      <item key="9539" value="EBT FS/CSH TNDR"/>
+      <item key="9540" value="ONLINE GIFT CARDS"/>
+      <item key="9541" value="ONLINE PAYMENT VISA TENDER"/>	  
+	  <item key="9542" value="ONLINE PAYMENT MC TENDER"/>
+      <item key="9543" value="ONLINE PAYMENT DISCOVER TENDER"/>
+      <item key="9544" value="ONLINE PAYMENT AMEX TENDER"/>   	
+	</propertyList>	
+  </application>
+</ServiceConfig>

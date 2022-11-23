@@ -1,0 +1,1 @@
+start cscript C:\Venkat_INBNG233\IIBServices\tlogbinaryparsererrorfiles\sendMail\sendmailalert.vbs
