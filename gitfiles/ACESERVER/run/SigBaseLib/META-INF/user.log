@@ -1,0 +1,427 @@
+
+==============================================
+
+!Wed Nov 23 12:06:09 UTC 2022
+
+Processing file SigBaseLib\AceTlogLib\AceRawTlog.xsd.
+Successfully added file SigBaseLib\AceTlogLib\AceRawTlog.xsd to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:09 UTC 2022
+
+Processing file SigBaseLib\AceTlogLib\IBMdefined\RecordFixLengthFieldFormat.xsd.
+Successfully added file SigBaseLib\AceTlogLib\IBMdefined\RecordFixLengthFieldFormat.xsd to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:09 UTC 2022
+
+Processing file SigBaseLib\AceTlogLib\IBMdefined\RecordSeparatedFieldFormat.xsd.
+Successfully added file SigBaseLib\AceTlogLib\IBMdefined\RecordSeparatedFieldFormat.xsd to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:09 UTC 2022
+
+Processing file SigBaseLib\AceTlogLib\TlogAce.xsd.
+Successfully added file SigBaseLib\AceTlogLib\TlogAce.xsd to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:09 UTC 2022
+
+Processing file SigBaseLib\AceTlogLib\TlogAceCommon.xsd.
+Successfully added file SigBaseLib\AceTlogLib\TlogAceCommon.xsd to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:09 UTC 2022
+
+Processing file SigBaseLib\AceTlogLib\TlogAceCustom.xsd.
+Successfully added file SigBaseLib\AceTlogLib\TlogAceCustom.xsd to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:09 UTC 2022
+
+Processing file SigBaseLib\AceTlogLib\TlogAceFormat.xsd.
+Successfully added file SigBaseLib\AceTlogLib\TlogAceFormat.xsd to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:09 UTC 2022
+
+Processing file SigBaseLib\AceTlogLib\TlogAceTypes.xsd.
+Successfully added file SigBaseLib\AceTlogLib\TlogAceTypes.xsd to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:09 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\BuildAcknowledgement.esql.
+Dependent ESQL file SigBaseLib/SigBaseStatusDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\BuildAcknowledgement.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:09 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\BuildAcknowledgement.subflow.
+Successfully added file SigBaseLib\SigBaseLib\BuildAcknowledgement.subflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:09 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\CentralNoPublicationMatch.esql.
+Dependent ESQL file SigBaseLib/SigBaseStatusDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\CentralNoPublicationMatch.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\CentralNoPublicationMatch.subflow.
+Successfully added file SigBaseLib\SigBaseLib\CentralNoPublicationMatch.subflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\CentralProcessingError.esql.
+Dependent ESQL file SigBaseLib/SigBaseMq.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseStdDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseStatusDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\CentralProcessingError.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\CentralProcessingError.subflow.
+Successfully added file SigBaseLib\SigBaseLib\CentralProcessingError.subflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\HttpAcknowledgement.esql.
+Dependent ESQL file SigBaseLib/SigBaseHttp.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseStdDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/BuildAcknowledgement.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\HttpAcknowledgement.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\HttpAcknowledgement.subflow.
+Successfully added file SigBaseLib\SigBaseLib\HttpAcknowledgement.subflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\LogTimingTransaction.esql.
+Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigTimingTransaction.esql is added to the BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\LogTimingTransaction.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\LogTimingTransaction.subflow.
+Successfully added file SigBaseLib\SigBaseLib\LogTimingTransaction.subflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\SigBaseEnv.esql.
+Dependent ESQL file SigBaseLib/SigBaseHttp.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseMq.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseStdDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseEnv.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\SigBaseFile.esql.
+Successfully added file SigBaseLib\SigBaseLib\SigBaseFile.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\SigBaseFunctionDef.esql.
+Successfully added file SigBaseLib\SigBaseLib\SigBaseFunctionDef.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\SigBaseHttp.esql.
+Dependent ESQL file SigBaseLib/SigBaseStatusDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseHttp.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\SigBaseLib.esql.
+Dependent ESQL file SigBaseLib/SigBaseStdDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseLib.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\SigBaseMq.esql.
+Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseMq.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\SigBaseNsDef.esql.
+Successfully added file SigBaseLib\SigBaseLib\SigBaseNsDef.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\SigBaseStatusDef.esql.
+Successfully added file SigBaseLib\SigBaseLib\SigBaseStatusDef.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\SigBaseStdDef.esql.
+Successfully added file SigBaseLib\SigBaseLib\SigBaseStdDef.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\SigBaseStdErrorMessages.esql.
+Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseStdErrorMessages.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\SigBaseTcpip.esql.
+Successfully added file SigBaseLib\SigBaseLib\SigBaseTcpip.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\SigCheckBackout.esql.
+Dependent ESQL file SigBaseLib/SigBaseStdErrorMessages.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigCheckBackout.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\SigCheckBackout.subflow.
+Successfully added file SigBaseLib\SigBaseLib\SigCheckBackout.subflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\SigHttpPost.esql.
+Dependent ESQL file SigBaseLib/SigBaseHttp.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseStdDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseStatusDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigHttpPost.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\SigHttpPost.subflow.
+Successfully added file SigBaseLib\SigBaseLib\SigHttpPost.subflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\SigMqRollBack.subflow.
+Successfully added file SigBaseLib\SigBaseLib\SigMqRollBack.subflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\SigRollback.esql.
+Dependent ESQL file SigBaseLib/SigBaseStdErrorMessages.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigRollback.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\SigRollback.subflow.
+Successfully added file SigBaseLib\SigBaseLib\SigRollback.subflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\SigTimingTransaction.esql.
+Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigTimingTransaction.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\StoreProcessingError.esql.
+Dependent ESQL file SigBaseLib/SigBaseMq.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseStdDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseStatusDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\StoreProcessingError.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\StoreProcessingError.subflow.
+Successfully added file SigBaseLib\SigBaseLib\StoreProcessingError.subflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\ThrowPublicationNoMatch.subflow.
+Successfully added file SigBaseLib\SigBaseLib\ThrowPublicationNoMatch.subflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\ValidateAsJson.subflow.
+Successfully added file SigBaseLib\SigBaseLib\ValidateAsJson.subflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\SigBaseLib\ValidateAsXml.subflow.
+Successfully added file SigBaseLib\SigBaseLib\ValidateAsXml.subflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\StoreError.xsd.
+Successfully added file SigBaseLib\StoreError.xsd to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\library.descriptor.
+Successfully added file SigBaseLib\library.descriptor to BAR file.
+Elapsed time: 0 second(s).
+
+Successfully added file SigBaseLib\library.descriptor to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Processing file SigBaseLib\library.descriptor.
+Successfully added file SigBaseLib\library.descriptor to BAR file.
+Elapsed time: 0 second(s).
+
+Successfully added file SigBaseLib\library.descriptor to BAR file.

@@ -1,0 +1,95 @@
+-- Common definitions and routines used by the AceTlogParser.
+
+/**
+ * TLOG_PARSE_FAILED: This global variable is used to indicate to
+ * the 'AceTlogParser_ParseFailedCompute' module that the reason
+ * it is being executed is due to a parse failure when the value
+ * is TRUE. If the value is false, then it is being executed because
+ * of another type of error and should rethrow the exception it 
+ * is handling. This type of logic is driven by the fact that the
+ * compute node is executed on the Failure terminal, which means it
+ * could encounter just about any type of error.
+ *
+ * Note: this is a SHARED variable which means that it is unique
+ * to the flow but shared across instances of the flow. Since we
+ * are single threaded this works ok, but if we start to use
+ * multiple instances, we'll need to rethink how the parsing is
+ * being done.
+ */
+
+DECLARE TLOG_PARSE_FAILED SHARED BOOLEAN TRUE;
+
+
+CREATE PROCEDURE constructAceTlogTopicString(IN sTransaction CHARACTER, IN bInterpret BOOLEAN,
+							   		   		 IN sStore CHARACTER) RETURNS CHARACTER
+BEGIN
+	DECLARE sTopic CHARACTER getAceTlogTopicString();
+	DECLARE sSubTopic CHARACTER NULL;
+
+	SET sTopic = REPLACE(sTopic, SigBaseLib.getSTORE_TOPIC_EXPRESSION(), SigBaseLib.formatString(sStore));
+	
+	IF sTransaction IS NULL
+	THEN
+		SET sSubTopic = SigBaseLib.getERROR_SUB_TOPIC();
+	ELSE
+		IF bInterpret = FALSE
+		THEN
+			SET sSubTopic = sTransaction;
+		ELSE
+			SET sSubTopic = TRIM(LEADING 'TransactionRecord' FROM sTransaction);
+			
+			IF sSubTopic IS NULL
+			THEN
+				SET sSubTopic = SigBaseLib.getERROR_SUB_TOPIC();
+			ELSEIF LENGTH(sSubTopic) < 2 OR LENGTH(sSubTopic) = 3 OR LENGTH(sSubTopic) = 4
+			THEN
+				SET sSubTopic = SigBaseLib.getERROR_SUB_TOPIC();
+			ELSE
+				IF LENGTH(sSubTopic) > 5
+				THEN
+					SET sSubTopic = SUBSTRING(sSubTopic FROM 1 FOR 5);
+				END IF;
+			END IF;
+		END IF;
+	END IF;
+	
+	SET sTopic = REPLACE(sTopic, SigBaseLib.getTRANSACTION_TOPIC_EXPRESSION(), sSubTopic);
+	
+	RETURN sTopic;
+END;
+
+CREATE PROCEDURE getTransactionNumberForTopic(IN sTransaction CHARACTER) RETURNS CHARACTER
+BEGIN
+	DECLARE sNum CHARACTER NULL;
+	
+	IF sTransaction IS NULL
+	THEN
+		SET sNum = SigBaseLib.getERROR_SUB_TOPIC();
+	ELSE
+		SET sNum = TRIM(LEADING 'TransactionRecord' FROM sTransaction);
+		
+		IF sNum IS NULL
+		THEN
+			SET sNum = SigBaseLib.getERROR_SUB_TOPIC();
+		ELSEIF LENGTH(sNum) < 2 OR LENGTH(sNum) = 3 OR LENGTH(sNum) = 4
+		THEN
+			SET sNum = SigBaseLib.getERROR_SUB_TOPIC();
+		ELSE
+			IF LENGTH(sNum) > 5
+			THEN
+				SET sNum = SUBSTRING(sNum FROM 1 FOR 5);
+			END IF;
+		END IF;
+	END IF;
+	RETURN sNum;
+END;
+
+CREATE PROCEDURE getAceTlogParserErrorTopicTypeString(IN sOperation CHARACTER) RETURNS CHARACTER
+BEGIN
+	DECLARE sErrorTopic CHARACTER getAceTlogErrorTopicTypeString();
+	
+	SET sErrorTopic = REPLACE(sErrorTopic, SigBaseLib.getOPERATION_TOPIC_EXPRESSION(), sOperation);
+	
+	RETURN sErrorTopic;
+END;
+

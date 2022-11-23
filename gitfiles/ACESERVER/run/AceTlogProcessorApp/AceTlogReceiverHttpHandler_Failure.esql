@@ -1,0 +1,51 @@
+
+
+CREATE COMPUTE MODULE AceTlogReceiverHttpHandler_Failure
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE sCorrelationId CHARACTER SigBaseLib.getHttpCorrelationId(InputRoot);
+		DECLARE sStatusCode CHARACTER SigBaseLib.getServiceUnavailableStatusCode();
+		DECLARE sOperationStatus CHARACTER SigBaseLib.getErrorStatus();
+
+		SET OutputRoot = null;
+		
+		SET OutputLocalEnvironment = InputLocalEnvironment;
+		
+		CALL initEnvFromAceTlogProcessorServiceConfig(OutputLocalEnvironment);
+		
+		CALL SigBaseLib.logFatalError(MessageFlowLabel, sCorrelationId, InputExceptionList);
+
+		CALL SigBaseLib.logErrorMessage(MessageFlowLabel, NodeLabel,
+				'Unable to process TLOG: ' || 
+				', CorrelationId=' || SigBaseLib.formatString(sCorrelationId));
+			
+		CALL SigBaseLib.setEnvStatusCode(OutputLocalEnvironment, sStatusCode);
+		CALL SigBaseLib.setEnvOperationStatus(OutputLocalEnvironment, sOperationStatus);
+		
+		CALL SigBaseLib.setHttpAcknowledgement(OutputLocalEnvironment,
+									sCorrelationId,
+									sOperationStatus,
+									sStatusCode,
+									NULL,
+									SigBaseLib.getINTERNAL_ERROR_ACCEPTING_MESSAGES(),
+									sStatusCode);
+									
+		PROPAGATE TO TERMINAL 'out';
+		
+		RETURN FALSE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;

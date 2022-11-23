@@ -1,0 +1,117 @@
+CREATE COMPUTE MODULE AceTlogDFDLParse_Failed
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE sCorrelationId CHARACTER SigBaseLib.getEnvCorrelationId(InputLocalEnvironment);
+		DECLARE nErrorNumber INTEGER;
+		DECLARE sErrorText CHARACTER;
+		DECLARE sExceptionDescription CHARACTER;
+		DECLARE sExceptionText CHARACTER NULL;
+		DECLARE ExceptionTree REFERENCE TO InputExceptionList;
+		DECLARE blobErrorDetail BLOB NULL;
+		DECLARE gzipErrorDetail BLOB NULL;
+		DECLARE rawTlog BLOB;
+		DECLARE sSource CHARACTER 'ACE_TLOG_BINARY_IN';	-- Queue suppling TLOGs
+		DECLARE sApplicationRequestId CHARACTER NULL;
+		DECLARE sTransactionId CHARACTER UUIDASCHAR;
+		DECLARE sStatusCode CHARACTER SigBaseLib.getTlogParseErrorStatusCode();
+		DECLARE sTopic CHARACTER;
+		DECLARE sErrorLocation CHARACTER NULL;
+		DECLARE sSourceApp CHARACTER SigBaseLib.getEnvSourceApp(InputLocalEnvironment);
+		DECLARE sSourceSystem CHARACTER SigBaseLib.getEnvSource(InputLocalEnvironment);
+		
+		/**
+		 * Initialization.
+		 */
+
+		SET TLOG_PARSE_FAILED = TRUE;		-- Set Parse failed.
+		
+		CALL CopyMessageHeaders();
+		
+		SET OutputLocalEnvironment = InputLocalEnvironment;
+		
+		SET rawTlog = SigBaseLib.getEnvRawPayload(InputLocalEnvironment);
+		
+		SET sCorrelationId = SigBaseLib.getEnvCorrelationIdAllowNull(OutputLocalEnvironment);
+		SET sApplicationRequestId = SigBaseLib.getEnvApplicationRequestId(OutputLocalEnvironment);
+		
+		--SET sTopic = constructAceTlogTopicString(ERROR_SUB_TOPIC, FALSE, getEnvStore(OutputLocalEnvironment), getEnvDivision(OutputLocalEnvironment));
+
+		CALL SigBaseLib.setEnvTopic(OutputLocalEnvironment, sTopic);
+		
+		CALL SigBaseLib.setEnvStatusCode(OutputLocalEnvironment, sStatusCode);
+		
+		/**
+		 * Log the error that got us here in the first place.
+		 */		
+		
+		CALL SigBaseLib.logFatalError(MessageFlowLabel, sCorrelationId, ExceptionTree);
+			
+		/**
+		 * Capture the error number and exception description from the last
+		 * error in the list. This is the root cause of the failure & build the text that will be supplied in the
+		 * <ErrorInfo> element.
+		 */
+ 
+        CALL SigBaseLib.getLastExceptionDetails(ExceptionTree, nErrorNumber, sErrorText);
+                   
+        SET sExceptionDescription = CAST(nErrorNumber AS CHARACTER) || ': ' || sErrorText;
+        
+		CALL SigBaseLib.getExceptionTreeAsCharacter(InputExceptionList, sExceptionText);
+
+		SET sErrorLocation = SigBaseLib.findErrorText('TransactionRecord', sExceptionText);
+		
+		SET sExceptionText = 
+					'Component: ' || MessageFlowLabel || SigBaseLib.lineSeparator() ||
+					'Correlation ID: ' || SigBaseLib.formatString(sCorrelationId) || SigBaseLib.lineSeparator() ||
+					sExceptionText;
+					
+        
+		--StoreError properties
+
+		CALL SigBaseLib.setEnvErrorDescription(OutputLocalEnvironment, SigBaseLib.getTlogParseErrorMessage());
+		
+		CALL SigBaseLib.setEnvErrorProperty(OutputLocalEnvironment, 'Error', sExceptionDescription);
+		CALL SigBaseLib.setEnvErrorProperty(OutputLocalEnvironment, 'ErrorLocation', sErrorLocation);
+		CALL SigBaseLib.setEnvErrorProperty(OutputLocalEnvironment, 'SourceApp', sSourceApp);
+		CALL SigBaseLib.setEnvErrorProperty(OutputLocalEnvironment, 'SourceSystem', sSourceSystem);
+
+		SET blobErrorDetail = CAST(sExceptionText AS BLOB CCSID SigBaseLib.getUTF8_CCSID());
+		SET gzipErrorDetail = SigBaseLib.gzip(blobErrorDetail);
+		CALL SigBaseLib.setEnvErrorDetail(OutputLocalEnvironment, BASE64ENCODE(gzipErrorDetail));
+		CALL SigBaseLib.setEnvErrorDetailContentType(OutputLocalEnvironment, SigBaseLib.getTEXT_CONTENT_TYPE());
+		CALL SigBaseLib.setEnvErrorDetailEncoding(OutputLocalEnvironment, 'base64');
+		CALL SigBaseLib.setEnvErrorDetailCompression(OutputLocalEnvironment, 'gzip');
+						
+		/**
+		 * If the RawPayload exists, then put it in the Status element
+		 * and remove it from its primary location in the XML doc.
+		 */
+
+		If rawTlog IS NOT NULL
+		THEN
+			-- Set Payload for Store Error.
+			
+			CALL SigBaseLib.setEnvErrorPayload(OutputLocalEnvironment, BASE64ENCODE(rawTlog));
+			CALL SigBaseLib.setEnvErrorPayloadContentType(OutputLocalEnvironment, SigBaseLib.getAPPLICATION_OCTET_STREAM_CONTENT_TYPE());
+			CALL SigBaseLib.setEnvErrorPayloadEncoding(OutputLocalEnvironment, 'base64');
+		END IF;
+
+		PROPAGATE TO TERMINAL 'out';
+		
+		RETURN FALSE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;

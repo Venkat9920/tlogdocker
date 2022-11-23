@@ -1,0 +1,204 @@
+
+==============================================
+
+!Wed Nov 23 12:06:10 UTC 2022
+
+Successfully added file SigBaseLib\AceTlogLib\AceRawTlog.xsd to BAR file.
+
+Successfully added file SigBaseLib\AceTlogLib\IBMdefined\RecordFixLengthFieldFormat.xsd to BAR file.
+
+Successfully added file SigBaseLib\AceTlogLib\IBMdefined\RecordSeparatedFieldFormat.xsd to BAR file.
+
+Successfully added file SigBaseLib\AceTlogLib\TlogAce.xsd to BAR file.
+
+Successfully added file SigBaseLib\AceTlogLib\TlogAceCommon.xsd to BAR file.
+
+Successfully added file SigBaseLib\AceTlogLib\TlogAceCustom.xsd to BAR file.
+
+Successfully added file SigBaseLib\AceTlogLib\TlogAceFormat.xsd to BAR file.
+
+Successfully added file SigBaseLib\AceTlogLib\TlogAceTypes.xsd to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\BuildAcknowledgement.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\BuildAcknowledgement.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\BuildAcknowledgement.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\BuildAcknowledgement.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\BuildAcknowledgement.subflow to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\CentralNoPublicationMatch.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\CentralNoPublicationMatch.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\CentralNoPublicationMatch.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\CentralNoPublicationMatch.subflow to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\CentralProcessingError.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\CentralProcessingError.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\CentralProcessingError.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\CentralProcessingError.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\CentralProcessingError.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\CentralProcessingError.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\CentralProcessingError.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\CentralProcessingError.subflow to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\HttpAcknowledgement.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\HttpAcknowledgement.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\HttpAcknowledgement.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\HttpAcknowledgement.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\HttpAcknowledgement.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\HttpAcknowledgement.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\HttpAcknowledgement.subflow to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\LogTimingTransaction.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\LogTimingTransaction.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\LogTimingTransaction.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\LogTimingTransaction.subflow to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseEnv.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseEnv.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseEnv.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseEnv.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseEnv.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseEnv.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseFile.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseFunctionDef.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseHttp.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseHttp.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseHttp.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseLib.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseLib.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseLib.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseMq.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseMq.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseMq.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseMq.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseNsDef.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseStatusDef.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseStdDef.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseStdErrorMessages.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseStdErrorMessages.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigBaseTcpip.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigCheckBackout.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigCheckBackout.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigCheckBackout.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigCheckBackout.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigCheckBackout.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigCheckBackout.subflow to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigHttpPost.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigHttpPost.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigHttpPost.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigHttpPost.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigHttpPost.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigHttpPost.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigHttpPost.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigHttpPost.subflow to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigMqRollBack.subflow to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigRollback.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigRollback.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigRollback.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigRollback.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigRollback.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigRollback.subflow to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigTimingTransaction.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigTimingTransaction.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\SigTimingTransaction.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\StoreProcessingError.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\StoreProcessingError.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\StoreProcessingError.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\StoreProcessingError.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\StoreProcessingError.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\StoreProcessingError.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\StoreProcessingError.esql to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\StoreProcessingError.subflow to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\ThrowPublicationNoMatch.subflow to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\ValidateAsJson.subflow to BAR file.
+
+Successfully added file SigBaseLib\SigBaseLib\ValidateAsXml.subflow to BAR file.
+
+Successfully added file SigBaseLib\StoreError.xsd to BAR file.
+
+Successfully added file SigBaseLib\library.descriptor to BAR file.
+
+Successfully added file SigBaseLib\library.descriptor to BAR file.
+
+Successfully added file SigBaseLib\library.descriptor to BAR file.
+
+Successfully added file SigBaseLib\library.descriptor to BAR file.

@@ -1,0 +1,448 @@
+2022-11-23 11:15:34.727220: BIP1990I: Integration server 'ACESERVER' starting initialization; version '12.0.5.0' (64-bit) 
+2022-11-23 11:15:34.754832: BIP9905I: Initializing resource managers. 
+Listening for transport dt_socket at address: 6800
+2022-11-23 11:15:41.583728: BIP9906I: Reading deployed resources. 
+2022-11-23 11:15:41.622608: BIP9907I: Initializing deployed resources. 
+2022-11-23 11:15:41.625260: BIP2155I: About to 'Initialize' the deployed resource 'SigBaseLib' of type 'SharedLibrary'. 
+2022-11-23 11:15:41.668340: BIP2155I: About to 'Initialize' the deployed resource 'test' of type 'Application'. 
+2022-11-23 11:15:42.169144: BIP2155I: About to 'Start' the deployed resource 'test' of type 'Application'. 
+An http endpoint was registered on port '7801', path '/testdemoha'.
+2022-11-23 11:15:42.205524: BIP3132I: The HTTP Listener has started listening on port '7801' for 'http' connections. 
+2022-11-23 11:15:42.205912: BIP1996I: Listening on HTTP URL '/testdemoha'. 
+Started native listener for HTTP input node on port 7801 for URL /testdemoha
+2022-11-23 11:15:42.206236: BIP2269I: Deployed resource 'connectDEMOHA' (uuid='connectDEMOHA',type='MessageFlow') started successfully. 
+An http endpoint was registered on port '7801', path '/test01'.
+2022-11-23 11:15:42.206844: BIP1996I: Listening on HTTP URL '/test01'. 
+Started native listener for HTTP input node on port 7801 for URL /test01
+2022-11-23 11:15:42.207112: BIP2269I: Deployed resource 'test' (uuid='test',type='MessageFlow') started successfully. 
+2022-11-23 11:15:43.151064: BIP2866I: IBM App Connect Enterprise administration security is inactive. 
+2022-11-23 11:15:43.165472: BIP3132I: The HTTP Listener has started listening on port '7600' for 'RestAdmin http' connections. 
+2022-11-23 11:15:43.166080: BIP1991I: Integration server has finished initialization. 
+2022-11-23 11:16:03.251233: BIP2152I: Configuration message received. 
+2022-11-23 11:16:03.462443: BIP1361E: Message flow node 'ACE_TLOG_BINARY_IN', 'AceTlogProcessor#FCMComposite_1_1' in Message flow 'AceTlogProcessor', 'AceTlogProcessor' requires Policy 'Default' of type 'MQEndpoint' which is not deployed. 
+2022-11-23 11:16:03.462591: BIP1361E: Message flow node 'Publication', 'AceTlogProcessor#FCMComposite_1_6' in Message flow 'AceTlogProcessor', 'AceTlogProcessor' requires Policy 'Default' of type 'MQEndpoint' which is not deployed. 
+2022-11-23 11:16:03.462660: BIP1361E: Message flow node 'Publication', 'SigBaseLib.StoreProcessingError#FCMComposite_1_2' in Message flow 'SigBaseLib.StoreProcessingError.instance', 'SigBaseLib.StoreProcessingError.subflow' requires Policy 'Default' of type 'MQEndpoint' which is not deployed. 
+2022-11-23 11:16:03.462726: BIP1361E: Message flow node 'Publication', 'AceTlogReceiver#FCMComposite_1_5' in Message flow 'AceTlogReceiver', 'AceTlogReceiver' requires Policy 'Default' of type 'MQEndpoint' which is not deployed. 
+2022-11-23 11:16:03.463962: BIP2155I: About to 'Initialize' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 11:16:03.464126: BIP9324W: The request to 'Initialize' the deployed resource 'AceTlogProcessorApp' of type 'Application' has failed. 
+2022-11-23 11:16:03.464199: BIP1096E: The source 'AceTlogProcessorApp-1.0.0.0024.bar' has been deployed but there were one or more failures which may mean the deployed resources will be unable to execute. 
+2022-11-23 11:16:03.464855: BIP2154I: Integration server finished with Configuration message. 
+2022-11-23 11:19:25.471814: BIP2152I: Configuration message received. 
+2022-11-23 11:19:25.606770: BIP1361E: Message flow node 'ACE_TLOG_BINARY_IN', 'AceTlogProcessor#FCMComposite_1_1' in Message flow 'AceTlogProcessor', 'AceTlogProcessor' requires Policy 'Default' of type 'MQEndpoint' which is not deployed. 
+2022-11-23 11:19:25.606976: BIP1361E: Message flow node 'Publication', 'SigBaseLib.StoreProcessingError#FCMComposite_1_2' in Message flow 'SigBaseLib.StoreProcessingError.instance', 'SigBaseLib.StoreProcessingError.subflow' requires Policy 'Default' of type 'MQEndpoint' which is not deployed. 
+2022-11-23 11:19:25.608012: BIP2155I: About to 'Initialize' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 11:19:25.608176: BIP9324W: The request to 'Initialize' the deployed resource 'AceTlogProcessorApp' of type 'Application' has failed. 
+2022-11-23 11:19:25.608244: BIP1096E: The source 'AceTlogProcessorApp-1.0.0.0024.bar' has been deployed but there were one or more failures which may mean the deployed resources will be unable to execute. 
+2022-11-23 11:19:25.608870: BIP2154I: Integration server finished with Configuration message. 
+2022-11-23 11:21:14.302550: BIP2152I: Configuration message received. 
+2022-11-23 11:21:14.432454: BIP1361E: Message flow node 'ACE_TLOG_BINARY_IN', 'AceTlogProcessor#FCMComposite_1_1' in Message flow 'AceTlogProcessor', 'AceTlogProcessor' requires Policy 'Default' of type 'MQEndpoint' which is not deployed. 
+2022-11-23 11:21:14.432597: BIP1361E: Message flow node 'Publication', 'SigBaseLib.StoreProcessingError#FCMComposite_1_2' in Message flow 'SigBaseLib.StoreProcessingError.instance', 'SigBaseLib.StoreProcessingError.subflow' requires Policy 'Default' of type 'MQEndpoint' which is not deployed. 
+2022-11-23 11:21:14.433552: BIP2155I: About to 'Initialize' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 11:21:14.433703: BIP9324W: The request to 'Initialize' the deployed resource 'AceTlogProcessorApp' of type 'Application' has failed. 
+2022-11-23 11:21:14.433772: BIP1096E: The source 'AceTlogProcessorApp-1.0.0.0024.bar' has been deployed but there were one or more failures which may mean the deployed resources will be unable to execute. 
+2022-11-23 11:21:14.434373: BIP2154I: Integration server finished with Configuration message. 
+2022-11-23 11:22:11.343820: BIP2152I: Configuration message received. 
+2022-11-23 11:22:11.462685: BIP2155I: About to 'Initialize' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 11:22:11.557916: BIP2155I: About to 'Start' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+An http endpoint was registered on port '7801', path '/TLOG/IIB/ACE_BINARY'.
+2022-11-23 11:22:11.558634: BIP1996I: Listening on HTTP URL '/TLOG/IIB/ACE_BINARY'. 
+Started native listener for HTTP input node on port 7801 for URL /TLOG/IIB/ACE_BINARY
+2022-11-23 11:22:11.559024: BIP2269I: Deployed resource 'AceTlogReceiver' (uuid='AceTlogReceiver',type='MessageFlow') started successfully. 
+2022-11-23 11:22:11.559123: BIP9332I: Application 'AceTlogProcessorApp' has been changed successfully. 
+2022-11-23 11:22:11.559187: BIP9326I: The source 'AceTlogProcessorApp-1.0.0.0024.bar' has been successfully deployed. 
+2022-11-23 11:22:11.559876: BIP2154I: Integration server finished with Configuration message. 
+2022-11-23 11:22:42.022     49 com.gianteagle.is.config.ConfigManager: Config: AceTlogProcessorService loaded through ConfigManager.
+2022-11-23 11:22:42.463     49 java.io.FileNotFoundException: C:\Venkat_INBNG233\IIBServices\config\tlog1-log4j2.xml (The system cannot find the file specified.)
+2022-11-23 11:22:42.464     49 	at java.io.FileInputStream.open0(Native Method)
+2022-11-23 11:22:42.465     49 	at java.io.FileInputStream.open(FileInputStream.java:212)
+2022-11-23 11:22:42.465     49 	at java.io.FileInputStream.<init>(FileInputStream.java:152)
+2022-11-23 11:22:42.466     49 	at java.io.FileInputStream.<init>(FileInputStream.java:104)
+2022-11-23 11:22:42.467     49 	at com.gianteagle.is.logging.Logger.configure(Logger.java:135)
+2022-11-23 11:22:42.468     49 	at com.gianteagle.is.sig.base.SigLogger.initialize(SigLogger.java:748)
+2022-11-23 11:22:42.469     49 	at com.gianteagle.is.sig.base.SigLogger.init(SigLogger.java:729)
+2022-11-23 11:22:42.470     49 	at com.gianteagle.is.sig.base.SigLogger.logInfo(SigLogger.java:77)
+2022-11-23 11:22:42.471     49 	at com.gianteagle.is.sig.base.LoggingInterfaceImpl.logMessage(LoggingInterfaceImpl.java:23)
+2022-11-23 11:22:42.471     49 	at com.gianteagle.is.config.Config.reloadConfiguration(Config.java:127)
+2022-11-23 11:22:42.472     49 	at com.gianteagle.is.config.Config.<init>(Config.java:54)
+2022-11-23 11:22:42.473     49 	at com.gianteagle.is.config.ConfigManager.addConfiguration(ConfigManager.java:544)
+2022-11-23 11:22:42.474     49 	at com.gianteagle.is.config.ConfigurationDescriptor.buildConfigurationDescriptor(ConfigurationDescriptor.java:75)
+2022-11-23 11:22:42.475     49 	at com.gianteagle.is.sig.base.config.SigConfigManager.initializeConfigurationDescriptor(SigConfigManager.java:53)
+2022-11-23 11:22:42.475     49 	at com.gianteagle.is.central.AceTlogProcessorServiceConfig.initialize(AceTlogProcessorServiceConfig.java:516)
+2022-11-23 11:22:42.476     49 	at com.gianteagle.is.central.AceTlogProcessorServiceConfig.getAceTlogProcessorServiceName(AceTlogProcessorServiceConfig.java:41)
+2022-11-23 11:22:43.290     49 2022-11-23 11:22:43,289 Thread-31 DEBUG Apache Log4j Core 2.19.0 initializing configuration XmlConfiguration[location=jar:file:/C:/Venkat_INBNG233/ACE/ws01/iib-acetlogprocessor/ACESERVER/shared-classes/is-1.0.0.0006.jar!/log4j2.xml]
+2022-11-23 11:22:43.292     49 2022-11-23 11:22:43,292 Thread-31 DEBUG PluginManager 'Core' found 130 plugins
+2022-11-23 11:22:43.293     49 2022-11-23 11:22:43,293 Thread-31 DEBUG PluginManager 'Level' found 0 plugins
+2022-11-23 11:22:43.303     49 2022-11-23 11:22:43,303 Thread-31 DEBUG Building Plugin[name=property, class=org.apache.logging.log4j.core.config.Property].
+2022-11-23 11:22:43.327     49 2022-11-23 11:22:43,326 Thread-31 TRACE TypeConverterRegistry initializing.
+2022-11-23 11:22:43.328     49 2022-11-23 11:22:43,328 Thread-31 DEBUG PluginManager 'TypeConverter' found 26 plugins
+2022-11-23 11:22:43.347     49 2022-11-23 11:22:43,346 Thread-31 DEBUG createProperty(name="log.file.path", value="logs", Configuration(jar:file:/C:/Venkat_INBNG233/ACE/ws01/iib-acetlogprocessor/ACESERVER/shared-classes/is-1.0.0.0006.jar!/log4j2.xml))
+2022-11-23 11:22:43.348     49 2022-11-23 11:22:43,348 Thread-31 DEBUG Building Plugin[name=properties, class=org.apache.logging.log4j.core.config.PropertiesPlugin].
+2022-11-23 11:22:43.353     49 2022-11-23 11:22:43,353 Thread-31 DEBUG configureSubstitutor(={log.file.path=logs}, Configuration(jar:file:/C:/Venkat_INBNG233/ACE/ws01/iib-acetlogprocessor/ACESERVER/shared-classes/is-1.0.0.0006.jar!/log4j2.xml))
+2022-11-23 11:22:43.357     49 2022-11-23 11:22:43,357 Thread-31 DEBUG PluginManager 'Lookup' found 16 plugins
+2022-11-23 11:22:43.359     49 2022-11-23 11:22:43,358 Thread-31 DEBUG Building Plugin[name=layout, class=org.apache.logging.log4j.core.layout.PatternLayout].
+2022-11-23 11:22:43.368     49 2022-11-23 11:22:43,368 Thread-31 DEBUG PatternLayout$Builder(pattern="%d{MM/dd/yyyy HH:mm:ss.SSS} %-5p %m%n", PatternSelector=null, Configuration(jar:file:/C:/Venkat_INBNG233/ACE/ws01/iib-acetlogprocessor/ACESERVER/shared-classes/is-1.0.0.0006.jar!/log4j2.xml), Replace=null, charset="null", alwaysWriteExceptions="null", disableAnsi="null", noConsoleNoAnsi="null", header="null", footer="null")
+2022-11-23 11:22:43.369     49 2022-11-23 11:22:43,369 Thread-31 DEBUG PluginManager 'Converter' found 45 plugins
+2022-11-23 11:22:43.405     49 2022-11-23 11:22:43,405 Thread-31 DEBUG Building Plugin[name=TimeBasedTriggeringPolicy, class=org.apache.logging.log4j.core.appender.rolling.TimeBasedTriggeringPolicy].
+2022-11-23 11:22:43.412     49 2022-11-23 11:22:43,411 Thread-31 DEBUG TimeBasedTriggeringPolicy$Builder(interval="1", modulate="true", maxRandomDelay="null")
+2022-11-23 11:22:43.413     49 2022-11-23 11:22:43,412 Thread-31 DEBUG Building Plugin[name=Policies, class=org.apache.logging.log4j.core.appender.rolling.CompositeTriggeringPolicy].
+2022-11-23 11:22:43.414     49 2022-11-23 11:22:43,414 Thread-31 DEBUG createPolicy(={TimeBasedTriggeringPolicy(nextRolloverMillis=0, interval=1, modulate=true)})
+2022-11-23 11:22:43.415     49 2022-11-23 11:22:43,415 Thread-31 DEBUG Building Plugin[name=appender, class=org.apache.logging.log4j.core.appender.RollingFileAppender].
+2022-11-23 11:22:43.433     49 2022-11-23 11:22:43,433 Thread-31 DEBUG RollingFileAppender$Builder(fileName="logs/is.default.log", filePattern="logs/is.default.log.%d{yyyy-MM-dd}", append="true", locking="null", Policies(CompositeTriggeringPolicy(policies=[TimeBasedTriggeringPolicy(nextRolloverMillis=0, interval=1, modulate=true)])), Strategy=null, advertise="null", advertiseUri="null", createOnDemand="null", filePermissions="null", fileOwner="null", fileGroup="null", bufferedIo="true", bufferSize="null", immediateFlush="null", ignoreExceptions="null", PatternLayout(%d{MM/dd/yyyy HH:mm:ss.SSS} %-5p %m%n), name="ROOTLOG", Configuration(jar:file:/C:/Venkat_INBNG233/ACE/ws01/iib-acetlogprocessor/ACESERVER/shared-classes/is-1.0.0.0006.jar!/log4j2.xml), Filter=null, ={})
+2022-11-23 11:22:43.451     49 2022-11-23 11:22:43,448 Thread-31 ERROR Unable to create file logs/is.default.log java.io.IOException: Could not create directory C:\Program Files\IBM\ACE\12.0.5.0\tools\logs
+	at org.apache.logging.log4j.core.util.FileUtils.mkdir(FileUtils.java:128)
+	at org.apache.logging.log4j.core.util.FileUtils.makeParentDirs(FileUtils.java:141)
+	at org.apache.logging.log4j.core.appender.rolling.RollingFileManager$RollingFileManagerFactory.createManager(RollingFileManager.java:734)
+	at org.apache.logging.log4j.core.appender.rolling.RollingFileManager$RollingFileManagerFactory.createManager(RollingFileManager.java:718)
+	at org.apache.logging.log4j.core.appender.AbstractManager.getManager(AbstractManager.java:144)
+	at org.apache.logging.log4j.core.appender.OutputStreamManager.getManager(OutputStreamManager.java:100)
+	at org.apache.logging.log4j.core.appender.rolling.RollingFileManager.getFileManager(RollingFileManager.java:217)
+	at org.apache.logging.log4j.core.appender.RollingFileAppender$Builder.build(RollingFileAppender.java:135)
+	at org.apache.logging.log4j.core.appender.RollingFileAppender$Builder.build(RollingFileAppender.java:62)
+	at org.apache.logging.log4j.core.config.plugins.util.PluginBuilder.build(PluginBuilder.java:124)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.createPluginObject(AbstractConfiguration.java:1138)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.createConfiguration(AbstractConfiguration.java:1063)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.createConfiguration(AbstractConfiguration.java:1055)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.doConfigure(AbstractConfiguration.java:664)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.initialize(AbstractConfiguration.java:258)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.start(AbstractConfiguration.java:304)
+	at org.apache.logging.log4j.core.LoggerContext.setConfiguration(LoggerContext.java:621)
+	at org.apache.logging.log4j.core.LoggerContext.reconfigure(LoggerContext.java:694)
+	at org.apache.logging.log4j.core.LoggerContext.reconfigure(LoggerContext.java:711)
+	at org.apache.logging.log4j.core.LoggerContext.start(LoggerContext.java:253)
+	at org.apache.logging.log4j.core.impl.Log4jContextFactory.getContext(Log4jContextFactory.java:245)
+	at org.apache.logging.log4j.core.impl.Log4jContextFactory.getContext(Log4jContextFactory.java:47)
+	at org.apache.logging.log4j.LogManager.getContext(LogManager.java:176)
+	at org.apache.logging.log4j.LogManager.getLogger(LogManager.java:666)
+	at com.gianteagle.is.logging.Logger.initialize(Logger.java:1147)
+	at com.gianteagle.is.logging.Logger.<init>(Logger.java:61)
+	at com.gianteagle.is.sig.base.SigLogger.initialize(SigLogger.java:753)
+	at com.gianteagle.is.sig.base.SigLogger.init(SigLogger.java:729)
+	at com.gianteagle.is.sig.base.SigLogger.logInfo(SigLogger.java:77)
+	at com.gianteagle.is.sig.base.LoggingInterfaceImpl.logMessage(LoggingInterfaceImpl.java:23)
+	at com.gianteagle.is.config.Config.reloadConfiguration(Config.java:127)
+	at com.gianteagle.is.config.Config.<init>(Config.java:54)
+	at com.gianteagle.is.config.ConfigManager.addConfiguration(ConfigManager.java:544)
+	at com.gianteagle.is.config.ConfigurationDescriptor.buildConfigurationDescriptor(ConfigurationDescriptor.java:75)
+	at com.gianteagle.is.sig.base.config.SigConfigManager.initializeConfigurationDescriptor(SigConfigManager.java:53)
+	at com.gianteagle.is.central.AceTlogProcessorServiceConfig.initialize(AceTlogProcessorServiceConfig.java:516)
+	at com.gianteagle.is.central.AceTlogProcessorServiceConfig.getAceTlogProcessorServiceName(AceTlogProcessorServiceConfig.java:41)
+
+2022-11-23 11:22:43.456     49 2022-11-23 11:22:43,453 Thread-31 ERROR Could not create plugin of type class org.apache.logging.log4j.core.appender.RollingFileAppender for element RollingFile: java.lang.IllegalStateException: ManagerFactory [org.apache.logging.log4j.core.appender.rolling.RollingFileManager$RollingFileManagerFactory@8b1e02e7] unable to create manager for [logs/is.default.log] with data [org.apache.logging.log4j.core.appender.rolling.RollingFileManager$FactoryData@f350838[pattern=logs/is.default.log.%d{yyyy-MM-dd}, append=true, bufferedIO=true, bufferSize=8192, policy=CompositeTriggeringPolicy(policies=[TimeBasedTriggeringPolicy(nextRolloverMillis=0, interval=1, modulate=true)]), strategy=DefaultRolloverStrategy(min=1, max=7, useMax=true), advertiseURI=null, layout=%d{MM/dd/yyyy HH:mm:ss.SSS} %-5p %m%n, filePermissions=null, fileOwner=null]] java.lang.IllegalStateException: ManagerFactory [org.apache.logging.log4j.core.appender.rolling.RollingFileManager$RollingFileManagerFactory@8b1e02e7] unable to create manager for [logs/is.default.log] with data [org.apache.logging.log4j.core.appender.rolling.RollingFileManager$FactoryData@f350838[pattern=logs/is.default.log.%d{yyyy-MM-dd}, append=true, bufferedIO=true, bufferSize=8192, policy=CompositeTriggeringPolicy(policies=[TimeBasedTriggeringPolicy(nextRolloverMillis=0, interval=1, modulate=true)]), strategy=DefaultRolloverStrategy(min=1, max=7, useMax=true), advertiseURI=null, layout=%d{MM/dd/yyyy HH:mm:ss.SSS} %-5p %m%n, filePermissions=null, fileOwner=null]]
+	at org.apache.logging.log4j.core.appender.AbstractManager.getManager(AbstractManager.java:146)
+	at org.apache.logging.log4j.core.appender.OutputStreamManager.getManager(OutputStreamManager.java:100)
+	at org.apache.logging.log4j.core.appender.rolling.RollingFileManager.getFileManager(RollingFileManager.java:217)
+	at org.apache.logging.log4j.core.appender.RollingFileAppender$Builder.build(RollingFileAppender.java:135)
+	at org.apache.logging.log4j.core.appender.RollingFileAppender$Builder.build(RollingFileAppender.java:62)
+	at org.apache.logging.log4j.core.config.plugins.util.PluginBuilder.build(PluginBuilder.java:124)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.createPluginObject(AbstractConfiguration.java:1138)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.createConfiguration(AbstractConfiguration.java:1063)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.createConfiguration(AbstractConfiguration.java:1055)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.doConfigure(AbstractConfiguration.java:664)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.initialize(AbstractConfiguration.java:258)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.start(AbstractConfiguration.java:304)
+	at org.apache.logging.log4j.core.LoggerContext.setConfiguration(LoggerContext.java:621)
+	at org.apache.logging.log4j.core.LoggerContext.reconfigure(LoggerContext.java:694)
+	at org.apache.logging.log4j.core.LoggerContext.reconfigure(LoggerContext.java:711)
+	at org.apache.logging.log4j.core.LoggerContext.start(LoggerContext.java:253)
+	at org.apache.logging.log4j.core.impl.Log4jContextFactory.getContext(Log4jContextFactory.java:245)
+	at org.apache.logging.log4j.core.impl.Log4jContextFactory.getContext(Log4jContextFactory.java:47)
+	at org.apache.logging.log4j.LogManager.getContext(LogManager.java:176)
+	at org.apache.logging.log4j.LogManager.getLogger(LogManager.java:666)
+	at com.gianteagle.is.logging.Logger.initialize(Logger.java:1147)
+	at com.gianteagle.is.logging.Logger.<init>(Logger.java:61)
+	at com.gianteagle.is.sig.base.SigLogger.initialize(SigLogger.java:753)
+	at com.gianteagle.is.sig.base.SigLogger.init(SigLogger.java:729)
+	at com.gianteagle.is.sig.base.SigLogger.logInfo(SigLogger.java:77)
+	at com.gianteagle.is.sig.base.LoggingInterfaceImpl.logMessage(LoggingInterfaceImpl.java:23)
+	at com.gianteagle.is.config.Config.reloadConfiguration(Config.java:127)
+	at com.gianteagle.is.config.Config.<init>(Config.java:54)
+	at com.gianteagle.is.config.ConfigManager.addConfiguration(ConfigManager.java:544)
+	at com.gianteagle.is.config.ConfigurationDescriptor.buildConfigurationDescriptor(ConfigurationDescriptor.java:75)
+	at com.gianteagle.is.sig.base.config.SigConfigManager.initializeConfigurationDescriptor(SigConfigManager.java:53)
+	at com.gianteagle.is.central.AceTlogProcessorServiceConfig.initialize(AceTlogProcessorServiceConfig.java:516)
+	at com.gianteagle.is.central.AceTlogProcessorServiceConfig.getAceTlogProcessorServiceName(AceTlogProcessorServiceConfig.java:41)
+
+2022-11-23 11:22:43.460     49 2022-11-23 11:22:43,458 Thread-31 ERROR Unable to invoke factory method in class org.apache.logging.log4j.core.appender.RollingFileAppender for element RollingFile: java.lang.IllegalStateException: No factory method found for class org.apache.logging.log4j.core.appender.RollingFileAppender java.lang.IllegalStateException: No factory method found for class org.apache.logging.log4j.core.appender.RollingFileAppender
+	at org.apache.logging.log4j.core.config.plugins.util.PluginBuilder.findFactoryMethod(PluginBuilder.java:260)
+	at org.apache.logging.log4j.core.config.plugins.util.PluginBuilder.build(PluginBuilder.java:136)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.createPluginObject(AbstractConfiguration.java:1138)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.createConfiguration(AbstractConfiguration.java:1063)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.createConfiguration(AbstractConfiguration.java:1055)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.doConfigure(AbstractConfiguration.java:664)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.initialize(AbstractConfiguration.java:258)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.start(AbstractConfiguration.java:304)
+	at org.apache.logging.log4j.core.LoggerContext.setConfiguration(LoggerContext.java:621)
+	at org.apache.logging.log4j.core.LoggerContext.reconfigure(LoggerContext.java:694)
+	at org.apache.logging.log4j.core.LoggerContext.reconfigure(LoggerContext.java:711)
+	at org.apache.logging.log4j.core.LoggerContext.start(LoggerContext.java:253)
+	at org.apache.logging.log4j.core.impl.Log4jContextFactory.getContext(Log4jContextFactory.java:245)
+	at org.apache.logging.log4j.core.impl.Log4jContextFactory.getContext(Log4jContextFactory.java:47)
+	at org.apache.logging.log4j.LogManager.getContext(LogManager.java:176)
+	at org.apache.logging.log4j.LogManager.getLogger(LogManager.java:666)
+	at com.gianteagle.is.logging.Logger.initialize(Logger.java:1147)
+	at com.gianteagle.is.logging.Logger.<init>(Logger.java:61)
+	at com.gianteagle.is.sig.base.SigLogger.initialize(SigLogger.java:753)
+	at com.gianteagle.is.sig.base.SigLogger.init(SigLogger.java:729)
+	at com.gianteagle.is.sig.base.SigLogger.logInfo(SigLogger.java:77)
+	at com.gianteagle.is.sig.base.LoggingInterfaceImpl.logMessage(LoggingInterfaceImpl.java:23)
+	at com.gianteagle.is.config.Config.reloadConfiguration(Config.java:127)
+	at com.gianteagle.is.config.Config.<init>(Config.java:54)
+	at com.gianteagle.is.config.ConfigManager.addConfiguration(ConfigManager.java:544)
+	at com.gianteagle.is.config.ConfigurationDescriptor.buildConfigurationDescriptor(ConfigurationDescriptor.java:75)
+	at com.gianteagle.is.sig.base.config.SigConfigManager.initializeConfigurationDescriptor(SigConfigManager.java:53)
+	at com.gianteagle.is.central.AceTlogProcessorServiceConfig.initialize(AceTlogProcessorServiceConfig.java:516)
+	at com.gianteagle.is.central.AceTlogProcessorServiceConfig.getAceTlogProcessorServiceName(AceTlogProcessorServiceConfig.java:41)
+
+2022-11-23 11:22:43.462     49 2022-11-23 11:22:43,461 Thread-31 DEBUG Building Plugin[name=layout, class=org.apache.logging.log4j.core.layout.PatternLayout].
+2022-11-23 11:22:43.463     49 2022-11-23 11:22:43,463 Thread-31 DEBUG PatternLayout$Builder(pattern="%d{MM/dd/yyyy HH:mm:ss.SSS} %-5p %m%n", PatternSelector=null, Configuration(jar:file:/C:/Venkat_INBNG233/ACE/ws01/iib-acetlogprocessor/ACESERVER/shared-classes/is-1.0.0.0006.jar!/log4j2.xml), Replace=null, charset="null", alwaysWriteExceptions="null", disableAnsi="null", noConsoleNoAnsi="null", header="null", footer="null")
+2022-11-23 11:22:43.465     49 2022-11-23 11:22:43,464 Thread-31 DEBUG Building Plugin[name=TimeBasedTriggeringPolicy, class=org.apache.logging.log4j.core.appender.rolling.TimeBasedTriggeringPolicy].
+2022-11-23 11:22:43.466     49 2022-11-23 11:22:43,466 Thread-31 DEBUG TimeBasedTriggeringPolicy$Builder(interval="1", modulate="true", maxRandomDelay="null")
+2022-11-23 11:22:43.469     49 2022-11-23 11:22:43,469 Thread-31 DEBUG Building Plugin[name=Policies, class=org.apache.logging.log4j.core.appender.rolling.CompositeTriggeringPolicy].
+2022-11-23 11:22:43.471     49 2022-11-23 11:22:43,470 Thread-31 DEBUG createPolicy(={TimeBasedTriggeringPolicy(nextRolloverMillis=0, interval=1, modulate=true)})
+2022-11-23 11:22:43.472     49 2022-11-23 11:22:43,471 Thread-31 DEBUG Building Plugin[name=appender, class=org.apache.logging.log4j.core.appender.RollingFileAppender].
+2022-11-23 11:22:43.474     49 2022-11-23 11:22:43,473 Thread-31 DEBUG RollingFileAppender$Builder(fileName="logs/is.app.log", filePattern="logs/is.app.log.%d{yyyy-MM-dd}", append="true", locking="null", Policies(CompositeTriggeringPolicy(policies=[TimeBasedTriggeringPolicy(nextRolloverMillis=0, interval=1, modulate=true)])), Strategy=null, advertise="null", advertiseUri="null", createOnDemand="null", filePermissions="null", fileOwner="null", fileGroup="null", bufferedIo="true", bufferSize="null", immediateFlush="null", ignoreExceptions="null", PatternLayout(%d{MM/dd/yyyy HH:mm:ss.SSS} %-5p %m%n), name="ISAPPLOG", Configuration(jar:file:/C:/Venkat_INBNG233/ACE/ws01/iib-acetlogprocessor/ACESERVER/shared-classes/is-1.0.0.0006.jar!/log4j2.xml), Filter=null, ={})
+2022-11-23 11:22:43.478     49 2022-11-23 11:22:43,476 Thread-31 ERROR Unable to create file logs/is.app.log java.io.IOException: Could not create directory C:\Program Files\IBM\ACE\12.0.5.0\tools\logs
+	at org.apache.logging.log4j.core.util.FileUtils.mkdir(FileUtils.java:128)
+	at org.apache.logging.log4j.core.util.FileUtils.makeParentDirs(FileUtils.java:141)
+	at org.apache.logging.log4j.core.appender.rolling.RollingFileManager$RollingFileManagerFactory.createManager(RollingFileManager.java:734)
+	at org.apache.logging.log4j.core.appender.rolling.RollingFileManager$RollingFileManagerFactory.createManager(RollingFileManager.java:718)
+	at org.apache.logging.log4j.core.appender.AbstractManager.getManager(AbstractManager.java:144)
+	at org.apache.logging.log4j.core.appender.OutputStreamManager.getManager(OutputStreamManager.java:100)
+	at org.apache.logging.log4j.core.appender.rolling.RollingFileManager.getFileManager(RollingFileManager.java:217)
+	at org.apache.logging.log4j.core.appender.RollingFileAppender$Builder.build(RollingFileAppender.java:135)
+	at org.apache.logging.log4j.core.appender.RollingFileAppender$Builder.build(RollingFileAppender.java:62)
+	at org.apache.logging.log4j.core.config.plugins.util.PluginBuilder.build(PluginBuilder.java:124)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.createPluginObject(AbstractConfiguration.java:1138)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.createConfiguration(AbstractConfiguration.java:1063)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.createConfiguration(AbstractConfiguration.java:1055)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.doConfigure(AbstractConfiguration.java:664)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.initialize(AbstractConfiguration.java:258)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.start(AbstractConfiguration.java:304)
+	at org.apache.logging.log4j.core.LoggerContext.setConfiguration(LoggerContext.java:621)
+	at org.apache.logging.log4j.core.LoggerContext.reconfigure(LoggerContext.java:694)
+	at org.apache.logging.log4j.core.LoggerContext.reconfigure(LoggerContext.java:711)
+	at org.apache.logging.log4j.core.LoggerContext.start(LoggerContext.java:253)
+	at org.apache.logging.log4j.core.impl.Log4jContextFactory.getContext(Log4jContextFactory.java:245)
+	at org.apache.logging.log4j.core.impl.Log4jContextFactory.getContext(Log4jContextFactory.java:47)
+	at org.apache.logging.log4j.LogManager.getContext(LogManager.java:176)
+	at org.apache.logging.log4j.LogManager.getLogger(LogManager.java:666)
+	at com.gianteagle.is.logging.Logger.initialize(Logger.java:1147)
+	at com.gianteagle.is.logging.Logger.<init>(Logger.java:61)
+	at com.gianteagle.is.sig.base.SigLogger.initialize(SigLogger.java:753)
+	at com.gianteagle.is.sig.base.SigLogger.init(SigLogger.java:729)
+	at com.gianteagle.is.sig.base.SigLogger.logInfo(SigLogger.java:77)
+	at com.gianteagle.is.sig.base.LoggingInterfaceImpl.logMessage(LoggingInterfaceImpl.java:23)
+	at com.gianteagle.is.config.Config.reloadConfiguration(Config.java:127)
+	at com.gianteagle.is.config.Config.<init>(Config.java:54)
+	at com.gianteagle.is.config.ConfigManager.addConfiguration(ConfigManager.java:544)
+	at com.gianteagle.is.config.ConfigurationDescriptor.buildConfigurationDescriptor(ConfigurationDescriptor.java:75)
+	at com.gianteagle.is.sig.base.config.SigConfigManager.initializeConfigurationDescriptor(SigConfigManager.java:53)
+	at com.gianteagle.is.central.AceTlogProcessorServiceConfig.initialize(AceTlogProcessorServiceConfig.java:516)
+	at com.gianteagle.is.central.AceTlogProcessorServiceConfig.getAceTlogProcessorServiceName(AceTlogProcessorServiceConfig.java:41)
+
+2022-11-23 11:22:43.481     49 2022-11-23 11:22:43,479 Thread-31 ERROR Could not create plugin of type class org.apache.logging.log4j.core.appender.RollingFileAppender for element RollingFile: java.lang.IllegalStateException: ManagerFactory [org.apache.logging.log4j.core.appender.rolling.RollingFileManager$RollingFileManagerFactory@8b1e02e7] unable to create manager for [logs/is.app.log] with data [org.apache.logging.log4j.core.appender.rolling.RollingFileManager$FactoryData@5caecced[pattern=logs/is.app.log.%d{yyyy-MM-dd}, append=true, bufferedIO=true, bufferSize=8192, policy=CompositeTriggeringPolicy(policies=[TimeBasedTriggeringPolicy(nextRolloverMillis=0, interval=1, modulate=true)]), strategy=DefaultRolloverStrategy(min=1, max=7, useMax=true), advertiseURI=null, layout=%d{MM/dd/yyyy HH:mm:ss.SSS} %-5p %m%n, filePermissions=null, fileOwner=null]] java.lang.IllegalStateException: ManagerFactory [org.apache.logging.log4j.core.appender.rolling.RollingFileManager$RollingFileManagerFactory@8b1e02e7] unable to create manager for [logs/is.app.log] with data [org.apache.logging.log4j.core.appender.rolling.RollingFileManager$FactoryData@5caecced[pattern=logs/is.app.log.%d{yyyy-MM-dd}, append=true, bufferedIO=true, bufferSize=8192, policy=CompositeTriggeringPolicy(policies=[TimeBasedTriggeringPolicy(nextRolloverMillis=0, interval=1, modulate=true)]), strategy=DefaultRolloverStrategy(min=1, max=7, useMax=true), advertiseURI=null, layout=%d{MM/dd/yyyy HH:mm:ss.SSS} %-5p %m%n, filePermissions=null, fileOwner=null]]
+	at org.apache.logging.log4j.core.appender.AbstractManager.getManager(AbstractManager.java:146)
+	at org.apache.logging.log4j.core.appender.OutputStreamManager.getManager(OutputStreamManager.java:100)
+	at org.apache.logging.log4j.core.appender.rolling.RollingFileManager.getFileManager(RollingFileManager.java:217)
+	at org.apache.logging.log4j.core.appender.RollingFileAppender$Builder.build(RollingFileAppender.java:135)
+	at org.apache.logging.log4j.core.appender.RollingFileAppender$Builder.build(RollingFileAppender.java:62)
+	at org.apache.logging.log4j.core.config.plugins.util.PluginBuilder.build(PluginBuilder.java:124)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.createPluginObject(AbstractConfiguration.java:1138)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.createConfiguration(AbstractConfiguration.java:1063)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.createConfiguration(AbstractConfiguration.java:1055)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.doConfigure(AbstractConfiguration.java:664)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.initialize(AbstractConfiguration.java:258)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.start(AbstractConfiguration.java:304)
+	at org.apache.logging.log4j.core.LoggerContext.setConfiguration(LoggerContext.java:621)
+	at org.apache.logging.log4j.core.LoggerContext.reconfigure(LoggerContext.java:694)
+	at org.apache.logging.log4j.core.LoggerContext.reconfigure(LoggerContext.java:711)
+	at org.apache.logging.log4j.core.LoggerContext.start(LoggerContext.java:253)
+	at org.apache.logging.log4j.core.impl.Log4jContextFactory.getContext(Log4jContextFactory.java:245)
+	at org.apache.logging.log4j.core.impl.Log4jContextFactory.getContext(Log4jContextFactory.java:47)
+	at org.apache.logging.log4j.LogManager.getContext(LogManager.java:176)
+	at org.apache.logging.log4j.LogManager.getLogger(LogManager.java:666)
+	at com.gianteagle.is.logging.Logger.initialize(Logger.java:1147)
+	at com.gianteagle.is.logging.Logger.<init>(Logger.java:61)
+	at com.gianteagle.is.sig.base.SigLogger.initialize(SigLogger.java:753)
+	at com.gianteagle.is.sig.base.SigLogger.init(SigLogger.java:729)
+	at com.gianteagle.is.sig.base.SigLogger.logInfo(SigLogger.java:77)
+	at com.gianteagle.is.sig.base.LoggingInterfaceImpl.logMessage(LoggingInterfaceImpl.java:23)
+	at com.gianteagle.is.config.Config.reloadConfiguration(Config.java:127)
+	at com.gianteagle.is.config.Config.<init>(Config.java:54)
+	at com.gianteagle.is.config.ConfigManager.addConfiguration(ConfigManager.java:544)
+	at com.gianteagle.is.config.ConfigurationDescriptor.buildConfigurationDescriptor(ConfigurationDescriptor.java:75)
+	at com.gianteagle.is.sig.base.config.SigConfigManager.initializeConfigurationDescriptor(SigConfigManager.java:53)
+	at com.gianteagle.is.central.AceTlogProcessorServiceConfig.initialize(AceTlogProcessorServiceConfig.java:516)
+	at com.gianteagle.is.central.AceTlogProcessorServiceConfig.getAceTlogProcessorServiceName(AceTlogProcessorServiceConfig.java:41)
+
+2022-11-23 11:22:43.484     49 2022-11-23 11:22:43,482 Thread-31 ERROR Unable to invoke factory method in class org.apache.logging.log4j.core.appender.RollingFileAppender for element RollingFile: java.lang.IllegalStateException: No factory method found for class org.apache.logging.log4j.core.appender.RollingFileAppender java.lang.IllegalStateException: No factory method found for class org.apache.logging.log4j.core.appender.RollingFileAppender
+	at org.apache.logging.log4j.core.config.plugins.util.PluginBuilder.findFactoryMethod(PluginBuilder.java:260)
+	at org.apache.logging.log4j.core.config.plugins.util.PluginBuilder.build(PluginBuilder.java:136)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.createPluginObject(AbstractConfiguration.java:1138)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.createConfiguration(AbstractConfiguration.java:1063)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.createConfiguration(AbstractConfiguration.java:1055)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.doConfigure(AbstractConfiguration.java:664)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.initialize(AbstractConfiguration.java:258)
+	at org.apache.logging.log4j.core.config.AbstractConfiguration.start(AbstractConfiguration.java:304)
+	at org.apache.logging.log4j.core.LoggerContext.setConfiguration(LoggerContext.java:621)
+	at org.apache.logging.log4j.core.LoggerContext.reconfigure(LoggerContext.java:694)
+	at org.apache.logging.log4j.core.LoggerContext.reconfigure(LoggerContext.java:711)
+	at org.apache.logging.log4j.core.LoggerContext.start(LoggerContext.java:253)
+	at org.apache.logging.log4j.core.impl.Log4jContextFactory.getContext(Log4jContextFactory.java:245)
+	at org.apache.logging.log4j.core.impl.Log4jContextFactory.getContext(Log4jContextFactory.java:47)
+	at org.apache.logging.log4j.LogManager.getContext(LogManager.java:176)
+	at org.apache.logging.log4j.LogManager.getLogger(LogManager.java:666)
+	at com.gianteagle.is.logging.Logger.initialize(Logger.java:1147)
+	at com.gianteagle.is.logging.Logger.<init>(Logger.java:61)
+	at com.gianteagle.is.sig.base.SigLogger.initialize(SigLogger.java:753)
+	at com.gianteagle.is.sig.base.SigLogger.init(SigLogger.java:729)
+	at com.gianteagle.is.sig.base.SigLogger.logInfo(SigLogger.java:77)
+	at com.gianteagle.is.sig.base.LoggingInterfaceImpl.logMessage(LoggingInterfaceImpl.java:23)
+	at com.gianteagle.is.config.Config.reloadConfiguration(Config.java:127)
+	at com.gianteagle.is.config.Config.<init>(Config.java:54)
+	at com.gianteagle.is.config.ConfigManager.addConfiguration(ConfigManager.java:544)
+	at com.gianteagle.is.config.ConfigurationDescriptor.buildConfigurationDescriptor(ConfigurationDescriptor.java:75)
+	at com.gianteagle.is.sig.base.config.SigConfigManager.initializeConfigurationDescriptor(SigConfigManager.java:53)
+	at com.gianteagle.is.central.AceTlogProcessorServiceConfig.initialize(AceTlogProcessorServiceConfig.java:516)
+	at com.gianteagle.is.central.AceTlogProcessorServiceConfig.getAceTlogProcessorServiceName(AceTlogProcessorServiceConfig.java:41)
+
+2022-11-23 11:22:43.485     49 2022-11-23 11:22:43,485 Thread-31 DEBUG Building Plugin[name=appenders, class=org.apache.logging.log4j.core.config.AppendersPlugin].
+2022-11-23 11:22:43.486     49 2022-11-23 11:22:43,486 Thread-31 ERROR Null object returned for RollingFile in Appenders.
+2022-11-23 11:22:43.487     49 2022-11-23 11:22:43,487 Thread-31 ERROR Null object returned for RollingFile in Appenders.
+2022-11-23 11:22:43.488     49 2022-11-23 11:22:43,488 Thread-31 DEBUG createAppenders(={, })
+2022-11-23 11:22:43.489     49 2022-11-23 11:22:43,489 Thread-31 DEBUG Building Plugin[name=AppenderRef, class=org.apache.logging.log4j.core.config.AppenderRef].
+2022-11-23 11:22:43.491     49 2022-11-23 11:22:43,491 Thread-31 DEBUG createAppenderRef(ref="ROOTLOG", level="null", Filter=null)
+2022-11-23 11:22:43.492     49 2022-11-23 11:22:43,492 Thread-31 DEBUG Building Plugin[name=root, class=org.apache.logging.log4j.core.config.LoggerConfig$RootLogger].
+2022-11-23 11:22:43.496     49 2022-11-23 11:22:43,496 Thread-31 DEBUG LoggerConfig$RootLogger$Builder(additivity="false", level="INFO", levelAndRefs="null", includeLocation="null", ={ROOTLOG}, ={}, Configuration(jar:file:/C:/Venkat_INBNG233/ACE/ws01/iib-acetlogprocessor/ACESERVER/shared-classes/is-1.0.0.0006.jar!/log4j2.xml), Filter=null)
+2022-11-23 11:22:43.503     49 2022-11-23 11:22:43,503 Thread-31 DEBUG Building Plugin[name=AppenderRef, class=org.apache.logging.log4j.core.config.AppenderRef].
+2022-11-23 11:22:43.505     49 2022-11-23 11:22:43,505 Thread-31 DEBUG createAppenderRef(ref="ISAPPLOG", level="null", Filter=null)
+2022-11-23 11:22:43.506     49 2022-11-23 11:22:43,506 Thread-31 DEBUG Building Plugin[name=logger, class=org.apache.logging.log4j.core.config.LoggerConfig].
+2022-11-23 11:22:43.516     49 2022-11-23 11:22:43,516 Thread-31 DEBUG LoggerConfig$Builder(additivity="false", level="DEBUG", levelAndRefs="null", name="IsApplicationLog", includeLocation="null", ={ISAPPLOG}, ={}, Configuration(jar:file:/C:/Venkat_INBNG233/ACE/ws01/iib-acetlogprocessor/ACESERVER/shared-classes/is-1.0.0.0006.jar!/log4j2.xml), Filter=null)
+2022-11-23 11:22:43.517     49 2022-11-23 11:22:43,517 Thread-31 DEBUG Building Plugin[name=loggers, class=org.apache.logging.log4j.core.config.LoggersPlugin].
+2022-11-23 11:22:43.519     49 2022-11-23 11:22:43,519 Thread-31 DEBUG createLoggers(={root, IsApplicationLog})
+2022-11-23 11:22:43.521     49 2022-11-23 11:22:43,521 Thread-31 ERROR Unable to locate appender "ROOTLOG" for logger config "root"
+2022-11-23 11:22:43.522     49 2022-11-23 11:22:43,522 Thread-31 ERROR Unable to locate appender "ISAPPLOG" for logger config "IsApplicationLog"
+2022-11-23 11:22:43.523     49 2022-11-23 11:22:43,522 Thread-31 DEBUG Configuration XmlConfiguration[location=jar:file:/C:/Venkat_INBNG233/ACE/ws01/iib-acetlogprocessor/ACESERVER/shared-classes/is-1.0.0.0006.jar!/log4j2.xml] initialized
+2022-11-23 11:22:43.524     49 2022-11-23 11:22:43,523 Thread-31 DEBUG Starting configuration XmlConfiguration[location=jar:file:/C:/Venkat_INBNG233/ACE/ws01/iib-acetlogprocessor/ACESERVER/shared-classes/is-1.0.0.0006.jar!/log4j2.xml]
+2022-11-23 11:22:43.524     49 2022-11-23 11:22:43,524 Thread-31 DEBUG Started configuration XmlConfiguration[location=jar:file:/C:/Venkat_INBNG233/ACE/ws01/iib-acetlogprocessor/ACESERVER/shared-classes/is-1.0.0.0006.jar!/log4j2.xml] OK.
+2022-11-23 11:22:43.526     49 2022-11-23 11:22:43,525 Thread-31 TRACE Stopping org.apache.logging.log4j.core.config.DefaultConfiguration@719aa4a9...
+2022-11-23 11:22:43.527     49 2022-11-23 11:22:43,526 Thread-31 TRACE DefaultConfiguration notified 1 ReliabilityStrategies that config will be stopped.
+2022-11-23 11:22:43.527     49 2022-11-23 11:22:43,527 Thread-31 TRACE DefaultConfiguration stopping root LoggerConfig.
+2022-11-23 11:22:43.528     49 2022-11-23 11:22:43,528 Thread-31 TRACE DefaultConfiguration notifying ReliabilityStrategies that appenders will be stopped.
+2022-11-23 11:22:43.530     49 2022-11-23 11:22:43,530 Thread-31 TRACE DefaultConfiguration stopping remaining Appenders.
+2022-11-23 11:22:43.531     49 2022-11-23 11:22:43,531 Thread-31 DEBUG Shutting down OutputStreamManager SYSTEM_OUT.false.false-1
+2022-11-23 11:22:43.532     49 2022-11-23 11:22:43,532 Thread-31 DEBUG OutputStream closed
+2022-11-23 11:22:43.533     49 2022-11-23 11:22:43,533 Thread-31 DEBUG Shut down OutputStreamManager SYSTEM_OUT.false.false-1, all resources released: true
+2022-11-23 11:22:43.534     49 2022-11-23 11:22:43,534 Thread-31 DEBUG Appender DefaultConsole-1 stopped with status true
+2022-11-23 11:22:43.535     49 2022-11-23 11:22:43,535 Thread-31 TRACE DefaultConfiguration stopped 1 remaining Appenders.
+2022-11-23 11:22:43.536     49 2022-11-23 11:22:43,535 Thread-31 TRACE DefaultConfiguration cleaning Appenders from 1 LoggerConfigs.
+2022-11-23 11:22:43.536     49 2022-11-23 11:22:43,536 Thread-31 DEBUG Stopped org.apache.logging.log4j.core.config.DefaultConfiguration@719aa4a9 OK
+2022-11-23 11:22:43.542     49 2022-11-23 11:22:43,541 Thread-31 TRACE Reregistering MBeans after reconfigure. Selector=org.apache.logging.log4j.core.selector.ClassLoaderContextSelector@63219181
+2022-11-23 11:22:43.543     49 2022-11-23 11:22:43,542 Thread-31 TRACE Reregistering context (1/1): 'cbbfa739' org.apache.logging.log4j.core.LoggerContext@d8223e5d
+2022-11-23 11:22:43.544     49 2022-11-23 11:22:43,544 Thread-31 TRACE Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=cbbfa739'
+2022-11-23 11:22:43.545     49 2022-11-23 11:22:43,545 Thread-31 TRACE Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=cbbfa739,component=StatusLogger'
+2022-11-23 11:22:43.546     49 2022-11-23 11:22:43,545 Thread-31 TRACE Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=cbbfa739,component=ContextSelector'
+2022-11-23 11:22:43.547     49 2022-11-23 11:22:43,546 Thread-31 TRACE Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=cbbfa739,component=Loggers,name=*'
+2022-11-23 11:22:43.548     49 2022-11-23 11:22:43,547 Thread-31 TRACE Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=cbbfa739,component=Appenders,name=*'
+2022-11-23 11:22:43.548     49 2022-11-23 11:22:43,548 Thread-31 TRACE Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=cbbfa739,component=AsyncAppenders,name=*'
+2022-11-23 11:22:43.549     49 2022-11-23 11:22:43,549 Thread-31 TRACE Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=cbbfa739,component=AsyncLoggerRingBuffer'
+2022-11-23 11:22:43.550     49 2022-11-23 11:22:43,550 Thread-31 TRACE Unregistering but no MBeans found matching 'org.apache.logging.log4j2:type=cbbfa739,component=Loggers,name=*,subtype=RingBuffer'
+2022-11-23 11:22:43.554     49 2022-11-23 11:22:43,554 Thread-31 DEBUG Registering MBean org.apache.logging.log4j2:type=cbbfa739
+2022-11-23 11:22:43.558     49 2022-11-23 11:22:43,558 Thread-31 DEBUG Registering MBean org.apache.logging.log4j2:type=cbbfa739,component=StatusLogger
+2022-11-23 11:22:43.562     49 2022-11-23 11:22:43,561 Thread-31 DEBUG Registering MBean org.apache.logging.log4j2:type=cbbfa739,component=ContextSelector
+2022-11-23 11:22:43.565     49 2022-11-23 11:22:43,565 Thread-31 DEBUG Registering MBean org.apache.logging.log4j2:type=cbbfa739,component=Loggers,name=
+2022-11-23 11:22:43.566     49 2022-11-23 11:22:43,566 Thread-31 DEBUG Registering MBean org.apache.logging.log4j2:type=cbbfa739,component=Loggers,name=IsApplicationLog
+2022-11-23 11:22:43.569     49 2022-11-23 11:22:43,569 Thread-31 TRACE Using default SystemClock for timestamps.
+2022-11-23 11:22:43.570     49 2022-11-23 11:22:43,570 Thread-31 DEBUG org.apache.logging.log4j.core.util.SystemClock does not support precise timestamps.
+2022-11-23 11:22:43.571     49 2022-11-23 11:22:43,571 Thread-31 TRACE Using DummyNanoClock for nanosecond timestamps.
+2022-11-23 11:22:43.572     49 2022-11-23 11:22:43,572 Thread-31 DEBUG Reconfiguration complete for context[name=cbbfa739] at URI jar:file:/C:/Venkat_INBNG233/ACE/ws01/iib-acetlogprocessor/ACESERVER/shared-classes/is-1.0.0.0006.jar!/log4j2.xml (org.apache.logging.log4j.core.LoggerContext@d8223e5d) with optional ClassLoader: null
+2022-11-23 11:22:43.573     49 2022-11-23 11:22:43,573 Thread-31 DEBUG Shutdown hook enabled. Registering a new one.
+2022-11-23 11:22:43.578     49 2022-11-23 11:22:43,577 Thread-31 DEBUG LoggerContext[name=cbbfa739, org.apache.logging.log4j.core.LoggerContext@d8223e5d] started OK.
+2022-11-23 11:22:43.778     49 com.ibm.integration.admin.proxy.IntegrationAdminException: Caught exception in getIntegrationServers Exception: Could not connect to the Integration Node integration_server
+2022-11-23 11:22:43.779     49 	at com.ibm.integration.admin.proxy.IntegrationNodeProxy.getIntegrationServers(IntegrationNodeProxy.java:287)
+2022-11-23 11:22:43.780     49 	at com.ibm.integration.admin.proxy.IntegrationNodeProxy.getIntegrationServerNames(IntegrationNodeProxy.java:257)
+2022-11-23 11:22:43.780     49 	at com.ibm.integration.admin.proxy.IntegrationNodeProxy.getIntegrationServerByName(IntegrationNodeProxy.java:317)
+2022-11-23 11:22:43.781     49 	at com.gianteagle.is.sig.base.BrokerUtil.getComponentVersion(BrokerUtil.java:266)
+2022-11-23 12:03:48.792320: BIP2152I: Configuration message received. 
+2022-11-23 12:03:48.867468: BIP2155I: About to 'Stop' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 12:03:53.477072: BIP2271I: Deployed resource 'AceTlogReceiver' (uuid='AceTlogReceiver',type='MessageFlow') successfully stopped. 
+2022-11-23 12:03:53.477260: BIP2155I: About to 'TearDown' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 12:03:53.614500: BIP1361E: Message flow node 'Publication', 'SigBaseLib.StoreProcessingError#FCMComposite_1_2' in Message flow 'SigBaseLib.StoreProcessingError.instance', 'SigBaseLib.StoreProcessingError.subflow' requires Policy 'Default' of type 'MQEndpoint' which is not deployed. 
+2022-11-23 12:03:53.615720: BIP2155I: About to 'Initialize' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 12:03:53.615892: BIP9324W: The request to 'Initialize' the deployed resource 'AceTlogProcessorApp' of type 'Application' has failed. 
+2022-11-23 12:03:53.615960: BIP1096E: The source 'AceTlogProcessorApp-1.0.0.0024.bar' has been deployed but there were one or more failures which may mean the deployed resources will be unable to execute. 
+2022-11-23 12:03:53.616600: BIP2154I: Integration server finished with Configuration message. 
+2022-11-23 12:06:14.639758: BIP2152I: Configuration message received. 
+2022-11-23 12:06:14.744651: BIP2155I: About to 'TearDown' the deployed resource 'SigBaseLib' of type 'SharedLibrary'. 
+2022-11-23 12:06:14.886761: BIP2155I: About to 'Initialize' the deployed resource 'SigBaseLib' of type 'SharedLibrary'. 
+2022-11-23 12:06:14.930103: BIP2155I: About to 'Initialize' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 12:06:16.449812: BIP9342I: Created compiled 'XMLNSC' schema file 'SigBaseLib/$mqsiLibrary.bir'. 
+2022-11-23 12:06:24.209370: BIP9341I: Created compiled 'DFDL' schema file 'SigBaseLib/$mqsiLibrary.dpif'. 
+2022-11-23 12:06:24.397510: BIP9332I: SharedLibrary 'SigBaseLib' has been changed successfully. 
+2022-11-23 12:06:24.397670: BIP2155I: About to 'Start' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 12:06:24.398872: BIP2269I: Deployed resource 'AceTlogProcessor' (uuid='AceTlogProcessor',type='MessageFlow') started successfully. 
+An http endpoint was registered on port '7801', path '/tlogprocessorservice/status'.
+2022-11-23 12:06:24.399306: BIP1996I: Listening on HTTP URL '/tlogprocessorservice/status'. 
+Started native listener for HTTP input node on port 7801 for URL /tlogprocessorservice/status
+An http endpoint was registered on port '7801', path '/tlogprocessorservice/releasenotes'.
+2022-11-23 12:06:24.399984: BIP1996I: Listening on HTTP URL '/tlogprocessorservice/releasenotes'. 
+Started native listener for HTTP input node on port 7801 for URL /tlogprocessorservice/releasenotes
+An http endpoint was registered on port '7801', path '/tlogprocessorservice/version'.
+2022-11-23 12:06:24.400628: BIP1996I: Listening on HTTP URL '/tlogprocessorservice/version'. 
+Started native listener for HTTP input node on port 7801 for URL /tlogprocessorservice/version
+An http endpoint was registered on port '7801', path '/tlogprocessorservice/properties'.
+2022-11-23 12:06:24.401220: BIP1996I: Listening on HTTP URL '/tlogprocessorservice/properties'. 
+Started native listener for HTTP input node on port 7801 for URL /tlogprocessorservice/properties
+An http endpoint was registered on port '7801', path '/tlogprocessorservice/flows'.
+2022-11-23 12:06:24.401938: BIP1996I: Listening on HTTP URL '/tlogprocessorservice/flows'. 
+Started native listener for HTTP input node on port 7801 for URL /tlogprocessorservice/flows
+2022-11-23 12:06:24.402190: BIP2269I: Deployed resource 'AceTlogProcessorService' (uuid='AceTlogProcessorService',type='MessageFlow') started successfully. 
+An http endpoint was registered on port '7801', path '/TLOG/IIB/ACE_BINARY'.
+2022-11-23 12:06:24.402694: BIP1996I: Listening on HTTP URL '/TLOG/IIB/ACE_BINARY'. 
+Started native listener for HTTP input node on port 7801 for URL /TLOG/IIB/ACE_BINARY
+2022-11-23 12:06:24.403056: BIP2269I: Deployed resource 'AceTlogReceiver' (uuid='AceTlogReceiver',type='MessageFlow') started successfully. 
+2022-11-23 12:06:24.403150: BIP9332I: Application 'AceTlogProcessorApp' has been reloaded successfully. 
+2022-11-23 12:06:24.403218: BIP9326I: The source 'SigBaseLibproject.generated.bar' has been successfully deployed. 
+2022-11-23 12:06:24.403922: BIP2154I: Integration server finished with Configuration message. 
+2022-11-23 12:06:25.919     59 com.ibm.integration.admin.proxy.IntegrationAdminException: Caught exception in getIntegrationServers Exception: Could not connect to the Integration Node integration_server
+2022-11-23 12:06:25.919     59 	at com.ibm.integration.admin.proxy.IntegrationNodeProxy.getIntegrationServers(IntegrationNodeProxy.java:287)
+2022-11-23 12:06:25.919     59 	at com.ibm.integration.admin.proxy.IntegrationNodeProxy.getIntegrationServerNames(IntegrationNodeProxy.java:257)
+2022-11-23 12:06:25.919     59 	at com.ibm.integration.admin.proxy.IntegrationNodeProxy.getIntegrationServerByName(IntegrationNodeProxy.java:317)
+2022-11-23 12:06:25.919     59 	at com.gianteagle.is.sig.base.BrokerUtil.getComponentVersion(BrokerUtil.java:266)
+2022-11-23 12:06:26.068     59 com.ibm.integration.admin.proxy.IntegrationAdminException: Caught exception in getIntegrationServers Exception: Could not connect to the Integration Node integration_server
+2022-11-23 12:06:26.068     59 	at com.ibm.integration.admin.proxy.IntegrationNodeProxy.getIntegrationServers(IntegrationNodeProxy.java:287)
+2022-11-23 12:06:26.068     59 	at com.ibm.integration.admin.proxy.IntegrationNodeProxy.getIntegrationServerNames(IntegrationNodeProxy.java:257)
+2022-11-23 12:06:26.068     59 	at com.ibm.integration.admin.proxy.IntegrationNodeProxy.getIntegrationServerByName(IntegrationNodeProxy.java:317)
+2022-11-23 12:06:26.068     59 	at com.gianteagle.is.sig.base.BrokerUtil.getComponentVersion(BrokerUtil.java:266)
+2022-11-23 12:06:35.578200: BIP2152I: Configuration message received. 
+2022-11-23 12:06:35.651072: BIP2155I: About to 'Stop' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 12:06:37.473064: BIP2271I: Deployed resource 'AceTlogProcessor' (uuid='AceTlogProcessor',type='MessageFlow') successfully stopped. 
+2022-11-23 12:06:40.477572: BIP2271I: Deployed resource 'AceTlogProcessorService' (uuid='AceTlogProcessorService',type='MessageFlow') successfully stopped. 
+2022-11-23 12:06:40.478124: BIP2271I: Deployed resource 'AceTlogReceiver' (uuid='AceTlogReceiver',type='MessageFlow') successfully stopped. 
+2022-11-23 12:06:40.478256: BIP2155I: About to 'TearDown' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 12:06:40.789276: BIP2155I: About to 'Initialize' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 12:06:40.924812: BIP2155I: About to 'Start' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 12:06:40.925564: BIP2269I: Deployed resource 'AceTlogProcessor' (uuid='AceTlogProcessor',type='MessageFlow') started successfully. 
+An http endpoint was registered on port '7801', path '/tlogprocessorservice/status'.
+2022-11-23 12:06:40.926008: BIP1996I: Listening on HTTP URL '/tlogprocessorservice/status'. 
+Started native listener for HTTP input node on port 7801 for URL /tlogprocessorservice/status
+An http endpoint was registered on port '7801', path '/tlogprocessorservice/releasenotes'.
+2022-11-23 12:06:40.926508: BIP1996I: Listening on HTTP URL '/tlogprocessorservice/releasenotes'. 
+Started native listener for HTTP input node on port 7801 for URL /tlogprocessorservice/releasenotes
+An http endpoint was registered on port '7801', path '/tlogprocessorservice/version'.
+2022-11-23 12:06:40.926980: BIP1996I: Listening on HTTP URL '/tlogprocessorservice/version'. 
+Started native listener for HTTP input node on port 7801 for URL /tlogprocessorservice/version
+An http endpoint was registered on port '7801', path '/tlogprocessorservice/properties'.
+2022-11-23 12:06:40.927440: BIP1996I: Listening on HTTP URL '/tlogprocessorservice/properties'. 
+Started native listener for HTTP input node on port 7801 for URL /tlogprocessorservice/properties
+An http endpoint was registered on port '7801', path '/tlogprocessorservice/flows'.
+2022-11-23 12:06:40.927880: BIP1996I: Listening on HTTP URL '/tlogprocessorservice/flows'. 
+Started native listener for HTTP input node on port 7801 for URL /tlogprocessorservice/flows
+2022-11-23 12:06:40.928148: BIP2269I: Deployed resource 'AceTlogProcessorService' (uuid='AceTlogProcessorService',type='MessageFlow') started successfully. 
+An http endpoint was registered on port '7801', path '/TLOG/IIB/ACE_BINARY'.
+2022-11-23 12:06:40.928508: BIP1996I: Listening on HTTP URL '/TLOG/IIB/ACE_BINARY'. 
+Started native listener for HTTP input node on port 7801 for URL /TLOG/IIB/ACE_BINARY
+2022-11-23 12:06:40.928868: BIP2269I: Deployed resource 'AceTlogReceiver' (uuid='AceTlogReceiver',type='MessageFlow') started successfully. 
+2022-11-23 12:06:40.928960: BIP9332I: Application 'AceTlogProcessorApp' has been changed successfully. 
+2022-11-23 12:06:40.929020: BIP9326I: The source 'AceTlogProcessorApp-1.0.0.0024.bar' has been successfully deployed. 
+2022-11-23 12:06:40.929712: BIP2154I: Integration server finished with Configuration message. 

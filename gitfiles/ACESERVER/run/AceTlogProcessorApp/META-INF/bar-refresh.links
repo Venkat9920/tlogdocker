@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deploy:Deploy xmlns:deploy="http://www.ibm.com/xmlns/prod/wmb/deploy/6.0.0" overrideConfigurableProperties="true" includeESQL="false">
+  <deployables>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/AceRawTlogParse.subflow">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\AceRawTlogParse.subflow.&#xA;Successfully added file AceTlogProcessorApp\AceRawTlogParse.subflow to BAR file.&#xA;" severity="0"/>
+      <barEntry name="AceRawTlogParse.subflow"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/AceRawTlogParse_ProcessRawTlogSet.esql">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\AceRawTlogParse_ProcessRawTlogSet.esql.&#xA;Successfully added file AceTlogProcessorApp\AceRawTlogParse_ProcessRawTlogSet.esql to BAR file.&#xA;" severity="0"/>
+      <barEntry name="AceRawTlogParse_ProcessRawTlogSet.esql"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/AceTlogDFDLParse.subflow">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\AceTlogDFDLParse.subflow.&#xA;Successfully added file AceTlogProcessorApp\AceTlogDFDLParse.subflow to BAR file.&#xA;" severity="0"/>
+      <barEntry name="AceTlogDFDLParse.subflow"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/AceTlogDFDLParse_Failed.esql">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\AceTlogDFDLParse_Failed.esql.&#xA;Dependent ESQL file AceTlogParser.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseStdDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseStatusDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.&#xA;&#xA;Successfully added file AceTlogProcessorApp\AceTlogDFDLParse_Failed.esql to BAR file.&#xA;" severity="0"/>
+      <barEntry name="AceTlogDFDLParse_Failed.esql"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/AceTlogDFDLParse_Success.esql">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\AceTlogDFDLParse_Success.esql.&#xA;Dependent ESQL file AceTlogParser.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file AceTlogProcessorFunctionDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.&#xA;&#xA;Successfully added file AceTlogProcessorApp\AceTlogDFDLParse_Success.esql to BAR file.&#xA;" severity="0"/>
+      <barEntry name="AceTlogDFDLParse_Success.esql"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/AceTlogParser.esql">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\AceTlogParser.esql.&#xA;Dependent ESQL file SigBaseLib/SigBaseStdDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file AceTlogProcessorFunctionDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.&#xA;&#xA;Successfully added file AceTlogProcessorApp\AceTlogParser.esql to BAR file.&#xA;" severity="0"/>
+      <barEntry name="AceTlogParser.esql"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204991637" workspaceResource="/AceTlogProcessorApp/AceTlogProcessor.msgflow">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\AceTlogProcessor.msgflow.&#xA;Successfully added file AceTlogProcessorApp\AceTlogProcessor.msgflow to BAR file.&#xA;" severity="0"/>
+      <barEntry name="AceTlogProcessor.msgflow"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/AceTlogProcessorEnv.esql">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\AceTlogProcessorEnv.esql.&#xA;Dependent ESQL file AceTlogProcessorFunctionDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.&#xA;&#xA;Successfully added file AceTlogProcessorApp\AceTlogProcessorEnv.esql to BAR file.&#xA;" severity="0"/>
+      <barEntry name="AceTlogProcessorEnv.esql"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/AceTlogProcessorFunctionDef.esql">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\AceTlogProcessorFunctionDef.esql.&#xA;Successfully added file AceTlogProcessorApp\AceTlogProcessorFunctionDef.esql to BAR file.&#xA;" severity="0"/>
+      <barEntry name="AceTlogProcessorFunctionDef.esql"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/AceTlogProcessorService.msgflow">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\AceTlogProcessorService.msgflow.&#xA;Successfully added file AceTlogProcessorApp\AceTlogProcessorService.msgflow to BAR file.&#xA;" severity="0"/>
+      <barEntry name="AceTlogProcessorService.msgflow"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/AceTlogProcessor_Initialize.esql">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\AceTlogProcessor_Initialize.esql.&#xA;Dependent ESQL file AceTlogProcessorEnv.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseStatusDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file AceTlogProcessorFunctionDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.&#xA;&#xA;Successfully added file AceTlogProcessorApp\AceTlogProcessor_Initialize.esql to BAR file.&#xA;" severity="0"/>
+      <barEntry name="AceTlogProcessor_Initialize.esql"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/AceTlogProcessor_LogPublishStatus.esql">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\AceTlogProcessor_LogPublishStatus.esql.&#xA;Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.&#xA;&#xA;Successfully added file AceTlogProcessorApp\AceTlogProcessor_LogPublishStatus.esql to BAR file.&#xA;" severity="0"/>
+      <barEntry name="AceTlogProcessor_LogPublishStatus.esql"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/AceTlogProcessor_PublishTlogXml.esql">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\AceTlogProcessor_PublishTlogXml.esql.&#xA;Dependent ESQL file AceTlogParser.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseMq.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseStdDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file AceTlogProcessorFunctionDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.&#xA;&#xA;Successfully added file AceTlogProcessorApp\AceTlogProcessor_PublishTlogXml.esql to BAR file.&#xA;" severity="0"/>
+      <barEntry name="AceTlogProcessor_PublishTlogXml.esql"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204856779" workspaceResource="/AceTlogProcessorApp/AceTlogReceiver.msgflow">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\AceTlogReceiver.msgflow.&#xA;Successfully added file AceTlogProcessorApp\AceTlogReceiver.msgflow to BAR file.&#xA;" severity="0"/>
+      <barEntry name="AceTlogReceiver.msgflow"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/AceTlogReceiverHttpHandler.subflow">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\AceTlogReceiverHttpHandler.subflow.&#xA;Successfully added file AceTlogProcessorApp\AceTlogReceiverHttpHandler.subflow to BAR file.&#xA;" severity="0"/>
+      <barEntry name="AceTlogReceiverHttpHandler.subflow"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/AceTlogReceiverHttpHandler_Failure.esql">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\AceTlogReceiverHttpHandler_Failure.esql.&#xA;Dependent ESQL file AceTlogProcessorEnv.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseHttp.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseStdDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/HttpAcknowledgement.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseStatusDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.&#xA;&#xA;Successfully added file AceTlogProcessorApp\AceTlogReceiverHttpHandler_Failure.esql to BAR file.&#xA;" severity="0"/>
+      <barEntry name="AceTlogReceiverHttpHandler_Failure.esql"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/AceTlogReceiverHttpHandler_Initialize.esql">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\AceTlogReceiverHttpHandler_Initialize.esql.&#xA;Dependent ESQL file AceTlogProcessorEnv.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseStdDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/HttpAcknowledgement.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseStatusDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file AceTlogProcessorFunctionDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.&#xA;&#xA;Successfully added file AceTlogProcessorApp\AceTlogReceiverHttpHandler_Initialize.esql to BAR file.&#xA;" severity="0"/>
+      <barEntry name="AceTlogReceiverHttpHandler_Initialize.esql"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/AceTlogReceiver_PublishTlog.esql">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\AceTlogReceiver_PublishTlog.esql.&#xA;Dependent ESQL file SigBaseLib/SigBaseMq.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file AceTlogProcessorFunctionDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.&#xA;&#xA;Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.&#xA;&#xA;Successfully added file AceTlogProcessorApp\AceTlogReceiver_PublishTlog.esql to BAR file.&#xA;" severity="0"/>
+      <barEntry name="AceTlogReceiver_PublishTlog.esql"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/ConvertToTlogXml.subflow">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\ConvertToTlogXml.subflow.&#xA;Successfully added file AceTlogProcessorApp\ConvertToTlogXml.subflow to BAR file.&#xA;" severity="0"/>
+      <barEntry name="ConvertToTlogXml.subflow"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/ConvertToTlogXml_FixTransactionRecord01.esql">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\ConvertToTlogXml_FixTransactionRecord01.esql.&#xA;Successfully added file AceTlogProcessorApp\ConvertToTlogXml_FixTransactionRecord01.esql to BAR file.&#xA;" severity="0"/>
+      <barEntry name="ConvertToTlogXml_FixTransactionRecord01.esql"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/ConvertToTlogXml_RemoveWrapperElements.esql">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\ConvertToTlogXml_RemoveWrapperElements.esql.&#xA;Successfully added file AceTlogProcessorApp\ConvertToTlogXml_RemoveWrapperElements.esql to BAR file.&#xA;" severity="0"/>
+      <barEntry name="ConvertToTlogXml_RemoveWrapperElements.esql"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/ParseTlog.subflow">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\ParseTlog.subflow.&#xA;Successfully added file AceTlogProcessorApp\ParseTlog.subflow to BAR file.&#xA;" severity="0"/>
+      <barEntry name="ParseTlog.subflow"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/ParseTlog_ConvertBitFields.esql">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\ParseTlog_ConvertBitFields.esql.&#xA;Successfully added file AceTlogProcessorApp\ParseTlog_ConvertBitFields.esql to BAR file.&#xA;" severity="0"/>
+      <barEntry name="ParseTlog_ConvertBitFields.esql"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/ParseTlog_MapToXml.esql">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\ParseTlog_MapToXml.esql.&#xA;Successfully added file AceTlogProcessorApp\ParseTlog_MapToXml.esql to BAR file.&#xA;" severity="0"/>
+      <barEntry name="ParseTlog_MapToXml.esql"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/ProcesDFDLTlog.subflow">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\ProcesDFDLTlog.subflow.&#xA;Successfully added file AceTlogProcessorApp\ProcesDFDLTlog.subflow to BAR file.&#xA;" severity="0"/>
+      <barEntry name="ProcesDFDLTlog.subflow"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorApp/application.descriptor">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorApp\application.descriptor.&#xA;Successfully added file AceTlogProcessorApp\application.descriptor to BAR file.&#xA;Elapsed time: 0 second(s).&#xA;&#xA;Successfully added file AceTlogProcessorApp\application.descriptor to BAR file.&#xA;" severity="0"/>
+      <barEntry name="application.descriptor"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669204626000" workspaceResource="/AceTlogProcessorAppJava/.classpath">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file AceTlogProcessorAppJava\.classpath.&#xA;Successfully added file AceTlogProcessorAppJava\.classpath to BAR file.&#xA;Elapsed time: 0.015 second(s).&#xA;" severity="0"/>
+      <barEntry name="AceTlogProcessorAppJava.jar"/>
+    </deployable>
+  </deployables>
+</deploy:Deploy>

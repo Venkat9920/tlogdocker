@@ -1,0 +1,51 @@
+
+/**
+ * AceTlogProcessorFunctionDef.esql
+ */
+
+/**
+ * Declare all AceTlogProcessor external java methods used by ESQL routines.
+ */
+
+-- AceTlogProcessor version and name methods. --
+
+CREATE PROCEDURE getAceTlogProcessorServiceName() RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.central.AceTlogProcessorServiceConfig.getAceTlogProcessorServiceName";
+
+-- Base configuration methods.
+
+
+CREATE PROCEDURE getConfigReloadInterval() RETURNS INTEGER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.central.AceTlogProcessorServiceConfig.getConfigReloadInterval";
+
+CREATE PROCEDURE getMaxBackoutCount() RETURNS INTEGER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.central.AceTlogProcessorServiceConfig.getMaxBackoutCount";
+
+CREATE PROCEDURE isMaxBackoutCountEnabled() RETURNS BOOLEAN LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.central.AceTlogProcessorServiceConfig.isMaxBackoutCountEnabled";
+
+CREATE PROCEDURE getRollbackDelay() RETURNS INTEGER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.central.AceTlogProcessorServiceConfig.getRollbackDelay";
+
+CREATE PROCEDURE publishErrors() RETURNS BOOLEAN LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.central.AceTlogProcessorServiceConfig.publishErrors";
+	
+CREATE PROCEDURE getErrorTopicString() RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.central.AceTlogProcessorServiceConfig.getErrorTopicString";
+
+-- SigService configuration related methods. --
+
+CREATE PROCEDURE getAceTlogTopicString() RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.central.AceTlogProcessorServiceConfig.getAceTlogTopicString";
+
+CREATE PROCEDURE getAceTlogErrorTopicTypeString() RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.central.AceTlogProcessorServiceConfig.getAceTlogErrorTopicTypeString";
+
+CREATE PROCEDURE isAceTlogProcessorServiceEnabled() RETURNS BOOLEAN LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.central.AceTlogProcessorServiceConfig.isAceTlogProcessorServiceEnabled";
+            
+CREATE PROCEDURE isAceTlogProcessorServiceDebugMode() RETURNS BOOLEAN LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.central.AceTlogProcessorServiceConfig.isAceTlogProcessorServiceDebugMode";
+
+CREATE PROCEDURE getAceTlogPublishTlogXmlTopicString() RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.central.AceTlogProcessorServiceConfig.getAceTlogPublishTlogXmlTopicString";

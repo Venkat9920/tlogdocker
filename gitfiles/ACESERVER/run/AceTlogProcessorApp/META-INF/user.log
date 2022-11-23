@@ -1,0 +1,311 @@
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\AceTlogReceiver.msgflow.
+Successfully added file AceTlogProcessorApp\AceTlogReceiver.msgflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\AceTlogProcessorService.msgflow.
+Successfully added file AceTlogProcessorApp\AceTlogProcessorService.msgflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\AceTlogProcessor.msgflow.
+Successfully added file AceTlogProcessorApp\AceTlogProcessor.msgflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\AceRawTlogParse.subflow.
+Successfully added file AceTlogProcessorApp\AceRawTlogParse.subflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\AceRawTlogParse_ProcessRawTlogSet.esql.
+Successfully added file AceTlogProcessorApp\AceRawTlogParse_ProcessRawTlogSet.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\AceTlogDFDLParse.subflow.
+Successfully added file AceTlogProcessorApp\AceTlogDFDLParse.subflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\AceTlogDFDLParse_Failed.esql.
+Dependent ESQL file AceTlogParser.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseStdDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseStatusDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.
+
+Successfully added file AceTlogProcessorApp\AceTlogDFDLParse_Failed.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\AceTlogDFDLParse_Success.esql.
+Dependent ESQL file AceTlogParser.esql is added to the BAR file.
+
+Dependent ESQL file AceTlogProcessorFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.
+
+Successfully added file AceTlogProcessorApp\AceTlogDFDLParse_Success.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\AceTlogParser.esql.
+Dependent ESQL file SigBaseLib/SigBaseStdDef.esql is added to the BAR file.
+
+Dependent ESQL file AceTlogProcessorFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.
+
+Successfully added file AceTlogProcessorApp\AceTlogParser.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\AceTlogProcessorEnv.esql.
+Dependent ESQL file AceTlogProcessorFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.
+
+Successfully added file AceTlogProcessorApp\AceTlogProcessorEnv.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\AceTlogProcessorFunctionDef.esql.
+Successfully added file AceTlogProcessorApp\AceTlogProcessorFunctionDef.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\AceTlogProcessor_Initialize.esql.
+Dependent ESQL file AceTlogProcessorEnv.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseStatusDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file AceTlogProcessorFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.
+
+Successfully added file AceTlogProcessorApp\AceTlogProcessor_Initialize.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\AceTlogProcessor_LogPublishStatus.esql.
+Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.
+
+Successfully added file AceTlogProcessorApp\AceTlogProcessor_LogPublishStatus.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\AceTlogProcessor_PublishTlogXml.esql.
+Dependent ESQL file AceTlogParser.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseMq.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseStdDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file AceTlogProcessorFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.
+
+Successfully added file AceTlogProcessorApp\AceTlogProcessor_PublishTlogXml.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\AceTlogReceiverHttpHandler.subflow.
+Successfully added file AceTlogProcessorApp\AceTlogReceiverHttpHandler.subflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\AceTlogReceiverHttpHandler_Failure.esql.
+Dependent ESQL file AceTlogProcessorEnv.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseHttp.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseStdDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/HttpAcknowledgement.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseStatusDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.
+
+Successfully added file AceTlogProcessorApp\AceTlogReceiverHttpHandler_Failure.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\AceTlogReceiverHttpHandler_Initialize.esql.
+Dependent ESQL file AceTlogProcessorEnv.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseStdDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/HttpAcknowledgement.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseStatusDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file AceTlogProcessorFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.
+
+Successfully added file AceTlogProcessorApp\AceTlogReceiverHttpHandler_Initialize.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\AceTlogReceiver_PublishTlog.esql.
+Dependent ESQL file SigBaseLib/SigBaseMq.esql is added to the BAR file.
+
+Dependent ESQL file AceTlogProcessorFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseEnv.esql is added to the BAR file.
+
+Dependent ESQL file SigBaseLib/SigBaseLib.esql is added to the BAR file.
+
+Successfully added file AceTlogProcessorApp\AceTlogReceiver_PublishTlog.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\ConvertToTlogXml.subflow.
+Successfully added file AceTlogProcessorApp\ConvertToTlogXml.subflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\ConvertToTlogXml_FixTransactionRecord01.esql.
+Successfully added file AceTlogProcessorApp\ConvertToTlogXml_FixTransactionRecord01.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\ConvertToTlogXml_RemoveWrapperElements.esql.
+Successfully added file AceTlogProcessorApp\ConvertToTlogXml_RemoveWrapperElements.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\ParseTlog.subflow.
+Successfully added file AceTlogProcessorApp\ParseTlog.subflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\ParseTlog_ConvertBitFields.esql.
+Successfully added file AceTlogProcessorApp\ParseTlog_ConvertBitFields.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\ParseTlog_MapToXml.esql.
+Successfully added file AceTlogProcessorApp\ParseTlog_MapToXml.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\ProcesDFDLTlog.subflow.
+Successfully added file AceTlogProcessorApp\ProcesDFDLTlog.subflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\application.descriptor.
+Successfully added file AceTlogProcessorApp\application.descriptor to BAR file.
+Elapsed time: 0 second(s).
+
+Successfully added file AceTlogProcessorApp\application.descriptor to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorApp\application.descriptor.
+Successfully added file AceTlogProcessorApp\application.descriptor to BAR file.
+Elapsed time: 0 second(s).
+
+Successfully added file AceTlogProcessorApp\application.descriptor to BAR file.
+
+==============================================
+
+!Wed Nov 23 12:03:42 UTC 2022
+
+Processing file AceTlogProcessorAppJava\.classpath.
+Successfully added file AceTlogProcessorAppJava\.classpath to BAR file.
+Elapsed time: 0.015 second(s).

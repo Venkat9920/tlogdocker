@@ -1,0 +1,69 @@
+
+
+CREATE COMPUTE MODULE AceRawTlogParse_ProcessRawTlogSet
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE sRawTlogString CHARACTER NULL;
+		DECLARE nTlogCount INTEGER 0;
+		DECLARE nIndex INTEGER 0;
+		
+		SET nTlogCount = CARDINALITY(InputRoot.DFDL.AceRawTlog.RawTlog[]);
+		
+		SET nIndex = 1;
+		
+		WHILE nIndex <= nTlogCount
+		DO
+			-- The raw TLOG will be published as a BLOB so there is no
+			-- need to retain message headers, properties, etc. In fact,
+			-- doing so is not appropriate.
+			 
+			SET OutputLocalEnvironment = InputLocalEnvironment;
+			
+			SET sRawTlogString = CAST(InputRoot.DFDL.AceRawTlog.RawTlog[nIndex].RawTlogString AS CHARACTER);
+			
+			-- Remove the leading X' and trailing ' from the string. This is
+			-- a result of casting to CHARACTER.
+			
+			SET sRawTlogString = SUBSTRING(sRawTlogString AFTER 'X''');
+			
+			SET sRawTlogString = SUBSTRING(sRawTlogString BEFORE '''');
+			
+			-- Append the CRLF that is required to form a complete TLOG string
+			-- for parsing.
+			
+			SET sRawTlogString = sRawTlogString || '0D0A';
+			
+			-- Convert the raw TLOG string to BLOB for publication.
+			
+			SET OutputRoot.BLOB.BLOB = CAST(sRawTlogString AS BLOB);
+			
+			PROPAGATE TO TERMINAL 'out';
+
+			SET nIndex = nIndex + 1;
+		END WHILE;
+
+		-- On completion, the only thing that matters is what is in the
+		-- environment. No message, headers, properties, etc. should be
+		-- output.
+				
+		SET OutputLocalEnvironment = InputLocalEnvironment;
+		
+		PROPAGATE TO TERMINAL 'out1';		-- Complete.
+		
+		RETURN FALSE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;

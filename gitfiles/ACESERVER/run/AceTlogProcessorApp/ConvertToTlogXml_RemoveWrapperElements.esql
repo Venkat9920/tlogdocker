@@ -1,0 +1,74 @@
+-- Compute node responsible for removing wrapper elements
+-- added by the DFDL parse of the TLOG. These elements are
+-- not used and not required by the final TLOG XML form.
+
+CREATE COMPUTE MODULE ConvertToTlogXml_RemoveWrapperElements
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE nTransactionRecordCount INTEGER 0;
+		DECLARE ndx INTEGER 0;
+		DECLARE sFieldName CHARACTER NULL; 
+		
+		-- The DFDL parse of the binary TLOG puts a wrapper
+		-- <Transactions> element around each of the possible
+		-- <Transaction> elements. At this point we should be
+		-- processing only a single <Transaction>. So, to 
+		-- remain compatible with the legacy TLOG XML the
+		-- wrapper <Transactions> element and the internal
+		-- <TransactionRecord> elements are removed.
+		
+		CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		
+		SET OutputLocalEnvironment = InputLocalEnvironment;
+		
+		SET OutputRoot.XMLNSC = NULL;
+		
+		CREATE LASTCHILD OF OutputRoot DOMAIN ('XMLNSC');
+
+		-- Output document should be a <Transaction>.
+		
+		CREATE LASTCHILD OF OutputRoot.XMLNSC NAME 'Transaction';
+		
+		-- Loop through all of the internal <TransactionRecord>
+		-- elements and place them in the output document, without
+		-- the <TransactionRecord> wrapper element.
+		
+		SET nTransactionRecordCount = CARDINALITY(InputRoot.XMLNSC.Transactions.Transaction.TransactionRecord[]);
+		
+		SET ndx = 0;
+		
+		WHILE ndx < nTransactionRecordCount
+		DO
+			SET ndx = ndx + 1;
+
+			-- Note: *[<] is a reference to the LAST field in the repsective
+			--       tree. In this case there is only one field/element, so
+			--       it references that field/element.
+			
+			SET sFieldName = FIELDNAME(InputRoot.XMLNSC.Transactions.Transaction.TransactionRecord[ndx].*[<]);
+			
+			CREATE LASTCHILD OF OutputRoot.XMLNSC.Transaction NAME sFieldName;
+			
+			SET OutputRoot.XMLNSC.Transaction.*[<] = InputRoot.XMLNSC.Transactions.Transaction.TransactionRecord[ndx].*[<];
+		
+		END WHILE;
+		
+		PROPAGATE TO TERMINAL 'out';
+		
+		RETURN FALSE;
+	END;
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;

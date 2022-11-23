@@ -1,0 +1,63 @@
+
+
+CREATE COMPUTE MODULE AceTlogProcessor_Initialize
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE nComponentStartTime INTEGER SigBaseLib.currentTimeMillis();
+		DECLARE sStatusCode CHARACTER SigBaseLib.getOkStatusCode();
+		DECLARE sTopic CHARACTER NULL;
+		
+		IF isAceTlogProcessorServiceEnabled() = TRUE
+		THEN
+			CALL CopyMessageHeaders();
+			CALL CopyEntireMessage();
+			
+			SET OutputLocalEnvironment = InputLocalEnvironment;
+			
+			CALL SigBaseLib.initEnvFromMqHeaders(InputRoot, OutputLocalEnvironment);
+			
+			CALL initEnvFromAceTlogProcessorServiceConfig(OutputLocalEnvironment);
+			
+			CALL SigBaseLib.setEnvSource(OutputLocalEnvironment, 'ACE_TLOG_BINARY_IN');
+	
+			CALL SigBaseLib.setEnvComponentStartTime(OutputLocalEnvironment, nComponentStartTime);
+	
+			-- SET sTopic = constructAceTlogTopicString(NULL, FALSE, SigBaseLib.getEnvStore(OutputLocalEnvironment), getEnvDivision(OutputLocalEnvironment));
+	
+			CALL SigBaseLib.setEnvTopic(OutputLocalEnvironment, sTopic);
+	
+			CALL SigBaseLib.setEnvStatusCode(OutputLocalEnvironment, sStatusCode);
+			
+			CALL SigBaseLib.setEnvOperationStatus(OutputLocalEnvironment, SigBaseLib.getProcesssedStatus());
+				
+			CALL SigBaseLib.setEnvComponentName(OutputLocalEnvironment, MessageFlowLabel);
+			CALL SigBaseLib.setEnvComponentVersion(OutputLocalEnvironment, SigBaseLib.getMessageFlowVersion(MessageFlowLabel));
+			
+			-- Initialize Error Topic Type in case an error occurs within the flow.
+				
+			CALL SigBaseLib.setEnvErrorTopicType(OutputLocalEnvironment, getAceTlogErrorTopicTypeString());
+				
+			CALL SigBaseLib.setEnvRawPayload(OutputLocalEnvironment, InputRoot.BLOB.BLOB);
+			
+			PROPAGATE TO TERMINAL 'out';
+		ELSE
+			CALL SigBaseLib.logWarn(MessageFlowLabel, NodeLabel, 'TLOG processing is disabled!');
+		END IF;
+
+		RETURN FALSE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;

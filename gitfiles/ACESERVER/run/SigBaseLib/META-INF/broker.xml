@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Broker deployBarfile="SigBaseLibproject.generated.bar" deployTimestamp="2022-11-23 12:06:14">
+  <CompiledMessageFlow name="SigBaseLib.LogTimingTransaction" type="subflow" deployBarfile="SigBaseLibproject.generated.bar" deployTimestamp="2022-11-23 12:06:14">
+    <ConfigurableProperty uri="SigBaseLib.LogTimingTransaction#LogTimingTransaction.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.LogTimingTransaction#LogTimingTransaction.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.LogTimingTransaction#LogTimingTransaction.validateMaster">
+    </ConfigurableProperty>
+  </CompiledMessageFlow>
+  <CompiledMessageFlow name="SigBaseLib.SigRollback" type="subflow" deployBarfile="SigBaseLibproject.generated.bar" deployTimestamp="2022-11-23 12:06:14">
+    <ConfigurableProperty uri="SigBaseLib.SigRollback#Rollback.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigRollback#Rollback.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigRollback#Rollback.validateMaster">
+    </ConfigurableProperty>
+  </CompiledMessageFlow>
+  <CompiledMessageFlow name="SigBaseLib.CentralNoPublicationMatch" type="subflow" deployBarfile="SigBaseLibproject.generated.bar" deployTimestamp="2022-11-23 12:06:14">
+    <ConfigurableProperty uri="SigBaseLib.CentralNoPublicationMatch#NoMatch.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.CentralNoPublicationMatch#NoMatch.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.CentralNoPublicationMatch#NoMatch.validateMaster">
+    </ConfigurableProperty>
+  </CompiledMessageFlow>
+  <CompiledMessageFlow name="SigBaseLib.ThrowPublicationNoMatch" type="subflow" deployBarfile="SigBaseLibproject.generated.bar" deployTimestamp="2022-11-23 12:06:14">
+  </CompiledMessageFlow>
+  <CompiledMessageFlow name="SigBaseLib.BuildAcknowledgement" type="subflow" deployBarfile="SigBaseLibproject.generated.bar" deployTimestamp="2022-11-23 12:06:14">
+    <ConfigurableProperty uri="SigBaseLib.BuildAcknowledgement#BuildAcknowledgement.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.BuildAcknowledgement#BuildAcknowledgement.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.BuildAcknowledgement#BuildAcknowledgement.validateMaster">
+    </ConfigurableProperty>
+  </CompiledMessageFlow>
+  <CompiledMessageFlow name="SigBaseLib.CentralProcessingError" type="subflow" deployBarfile="SigBaseLibproject.generated.bar" deployTimestamp="2022-11-23 12:06:14">
+    <ConfigurableProperty uri="SigBaseLib.CentralProcessingError#LogError.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.CentralProcessingError#LogError.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.CentralProcessingError#LogError.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.CentralProcessingError#Publication.SSLCipherSpec">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.CentralProcessingError#Publication.SSLPeerName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.CentralProcessingError#Publication.channelName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.CentralProcessingError#Publication.connection">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.CentralProcessingError#Publication.destinationQueueManagerName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.CentralProcessingError#Publication.listenerPortNumber">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.CentralProcessingError#Publication.policyUrl">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.CentralProcessingError#Publication.queueManagerHostname">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.CentralProcessingError#Publication.securityIdentity">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.CentralProcessingError#Publication.useSSL">
+    </ConfigurableProperty>
+  </CompiledMessageFlow>
+  <CompiledMessageFlow name="SigBaseLib.HttpAcknowledgement" type="subflow" deployBarfile="SigBaseLibproject.generated.bar" deployTimestamp="2022-11-23 12:06:14">
+    <ConfigurableProperty uri="SigBaseLib.HttpAcknowledgement#BuildHttpReply.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.HttpAcknowledgement#BuildHttpReply.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.HttpAcknowledgement#BuildHttpReply.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.HttpAcknowledgement#HTTP Reply.validateMaster" override="none">
+    </ConfigurableProperty>
+  </CompiledMessageFlow>
+  <CompiledMessageFlow name="SigBaseLib.ValidateAsXml" type="subflow" deployBarfile="SigBaseLibproject.generated.bar" deployTimestamp="2022-11-23 12:06:14">
+    <ConfigurableProperty uri="SigBaseLib.ValidateAsXml#ResetToXMLNSC.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.ValidateAsXml#ValidateAsXml.validateMaster" override="content">
+    </ConfigurableProperty>
+  </CompiledMessageFlow>
+  <CompiledMessageFlow name="SigBaseLib.SigHttpPost" type="subflow" deployBarfile="SigBaseLibproject.generated.bar" deployTimestamp="2022-11-23 12:06:14">
+    <ConfigurableProperty uri="SigBaseLib.SigHttpPost#HTTP Request.URLSpecifier" override="http://dummy/dummy">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigHttpPost#HTTP Request.acceptCompressedResponses">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigHttpPost#HTTP Request.allowedCiphers">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigHttpPost#HTTP Request.enableCRLCheck">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigHttpPost#HTTP Request.enableKeepAlive">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigHttpPost#HTTP Request.hostnameChecking">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigHttpPost#HTTP Request.httpProxyLocation">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigHttpPost#HTTP Request.httpVersion">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigHttpPost#HTTP Request.keyAlias">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigHttpPost#HTTP Request.protocol">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigHttpPost#HTTP Request.requestCompressionType">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigHttpPost#HTTP Request.securityProfileName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigHttpPost#HTTP Request.timeoutForServer" override="30">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigHttpPost#HTTP Request.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigHttpPost#HttpError.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigHttpPost#HttpError.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigHttpPost#HttpError.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigHttpPost#Initialize.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigHttpPost#Initialize.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigHttpPost#Initialize.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigHttpPost#LogResponse.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigHttpPost#LogResponse.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigHttpPost#LogResponse.validateMaster">
+    </ConfigurableProperty>
+  </CompiledMessageFlow>
+  <CompiledMessageFlow name="SigBaseLib.SigCheckBackout" type="subflow" deployBarfile="SigBaseLibproject.generated.bar" deployTimestamp="2022-11-23 12:06:14">
+    <ConfigurableProperty uri="SigBaseLib.SigCheckBackout#CheckBackout.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigCheckBackout#CheckBackout.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.SigCheckBackout#CheckBackout.validateMaster">
+    </ConfigurableProperty>
+  </CompiledMessageFlow>
+  <CompiledMessageFlow name="SigBaseLib.ValidateAsJson" type="subflow" deployBarfile="SigBaseLibproject.generated.bar" deployTimestamp="2022-11-23 12:06:14">
+    <ConfigurableProperty uri="SigBaseLib.ValidateAsJson#ValidateAsJson.validateMaster">
+    </ConfigurableProperty>
+  </CompiledMessageFlow>
+  <CompiledMessageFlow name="SigBaseLib.StoreProcessingError" type="subflow" deployBarfile="SigBaseLibproject.generated.bar" deployTimestamp="2022-11-23 12:06:14">
+    <ConfigurableProperty uri="SigBaseLib.StoreProcessingError#LogError.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.StoreProcessingError#LogError.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.StoreProcessingError#LogError.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.StoreProcessingError#Publication.SSLCipherSpec" override="ANY_TLS12_OR_HIGHER">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.StoreProcessingError#Publication.SSLPeerName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.StoreProcessingError#Publication.channelName" override="DEMOHA.SVRCONN">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.StoreProcessingError#Publication.connection" override="CLIENT">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.StoreProcessingError#Publication.destinationQueueManagerName" override="DEMOHA">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.StoreProcessingError#Publication.listenerPortNumber" override="443">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.StoreProcessingError#Publication.policyUrl">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.StoreProcessingError#Publication.queueManagerHostname" override="demoha-ibm-mq-qm-mq.apps.ocpd.gianteagle.com">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.StoreProcessingError#Publication.securityIdentity" override="demohasid">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="SigBaseLib.StoreProcessingError#Publication.useSSL" override="yes">
+    </ConfigurableProperty>
+  </CompiledMessageFlow>
+  <CompiledMessageFlow name="SigBaseLib.SigMqRollBack" type="subflow" deployBarfile="SigBaseLibproject.generated.bar" deployTimestamp="2022-11-23 12:06:14">
+  </CompiledMessageFlow>
+</Broker>

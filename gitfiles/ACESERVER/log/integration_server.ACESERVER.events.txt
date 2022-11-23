@@ -1,0 +1,95 @@
+2022-11-23 11:15:34.727220Z: [Thread 10704] (Msg 1/1) BIP1990I: Integration server 'ACESERVER' starting initialization; version '12.0.5.0' (64-bit) 
+2022-11-23 11:15:34.754832Z: [Thread 10704] (Msg 1/1) BIP9905I: Initializing resource managers. 
+2022-11-23 11:15:41.583728Z: [Thread 10704] (Msg 1/1) BIP9906I: Reading deployed resources. 
+2022-11-23 11:15:41.622608Z: [Thread 10704] (Msg 1/1) BIP9907I: Initializing deployed resources. 
+2022-11-23 11:15:41.625260Z: [Thread 10704] (Msg 1/1) BIP2155I: About to 'Initialize' the deployed resource 'SigBaseLib' of type 'SharedLibrary'. 
+2022-11-23 11:15:41.668340Z: [Thread 10704] (Msg 1/1) BIP2155I: About to 'Initialize' the deployed resource 'test' of type 'Application'. 
+2022-11-23 11:15:42.169144Z: [Thread 10704] (Msg 1/1) BIP2155I: About to 'Start' the deployed resource 'test' of type 'Application'. 
+2022-11-23 11:15:42.205524Z: [Thread 10704] (Msg 1/1) BIP3132I: The HTTP Listener has started listening on port '7801' for 'http' connections. 
+2022-11-23 11:15:42.205912Z: [Thread 10704] (Msg 1/1) BIP1996I: Listening on HTTP URL '/testdemoha'. 
+2022-11-23 11:15:42.206236Z: [Thread 10704] (Msg 1/1) BIP2269I: Deployed resource 'connectDEMOHA' (uuid='connectDEMOHA',type='MessageFlow') started successfully. 
+2022-11-23 11:15:42.206844Z: [Thread 10704] (Msg 1/1) BIP1996I: Listening on HTTP URL '/test01'. 
+2022-11-23 11:15:42.207112Z: [Thread 10704] (Msg 1/1) BIP2269I: Deployed resource 'test' (uuid='test',type='MessageFlow') started successfully. 
+2022-11-23 11:15:43.151064Z: [Thread 5444] (Msg 1/1) BIP2866I: IBM App Connect Enterprise administration security is inactive. 
+2022-11-23 11:15:43.165472Z: [Thread 5444] (Msg 1/1) BIP3132I: The HTTP Listener has started listening on port '7600' for 'RestAdmin http' connections. 
+2022-11-23 11:15:43.166080Z: [Thread 10704] (Msg 1/1) BIP1991I: Integration server has finished initialization. 
+2022-11-23 11:16:03.251233Z: [Thread 10492] (Msg 1/1) BIP2152I: Configuration message received. 
+2022-11-23 11:16:03.462443Z: [Thread 10492] (Msg 1/1) BIP1361E: Message flow node 'ACE_TLOG_BINARY_IN', 'AceTlogProcessor#FCMComposite_1_1' in Message flow 'AceTlogProcessor', 'AceTlogProcessor' requires Policy 'Default' of type 'MQEndpoint' which is not deployed. 
+2022-11-23 11:16:03.462591Z: [Thread 10492] (Msg 1/1) BIP1361E: Message flow node 'Publication', 'AceTlogProcessor#FCMComposite_1_6' in Message flow 'AceTlogProcessor', 'AceTlogProcessor' requires Policy 'Default' of type 'MQEndpoint' which is not deployed. 
+2022-11-23 11:16:03.462660Z: [Thread 10492] (Msg 1/1) BIP1361E: Message flow node 'Publication', 'SigBaseLib.StoreProcessingError#FCMComposite_1_2' in Message flow 'SigBaseLib.StoreProcessingError.instance', 'SigBaseLib.StoreProcessingError.subflow' requires Policy 'Default' of type 'MQEndpoint' which is not deployed. 
+2022-11-23 11:16:03.462726Z: [Thread 10492] (Msg 1/1) BIP1361E: Message flow node 'Publication', 'AceTlogReceiver#FCMComposite_1_5' in Message flow 'AceTlogReceiver', 'AceTlogReceiver' requires Policy 'Default' of type 'MQEndpoint' which is not deployed. 
+2022-11-23 11:16:03.463962Z: [Thread 10492] (Msg 1/1) BIP2155I: About to 'Initialize' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 11:16:03.464126Z: [Thread 10492] (Msg 1/1) BIP9324W: The request to 'Initialize' the deployed resource 'AceTlogProcessorApp' of type 'Application' has failed. 
+2022-11-23 11:16:03.464199Z: [Thread 10492] (Msg 1/1) BIP1096E: The source 'AceTlogProcessorApp-1.0.0.0024.bar' has been deployed but there were one or more failures which may mean the deployed resources will be unable to execute. 
+2022-11-23 11:16:03.464855Z: [Thread 10492] (Msg 1/1) BIP2154I: Integration server finished with Configuration message. 
+2022-11-23 11:19:25.471814Z: [Thread 14764] (Msg 1/1) BIP2152I: Configuration message received. 
+2022-11-23 11:19:25.606770Z: [Thread 14764] (Msg 1/1) BIP1361E: Message flow node 'ACE_TLOG_BINARY_IN', 'AceTlogProcessor#FCMComposite_1_1' in Message flow 'AceTlogProcessor', 'AceTlogProcessor' requires Policy 'Default' of type 'MQEndpoint' which is not deployed. 
+2022-11-23 11:19:25.606976Z: [Thread 14764] (Msg 1/1) BIP1361E: Message flow node 'Publication', 'SigBaseLib.StoreProcessingError#FCMComposite_1_2' in Message flow 'SigBaseLib.StoreProcessingError.instance', 'SigBaseLib.StoreProcessingError.subflow' requires Policy 'Default' of type 'MQEndpoint' which is not deployed. 
+2022-11-23 11:19:25.608012Z: [Thread 14764] (Msg 1/1) BIP2155I: About to 'Initialize' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 11:19:25.608176Z: [Thread 14764] (Msg 1/1) BIP9324W: The request to 'Initialize' the deployed resource 'AceTlogProcessorApp' of type 'Application' has failed. 
+2022-11-23 11:19:25.608244Z: [Thread 14764] (Msg 1/1) BIP1096E: The source 'AceTlogProcessorApp-1.0.0.0024.bar' has been deployed but there were one or more failures which may mean the deployed resources will be unable to execute. 
+2022-11-23 11:19:25.608870Z: [Thread 14764] (Msg 1/1) BIP2154I: Integration server finished with Configuration message. 
+2022-11-23 11:21:14.302550Z: [Thread 9288] (Msg 1/1) BIP2152I: Configuration message received. 
+2022-11-23 11:21:14.432454Z: [Thread 9288] (Msg 1/1) BIP1361E: Message flow node 'ACE_TLOG_BINARY_IN', 'AceTlogProcessor#FCMComposite_1_1' in Message flow 'AceTlogProcessor', 'AceTlogProcessor' requires Policy 'Default' of type 'MQEndpoint' which is not deployed. 
+2022-11-23 11:21:14.432597Z: [Thread 9288] (Msg 1/1) BIP1361E: Message flow node 'Publication', 'SigBaseLib.StoreProcessingError#FCMComposite_1_2' in Message flow 'SigBaseLib.StoreProcessingError.instance', 'SigBaseLib.StoreProcessingError.subflow' requires Policy 'Default' of type 'MQEndpoint' which is not deployed. 
+2022-11-23 11:21:14.433552Z: [Thread 9288] (Msg 1/1) BIP2155I: About to 'Initialize' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 11:21:14.433703Z: [Thread 9288] (Msg 1/1) BIP9324W: The request to 'Initialize' the deployed resource 'AceTlogProcessorApp' of type 'Application' has failed. 
+2022-11-23 11:21:14.433772Z: [Thread 9288] (Msg 1/1) BIP1096E: The source 'AceTlogProcessorApp-1.0.0.0024.bar' has been deployed but there were one or more failures which may mean the deployed resources will be unable to execute. 
+2022-11-23 11:21:14.434373Z: [Thread 9288] (Msg 1/1) BIP2154I: Integration server finished with Configuration message. 
+2022-11-23 11:22:11.343820Z: [Thread 16180] (Msg 1/1) BIP2152I: Configuration message received. 
+2022-11-23 11:22:11.462685Z: [Thread 16180] (Msg 1/1) BIP2155I: About to 'Initialize' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 11:22:11.557916Z: [Thread 16180] (Msg 1/1) BIP2155I: About to 'Start' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 11:22:11.558634Z: [Thread 16180] (Msg 1/1) BIP1996I: Listening on HTTP URL '/TLOG/IIB/ACE_BINARY'. 
+2022-11-23 11:22:11.559024Z: [Thread 16180] (Msg 1/1) BIP2269I: Deployed resource 'AceTlogReceiver' (uuid='AceTlogReceiver',type='MessageFlow') started successfully. 
+2022-11-23 11:22:11.559123Z: [Thread 16180] (Msg 1/1) BIP9332I: Application 'AceTlogProcessorApp' has been changed successfully. 
+2022-11-23 11:22:11.559187Z: [Thread 16180] (Msg 1/1) BIP9326I: The source 'AceTlogProcessorApp-1.0.0.0024.bar' has been successfully deployed. 
+2022-11-23 11:22:11.559876Z: [Thread 16180] (Msg 1/1) BIP2154I: Integration server finished with Configuration message. 
+2022-11-23 12:03:48.792320Z: [Thread 9288] (Msg 1/1) BIP2152I: Configuration message received. 
+2022-11-23 12:03:48.867468Z: [Thread 9288] (Msg 1/1) BIP2155I: About to 'Stop' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 12:03:53.477072Z: [Thread 9288] (Msg 1/1) BIP2271I: Deployed resource 'AceTlogReceiver' (uuid='AceTlogReceiver',type='MessageFlow') successfully stopped. 
+2022-11-23 12:03:53.477260Z: [Thread 9288] (Msg 1/1) BIP2155I: About to 'TearDown' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 12:03:53.614500Z: [Thread 9288] (Msg 1/1) BIP1361E: Message flow node 'Publication', 'SigBaseLib.StoreProcessingError#FCMComposite_1_2' in Message flow 'SigBaseLib.StoreProcessingError.instance', 'SigBaseLib.StoreProcessingError.subflow' requires Policy 'Default' of type 'MQEndpoint' which is not deployed. 
+2022-11-23 12:03:53.615720Z: [Thread 9288] (Msg 1/1) BIP2155I: About to 'Initialize' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 12:03:53.615892Z: [Thread 9288] (Msg 1/1) BIP9324W: The request to 'Initialize' the deployed resource 'AceTlogProcessorApp' of type 'Application' has failed. 
+2022-11-23 12:03:53.615960Z: [Thread 9288] (Msg 1/1) BIP1096E: The source 'AceTlogProcessorApp-1.0.0.0024.bar' has been deployed but there were one or more failures which may mean the deployed resources will be unable to execute. 
+2022-11-23 12:03:53.616600Z: [Thread 9288] (Msg 1/1) BIP2154I: Integration server finished with Configuration message. 
+2022-11-23 12:06:14.639758Z: [Thread 16180] (Msg 1/1) BIP2152I: Configuration message received. 
+2022-11-23 12:06:14.744651Z: [Thread 16180] (Msg 1/1) BIP2155I: About to 'TearDown' the deployed resource 'SigBaseLib' of type 'SharedLibrary'. 
+2022-11-23 12:06:14.886761Z: [Thread 16180] (Msg 1/1) BIP2155I: About to 'Initialize' the deployed resource 'SigBaseLib' of type 'SharedLibrary'. 
+2022-11-23 12:06:14.930103Z: [Thread 16180] (Msg 1/1) BIP2155I: About to 'Initialize' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 12:06:16.449812Z: [Thread 16180] (Msg 1/1) BIP9342I: Created compiled 'XMLNSC' schema file 'SigBaseLib/$mqsiLibrary.bir'. 
+2022-11-23 12:06:24.209370Z: [Thread 16180] (Msg 1/1) BIP9341I: Created compiled 'DFDL' schema file 'SigBaseLib/$mqsiLibrary.dpif'. 
+2022-11-23 12:06:24.397510Z: [Thread 16180] (Msg 1/1) BIP9332I: SharedLibrary 'SigBaseLib' has been changed successfully. 
+2022-11-23 12:06:24.397670Z: [Thread 16180] (Msg 1/1) BIP2155I: About to 'Start' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 12:06:24.398872Z: [Thread 16180] (Msg 1/1) BIP2269I: Deployed resource 'AceTlogProcessor' (uuid='AceTlogProcessor',type='MessageFlow') started successfully. 
+2022-11-23 12:06:24.399306Z: [Thread 16180] (Msg 1/1) BIP1996I: Listening on HTTP URL '/tlogprocessorservice/status'. 
+2022-11-23 12:06:24.399984Z: [Thread 16180] (Msg 1/1) BIP1996I: Listening on HTTP URL '/tlogprocessorservice/releasenotes'. 
+2022-11-23 12:06:24.400628Z: [Thread 16180] (Msg 1/1) BIP1996I: Listening on HTTP URL '/tlogprocessorservice/version'. 
+2022-11-23 12:06:24.401220Z: [Thread 16180] (Msg 1/1) BIP1996I: Listening on HTTP URL '/tlogprocessorservice/properties'. 
+2022-11-23 12:06:24.401938Z: [Thread 16180] (Msg 1/1) BIP1996I: Listening on HTTP URL '/tlogprocessorservice/flows'. 
+2022-11-23 12:06:24.402190Z: [Thread 16180] (Msg 1/1) BIP2269I: Deployed resource 'AceTlogProcessorService' (uuid='AceTlogProcessorService',type='MessageFlow') started successfully. 
+2022-11-23 12:06:24.402694Z: [Thread 16180] (Msg 1/1) BIP1996I: Listening on HTTP URL '/TLOG/IIB/ACE_BINARY'. 
+2022-11-23 12:06:24.403056Z: [Thread 16180] (Msg 1/1) BIP2269I: Deployed resource 'AceTlogReceiver' (uuid='AceTlogReceiver',type='MessageFlow') started successfully. 
+2022-11-23 12:06:24.403150Z: [Thread 16180] (Msg 1/1) BIP9332I: Application 'AceTlogProcessorApp' has been reloaded successfully. 
+2022-11-23 12:06:24.403218Z: [Thread 16180] (Msg 1/1) BIP9326I: The source 'SigBaseLibproject.generated.bar' has been successfully deployed. 
+2022-11-23 12:06:24.403922Z: [Thread 16180] (Msg 1/1) BIP2154I: Integration server finished with Configuration message. 
+2022-11-23 12:06:35.578200Z: [Thread 9288] (Msg 1/1) BIP2152I: Configuration message received. 
+2022-11-23 12:06:35.651072Z: [Thread 9288] (Msg 1/1) BIP2155I: About to 'Stop' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 12:06:37.473064Z: [Thread 9288] (Msg 1/1) BIP2271I: Deployed resource 'AceTlogProcessor' (uuid='AceTlogProcessor',type='MessageFlow') successfully stopped. 
+2022-11-23 12:06:40.477572Z: [Thread 9288] (Msg 1/1) BIP2271I: Deployed resource 'AceTlogProcessorService' (uuid='AceTlogProcessorService',type='MessageFlow') successfully stopped. 
+2022-11-23 12:06:40.478124Z: [Thread 9288] (Msg 1/1) BIP2271I: Deployed resource 'AceTlogReceiver' (uuid='AceTlogReceiver',type='MessageFlow') successfully stopped. 
+2022-11-23 12:06:40.478256Z: [Thread 9288] (Msg 1/1) BIP2155I: About to 'TearDown' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 12:06:40.789276Z: [Thread 9288] (Msg 1/1) BIP2155I: About to 'Initialize' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 12:06:40.924812Z: [Thread 9288] (Msg 1/1) BIP2155I: About to 'Start' the deployed resource 'AceTlogProcessorApp' of type 'Application'. 
+2022-11-23 12:06:40.925564Z: [Thread 9288] (Msg 1/1) BIP2269I: Deployed resource 'AceTlogProcessor' (uuid='AceTlogProcessor',type='MessageFlow') started successfully. 
+2022-11-23 12:06:40.926008Z: [Thread 9288] (Msg 1/1) BIP1996I: Listening on HTTP URL '/tlogprocessorservice/status'. 
+2022-11-23 12:06:40.926508Z: [Thread 9288] (Msg 1/1) BIP1996I: Listening on HTTP URL '/tlogprocessorservice/releasenotes'. 
+2022-11-23 12:06:40.926980Z: [Thread 9288] (Msg 1/1) BIP1996I: Listening on HTTP URL '/tlogprocessorservice/version'. 
+2022-11-23 12:06:40.927440Z: [Thread 9288] (Msg 1/1) BIP1996I: Listening on HTTP URL '/tlogprocessorservice/properties'. 
+2022-11-23 12:06:40.927880Z: [Thread 9288] (Msg 1/1) BIP1996I: Listening on HTTP URL '/tlogprocessorservice/flows'. 
+2022-11-23 12:06:40.928148Z: [Thread 9288] (Msg 1/1) BIP2269I: Deployed resource 'AceTlogProcessorService' (uuid='AceTlogProcessorService',type='MessageFlow') started successfully. 
+2022-11-23 12:06:40.928508Z: [Thread 9288] (Msg 1/1) BIP1996I: Listening on HTTP URL '/TLOG/IIB/ACE_BINARY'. 
+2022-11-23 12:06:40.928868Z: [Thread 9288] (Msg 1/1) BIP2269I: Deployed resource 'AceTlogReceiver' (uuid='AceTlogReceiver',type='MessageFlow') started successfully. 
+2022-11-23 12:06:40.928960Z: [Thread 9288] (Msg 1/1) BIP9332I: Application 'AceTlogProcessorApp' has been changed successfully. 
+2022-11-23 12:06:40.929020Z: [Thread 9288] (Msg 1/1) BIP9326I: The source 'AceTlogProcessorApp-1.0.0.0024.bar' has been successfully deployed. 
+2022-11-23 12:06:40.929712Z: [Thread 9288] (Msg 1/1) BIP2154I: Integration server finished with Configuration message. 

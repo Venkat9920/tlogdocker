@@ -1,0 +1,110 @@
+BROKER SCHEMA SigBaseLib
+
+CREATE COMPUTE MODULE SigRollback_Rollback
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE sCorrelationId CHARACTER getEnvCorrelationId(InputLocalEnvironment);
+		DECLARE sSource CHARACTER getEnvSource(InputLocalEnvironment);
+		DECLARE ExceptionTree REFERENCE TO InputExceptionList;
+		DECLARE sLastExceptionText CHARACTER NULL;
+		DECLARE sLastExceptionTree CHARACTER NULL;
+		DECLARE nExceptionNumber INTEGER 0;
+		DECLARE nBackoutCount INTEGER 0;
+		DECLARE nMaxBackoutCount INTEGER getEnvMaxBackoutCount(InputLocalEnvironment);
+		DECLARE bMaxBackoutCountEnabled BOOLEAN getEnvMaxBackoutCountEnabled(InputLocalEnvironment);
+		DECLARE sError CHARACTER NULL;
+		DECLARE nRollbackDelay INTEGER getEnvRollbackDelayOverride(InputLocalEnvironment);
+		DECLARE bStopMessageFlow BOOLEAN FALSE;
+
+		IF nRollbackDelay <= 0
+		THEN
+			-- If the rollback delay override is not set, use the default.
+			
+			SET nRollbackDelay = getEnvRollbackDelay(InputLocalEnvironment);
+		END IF;
+		
+		-- Get the last exception that occurred. If we can't figure out
+		-- anything else, this will form the reason for the exception message	
+		-- we use.
+		
+        CALL getLastExceptionDetails(ExceptionTree, nExceptionNumber, sLastExceptionText);
+
+		CALL getExceptionTreeAsCharacter(ExceptionTree, sLastExceptionTree);
+		
+		/**
+		 * If the backout count has been exceeded,
+		 * then stop the flow.
+		 */
+
+		IF bMaxBackoutCountEnabled = TRUE
+		THEN
+			SET nBackoutCount = InputRoot.MQMD.BackoutCount;
+		
+			IF nMaxBackoutCount > 0
+			THEN
+				IF nBackoutCount > nMaxBackoutCount
+				THEN
+					SET bStopMessageFlow = TRUE;
+					
+					/**
+					 * We've exceeded the backout count, so rebuild the
+					 * exception message we use to indicate this.
+					 */
+					 
+					SET sLastExceptionText = 
+							getBackoutCountExceededMessage(MessageFlowLabel,
+												     	   sCorrelationId,
+														   sSource,
+														   nBackoutCount,
+														   nMaxBackoutCount);
+
+					/**
+					 * Stop the message flow. Tivoli monitoring is expected
+					 * to pick up on the flow being down as well as the
+					 * error in the syslog.
+					 */
+					 
+					CALL stopMessageFlow(BrokerName, ExecutionGroupLabel, MessageFlowLabel);
+				END IF;
+			END IF;
+		END IF;
+
+		-- Log the error before going int the delay, so the error log 
+		-- shows the error right away.	
+
+		IF bStopMessageFlow = FALSE
+		THEN
+			SET sError = getMessageFlowRollbackMessage(MessageFlowLabel, sLastExceptionText);
+		ELSE
+			SET sError = getMessageFlowStopMessage(MessageFlowLabel, sLastExceptionText);
+		END IF;
+
+		CALL logFatal(MessageFlowLabel, sCorrelationId, 
+					  (sError || lineSeparator() || sLastExceptionTree));
+		
+		
+		IF bStopMessageFlow = FALSE
+		THEN
+			IF nRollbackDelay > 0
+			THEN
+				-- Delay for the specified number of milliseconds before
+				-- throwing the exception that will cause the rollback.
+				
+				CALL logInfo(MessageFlowLabel, NodeLabel, 
+						'ID=' || formatString(sCorrelationId) || 
+						' Delaying ' || CAST(nRollbackDelay AS CHARACTER) || 
+						' ms. before throwing exception.');
+				
+				CALL delay(nRollbackDelay);
+			END IF;
+		END IF;
+		
+		-- Throw the fatal error that will get sent to syslog.
+		--
+		-- Note: 2951 allows for up to 10 message strings to be supplied.
+				
+		THROW USER EXCEPTION MESSAGE 2951 VALUES(sError) ;
+
+		RETURN FALSE;
+	END;
+END MODULE;

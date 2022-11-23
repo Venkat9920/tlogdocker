@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deploy:Deploy xmlns:deploy="http://www.ibm.com/xmlns/prod/wmb/deploy/6.0.0" overrideConfigurableProperties="true" includeESQL="false">
+  <deployables>
+    <deployable deployed="true" barResourceTimeStamp="1668776459495" workspaceResource="/test/application.descriptor">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file test\application.descriptor.&#xA;Successfully added file test\application.descriptor to BAR file.&#xA;Elapsed time: 0 second(s).&#xA;&#xA;Successfully added file test\application.descriptor to BAR file.&#xA;" severity="0"/>
+      <barEntry name="application.descriptor"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669198875665" workspaceResource="/test/connectDEMOHA.msgflow">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file test\connectDEMOHA.msgflow.&#xA;Successfully added file test\connectDEMOHA.msgflow to BAR file.&#xA;" severity="0"/>
+      <barEntry name="connectDEMOHA.msgflow"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669197906358" workspaceResource="/test/connectDEMOHA_Compute.esql">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file test\connectDEMOHA_Compute.esql.&#xA;Successfully added file test\connectDEMOHA_Compute.esql to BAR file.&#xA;" severity="0"/>
+      <barEntry name="connectDEMOHA_Compute.esql"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669197045525" workspaceResource="/test/connectDEMOHA_Compute2.esql">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file test\connectDEMOHA_Compute2.esql.&#xA;Successfully added file test\connectDEMOHA_Compute2.esql to BAR file.&#xA;" severity="0"/>
+      <barEntry name="connectDEMOHA_Compute2.esql"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1669102439496" workspaceResource="/test/test.msgflow">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file test\test.msgflow.&#xA;Successfully added file test\test.msgflow to BAR file.&#xA;" severity="0"/>
+      <barEntry name="test.msgflow"/>
+    </deployable>
+    <deployable deployed="true" barResourceTimeStamp="1668776261037" workspaceResource="/test/test_Compute.esql">
+      <deployableStatus code="0" key="DEPLOYABLE_LAST_COMPILE_STATUS" message="&#xA;Processing file test\test_Compute.esql.&#xA;Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.&#xA;&#xA;Successfully added file test\test_Compute.esql to BAR file.&#xA;" severity="0"/>
+      <barEntry name="test_Compute.esql"/>
+    </deployable>
+  </deployables>
+</deploy:Deploy>

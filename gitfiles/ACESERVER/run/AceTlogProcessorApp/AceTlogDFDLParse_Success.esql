@@ -1,0 +1,104 @@
+CREATE COMPUTE MODULE AceTlogDFDLParse_Success
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE sCorrelationId CHARACTER SigBaseLib.getEnvCorrelationId(InputLocalEnvironment);
+		DECLARE sTransaction CHARACTER NULL;
+		DECLARE sDeviceId CHARACTER NULL;
+		DECLARE sDateTime CHARACTER NULL;
+		DECLARE sTransactionNumber CHARACTER NULL;
+		DECLARE sApplicationRequestId CHARACTER SigBaseLib.getEnvApplicationRequestId(InputLocalEnvironment);
+		DECLARE sEvent CHARACTER SigBaseLib.getEnvEvent(InputLocalEnvironment);
+		DECLARE sTopic CHARACTER SigBaseLib.getEnvTopic(InputLocalEnvironment);
+		
+		CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		
+		SET OutputLocalEnvironment = InputLocalEnvironment;
+		
+		/**
+		 * The Event attribute of Message info is set based on the
+		 * name of the first child element of Transaction element
+	 	 * in the XML TLOG. This element indicates the type of TLOG
+		 * contained in the message, which ultimately dictates
+		 * what/how it is processed. The base of Event is set to
+		 * "store/tlog", so all we need to do is retrieve that
+		 * and then add "/<element-name>" so we end up with an
+		 * attribute that looks like the following:
+		 *
+		 * store/tlog/TransactionRecord00
+		 * store/tlog/TransactionRecord20_11
+		 * ... (etc.)
+		 */
+
+		-- Get the name of the first element after "Transaction".
+
+		SET sTransaction = FIELDNAME(OutputRoot.XMLNSC.Transaction.*[1]);
+		
+		SET sDeviceId = OutputRoot.XMLNSC.Transaction.*[1].TerminalNumber;
+		SET sDateTime = OutputRoot.XMLNSC.Transaction.*[1].DateTime;
+		SET sTransactionNumber = OutputRoot.XMLNSC.Transaction.*[1].TransactionNumber;
+		
+		CALL SigBaseLib.setEnvDeviceId(OutputLocalEnvironment, sDeviceId);
+		CALL SigBaseLib.setEnvTransactionTimeStamp(OutputLocalEnvironment, sDateTime);
+
+		IF sDateTime IS NOT NULL
+		THEN
+
+			SET sApplicationRequestId = SigBaseLib.formatString(sDateTime);
+			
+			IF sTransactionNumber IS NOT NULL
+			THEN
+				SET sApplicationRequestId = sApplicationRequestId || '-' || 
+											SigBaseLib.formatString(sTransactionNumber);
+			END IF;
+			IF sDeviceId IS NOT NULL
+			THEN
+				SET sApplicationRequestId = sApplicationRequestId || '-' || 
+											SigBaseLib.formatString(sDeviceId);
+			END IF;
+			
+			CALL SigBaseLib.setEnvApplicationRequestId(OutputLocalEnvironment, sApplicationRequestId);
+		END IF;
+		
+		-- Set the Event attribute.
+
+		if sTransaction IS NOT NULL
+		THEN
+			-- SET sEvent = SigBaseLib.formatString(sEvent) || '/' || sTransaction;
+
+			-- CALL SigBaseLib.setEnvEvent(OutputLocalEnvironment, sEvent);
+			
+			-- Set the topic string for publication and the timing log.					
+			
+			SET sTopic = constructAceTlogTopicString(sTransaction, TRUE, SigBaseLib.getEnvStore(OutputLocalEnvironment));
+
+			CALL SigBaseLib.setEnvTopic(OutputLocalEnvironment, sTopic);
+		END IF;
+		
+		IF isAceTlogProcessorServiceDebugMode() = TRUE
+		THEN
+			CALL SigBaseLib.logInfo(MessageFlowLabel, NodeLabel, 'TLOG Parsed Successfully, ID=' || sCorrelationId || '.');
+		END IF;	
+			
+		SET TLOG_PARSE_FAILED = FALSE;
+		
+		PROPAGATE TO TERMINAL 'out';
+		
+		RETURN FALSE;
+	END;
+
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;

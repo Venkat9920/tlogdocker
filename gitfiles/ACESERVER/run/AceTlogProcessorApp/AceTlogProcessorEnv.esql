@@ -1,0 +1,27 @@
+/**
+ * Sets the common environment variables into the environment from the
+ * configuration.
+ */
+ 
+CREATE PROCEDURE initEnvFromAceTlogProcessorServiceConfig(IN envRef REFERENCE)
+BEGIN
+	
+	CALL SigBaseLib.setEnvServiceName(envRef, getAceTlogProcessorServiceName());
+	CALL SigBaseLib.setEnvServiceVersion(envRef, getAceTlogProcessorServiceVersion());
+	CALL SigBaseLib.setEnvRollbackDelay(envRef, getRollbackDelay());
+	CALL SigBaseLib.setEnvMaxBackoutCountEnabled(envRef, isMaxBackoutCountEnabled());
+	CALL SigBaseLib.setEnvMaxBackoutCount(envRef, getMaxBackoutCount());
+	CALL SigBaseLib.setEnvPublishErrors(envRef, publishErrors());
+	CALL SigBaseLib.setEnvErrorTopicString(envRef, getErrorTopicString());
+	
+	RETURN;
+END;
+
+/**
+ * Returns the version of AceTlogProcessorService.
+ */
+ 
+CREATE PROCEDURE getAceTlogProcessorServiceVersion() RETURNS CHARACTER
+BEGIN
+	RETURN SigBaseLib.getComponentVersion(BrokerName, ExecutionGroupLabel, getAceTlogProcessorServiceName());
+END;

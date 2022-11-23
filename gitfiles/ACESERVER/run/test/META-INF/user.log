@@ -1,0 +1,57 @@
+
+==============================================
+
+!Wed Nov 23 10:24:14 UTC 2022
+
+Processing file test\test.msgflow.
+Successfully added file test\test.msgflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 10:24:14 UTC 2022
+
+Processing file test\connectDEMOHA.msgflow.
+Successfully added file test\connectDEMOHA.msgflow to BAR file.
+
+==============================================
+
+!Wed Nov 23 10:24:14 UTC 2022
+
+Processing file test\application.descriptor.
+Successfully added file test\application.descriptor to BAR file.
+Elapsed time: 0 second(s).
+
+Successfully added file test\application.descriptor to BAR file.
+
+==============================================
+
+!Wed Nov 23 10:24:14 UTC 2022
+
+Processing file test\application.descriptor.
+Successfully added file test\application.descriptor to BAR file.
+Elapsed time: 0 second(s).
+
+Successfully added file test\application.descriptor to BAR file.
+
+==============================================
+
+!Wed Nov 23 10:24:14 UTC 2022
+
+Processing file test\connectDEMOHA_Compute.esql.
+Successfully added file test\connectDEMOHA_Compute.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 10:24:14 UTC 2022
+
+Processing file test\connectDEMOHA_Compute2.esql.
+Successfully added file test\connectDEMOHA_Compute2.esql to BAR file.
+
+==============================================
+
+!Wed Nov 23 10:24:14 UTC 2022
+
+Processing file test\test_Compute.esql.
+Dependent ESQL file SigBaseLib/SigBaseFunctionDef.esql is added to the BAR file.
+
+Successfully added file test\test_Compute.esql to BAR file.

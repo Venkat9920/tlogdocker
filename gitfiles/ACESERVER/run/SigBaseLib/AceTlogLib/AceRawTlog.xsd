@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/" 
+  xmlns:ibmDfdlExtn="http://www.ibm.com/dfdl/extensions"
+  xmlns:ibmSchExtn="http://www.ibm.com/schema/extensions"
+  xmlns:recSepFieldsFmt="http://www.ibm.com/dfdl/RecordSeparatedFieldFormat"
+  version="4.0.0.0002">
+
+  <xsd:import namespace="http://www.ibm.com/dfdl/RecordSeparatedFieldFormat"
+    schemaLocation="IBMdefined/RecordSeparatedFieldFormat.xsd" />
+
+  <xsd:annotation>
+    <xsd:appinfo source="http://www.ogf.org/dfdl/">
+      <dfdl:format encoding="{$dfdl:encoding}"
+        escapeSchemeRef="" occursCountKind="implicit"
+        ref="recSepFieldsFmt:RecordSeparatedFieldsFormat" />
+    </xsd:appinfo>
+  </xsd:annotation>
+
+  <xsd:element ibmSchExtn:docRoot="true" name="AceRawTlog">
+    <xsd:complexType>
+      <!-- Raw Tlog Strings are separated by CRLF. To allow for the
+           trailing CRLF to be optional, the separatorSuppressionPolicy
+           is set to "trailingEmpty". Note that this attribute is optional
+           and if not specified, the trailing CRLF is optional. However,
+           if the separatorSuppressionPolicy is set to "anyEmpty" the parse
+           will fail if the ending raw string ends with a CRLF.
+      -->
+      <xsd:sequence dfdl:separator="%CR;%LF;"
+        dfdl:separatorSuppressionPolicy="trailingEmpty">
+        <xsd:element maxOccurs="unbounded" name="RawTlog">
+          <xsd:complexType>
+            <xsd:sequence dfdl:separator="%#13;">
+              <xsd:element name="RawTlogString" type="xsd:hexBinary" />
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+</xsd:schema>

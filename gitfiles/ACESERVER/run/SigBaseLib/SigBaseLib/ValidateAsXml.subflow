@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" 
+xmlns:xmi="http://www.omg.org/XMI" xmlns:ComIbmResetContentDescriptor.msgnode="ComIbmResetContentDescriptor.msgnode" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eflow="http://www.ibm.com/wbi/2005/eflow" 
+xmlns:utility="http://www.ibm.com/wbi/2005/eflow_utility" nsURI="SigBaseLib/ValidateAsXml.subflow" 
+nsPrefix="SigBaseLib_ValidateAsXml.subflow">
+<eClassifiers xmi:type="eflow:FCMComposite" name="FCMComposite_1">
+<eSuperTypes href="http://www.ibm.com/wbi/2005/eflow#//FCMBlock"/>
+<translation xmi:type="utility:TranslatableString" key="ValidateAsXml" bundleName="SigBaseLib/ValidateAsXml" pluginId="flowAPIgenerated"/>
+<colorGraphic16 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/flowAPIgenerated/icons/full/obj16/ValidateAsXml.gif"/>
+<colorGraphic32 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/flowAPIgenerated/icons/full/obj30/ValidateAsXml.gif"/>
+<version xmi:type="utility:ConstantString" string="6.0.0.0005"/>
+<composition>
+<nodes xmi:type="eflow:FCMSource" xmi:id="InTerminal.Input" location="28,166">
+<translation xmi:type="utility:TranslatableString" key="InTerminal.Input" bundleName="SigBaseLib/ValidateAsXml" pluginId="flowAPIgenerated"/>
+</nodes>
+<nodes xmi:type="ComIbmResetContentDescriptor.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_1" location="122,166" messageDomain="XMLNS" resetMessageDomain="true" validateTiming="complete" validateMaster="content">
+<translation xmi:type="utility:ConstantString" string="ValidateAsXml"/>
+</nodes>
+<nodes xmi:type="ComIbmResetContentDescriptor.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_2" location="234,170" messageDomain="XMLNSC" resetMessageDomain="true">
+<translation xmi:type="utility:ConstantString" string="ResetToXMLNSC"/>
+</nodes>
+<nodes xmi:type="eflow:FCMSink" xmi:id="OutTerminal.Output" location="362,174">
+<translation xmi:type="utility:TranslatableString" key="OutTerminal.Success" bundleName="SigBaseLib/ValidateAsXml" pluginId="flowAPIgenerated"/>
+</nodes>
+<nodes xmi:type="eflow:FCMSink" xmi:id="OutTerminal.Output1" location="365,106">
+<translation xmi:type="utility:TranslatableString" key="OutTerminal.Failure" bundleName="SigBaseLib/ValidateAsXml" pluginId="flowAPIgenerated"/>
+</nodes>
+<connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_1" targetNode="FCMComposite_1_1" sourceNode="InTerminal.Input" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+<connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_2" targetNode="FCMComposite_1_2" sourceNode="FCMComposite_1_1" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+<connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_3" targetNode="OutTerminal.Output" sourceNode="FCMComposite_1_2" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+<connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_4" targetNode="OutTerminal.Output1" sourceNode="FCMComposite_1_2" sourceTerminalName="OutTerminal.failure" targetTerminalName="InTerminal.in"/>
+<connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_5" targetNode="OutTerminal.Output1" sourceNode="FCMComposite_1_1" sourceTerminalName="OutTerminal.failure" targetTerminalName="InTerminal.in"/>
+</composition>
+<propertyOrganizer>
+</propertyOrganizer>
+<stickyBoard>
+<stickyNote location="20,20" >
+<body xmi:type="utility:ConstantString" string="Validates an incoming message (BLOB) as XML. If successful, the message is&#xA;propagated as XMLNSC. If not, the error is propagated."/>
+</stickyNote>
+<stickyNote location="19,286" association="FCMComposite_1_1 ">
+<body xmi:type="utility:ConstantString" string="Validate only as valid XML: Set the following:&#xA;- Message Domain: XMLNS (not XMLNSC otherwise will validate against a schema&#xA;  - Reset Message Domain&#xA;- Parse timing: Complete&#xA;- Validate: Content&#xA;- Failure Action: Exception"/>
+</stickyNote>
+</stickyBoard>
+</eClassifiers>
+</ecore:EPackage>

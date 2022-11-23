@@ -1,0 +1,37 @@
+
+
+CREATE COMPUTE MODULE AceTlogProcessor_LogPublishStatus
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE sCorrelationId CHARACTER SigBaseLib.getEnvCorrelationId(InputLocalEnvironment);
+		DECLARE sMessage CHARACTER NULL;
+		
+		CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		SET OutputLocalEnvironment = InputLocalEnvironment;
+
+		SET sMessage = 'Published TLOG:';
+		
+		CALL SigBaseLib.logInfo(MessageFlowLabel, NodeLabel, 
+				 sMessage ||  ' CorrelationId=' || SigBaseLib.formatString(sCorrelationId) ||
+				 ' Topic=' || SigBaseLib.formatString(SigBaseLib.getEnvTopic(InputLocalEnvironment)) || '.');
+
+		PROPAGATE TO TERMINAL 'out';
+		
+		RETURN FALSE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;

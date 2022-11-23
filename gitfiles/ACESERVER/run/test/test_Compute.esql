@@ -1,0 +1,12 @@
+
+
+CREATE COMPUTE MODULE test_Compute
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET OutputRoot.XMLNSC.a.broketname = BrokerName;
+		SET OutputRoot.XMLNSC.a.egname = ExecutionGroupLabel;
+		SET OutputRoot.XMLNSC.a.egId = ExecutionGroupName;
+	--	SET OutputRoot.XMLNSC.a.version = SigBaseLib.getComponentVersion(BrokerName, ExecutionGroupLabel, 'test');
+	--CALL SigBaseLib.logInfo(MessageFlowLabel, NodeLabel, 'Processing TLOG, ID = TEST');
+	END;
+END MODULE;

@@ -1,0 +1,198 @@
+BROKER SCHEMA SigBaseLib
+
+/**
+ * SigBaseFile.esql
+ *
+ * ESQL source holding standard File related methods.
+ */
+
+/**
+ * Clears the Destination.File tree from the environment.
+ */
+ 
+CREATE PROCEDURE clearFileDestinationFile(IN envRef REFERENCE)
+BEGIN
+	DELETE FIELD envRef.Destination.File;
+END;
+
+/**
+ * Returns the Destination Directory that will be used by a FileOutput
+ * node.  (LocalEnvironment.Destination.File.Directory)
+ */
+ 
+CREATE PROCEDURE getFileDestinationFileDirectory(IN envRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER;
+ 	
+ 	IF CARDINALITY(envRef.Destination.File.*[]) > 0
+ 	THEN
+ 		SET sRet = envRef.Destination.File.Directory;
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+ 
+/**
+ * Sets the Destination Directory that will be used by a FileOutput 
+ * node. (LocalEnvironment.Destination.File.Directory)
+ */
+
+CREATE PROCEDURE setFileDestinationFileDirectory(IN envRef REFERENCE, IN sVal CHARACTER)
+BEGIN
+	SET envRef.Destination.File.Directory = sVal;
+END;
+	
+/**
+ * Returns the Destination File Name that will be used by a FileOutput
+ * node.  (LocalEnvironment.Destination.File.Name)
+ */
+ 
+CREATE PROCEDURE getFileDestinationFileName(IN envRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER;
+ 	
+ 	IF CARDINALITY(envRef.Destination.File.*[]) > 0
+ 	THEN
+ 		SET sRet = envRef.Destination.File.Name;
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+ 
+/**
+ * Sets the Destination File Name that will be used by a FileOutput 
+ * node. (LocalEnvironment.Destination.File.Name)
+ */
+
+CREATE PROCEDURE setFileDestinationFileName(IN envRef REFERENCE, IN sVal CHARACTER)
+BEGIN
+	SET envRef.Destination.File.Name = sVal;
+END;
+ 
+/**
+ * Returns the Destination File Length that will be used by a FileOutput
+ * or FileRead node to specify the length of the record to read.
+* (LocalEnvironment.Destination.File.Length)
+ */
+ 
+CREATE PROCEDURE getFileDestinationFileLength(IN envRef REFERENCE) RETURNS INTEGER
+BEGIN
+ 	DECLARE nRet INTEGER 0;
+ 	
+ 	IF CARDINALITY(envRef.Destination.File.*[]) > 0
+ 	THEN
+ 		SET nRet = envRef.Destination.File.Length;
+ 	END IF;
+ 	
+ 	RETURN nRet;
+END;
+ 
+/**
+ * Sets the Destination File Length that will be used by a FileOutput 
+ * or FileRead node to specify the length of the record to read.
+ * (LocalEnvironment.Destination.File.Length)
+ */
+
+CREATE PROCEDURE setFileDestinationFileLength(IN envRef REFERENCE, IN nVal INTEGER)
+BEGIN
+	SET envRef.Destination.File.Length = nVal;
+END;
+ 
+/**
+ * Returns the Destination File Offset that will be used by a FileOutput
+ * or FileRead node to  read the next record.
+ * (LocalEnvironment.Destination.File.Offset)
+ */
+ 
+CREATE PROCEDURE getFileDestinationFileOffset(IN envRef REFERENCE) RETURNS INTEGER
+BEGIN
+ 	DECLARE nRet INTEGER;
+ 	
+ 	IF CARDINALITY(envRef.Destination.File.*[]) > 0
+ 	THEN
+ 		SET nRet = envRef.Destination.File.Offset;
+ 	END IF;
+ 	
+ 	RETURN nRet;
+END;
+ 
+/**
+ * Sets the Destination File Offset that will be used by a FileOutput
+ * or FileRead node to  read the next record.
+ * (LocalEnvironment.Destination.File.Offset)
+ */
+
+CREATE PROCEDURE setFileDestinationFileOffset(IN envRef REFERENCE, IN nVal INTEGER)
+BEGIN
+	SET envRef.Destination.File.Offset = nVal;
+END;
+ 
+/**
+ * Returns the Remote Server Directory that will be used by a FileOutput
+ * node.  (LocalEnvironment.Destination.File.Remote.ServerDirectory)
+ */
+ 
+CREATE PROCEDURE getFileDestinationRemoteServerDirectory(IN envRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER;
+ 	
+ 	IF CARDINALITY(envRef.Destination.File.*[]) > 0
+ 	THEN
+ 		SET sRet = envRef.Destination.File.Remote.ServerDirectory;
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+ 
+/**
+ * Sets the Remote Server Directory that will be used by a FileOutput 
+ * node. (LocalEnvironment.Destination.File.Remote.ServerDirectory)
+ */
+
+CREATE PROCEDURE setFileDestinationRemoteServerDirectory(IN envRef REFERENCE, IN sVal CHARACTER)
+BEGIN
+	SET envRef.Destination.File.Remote.ServerDirectory = sVal;
+END;
+	
+/**
+ * Returns the Remote Server that will be used by a FileOutput
+ * node. (LocalEnvironment.Destination.File.Remote.Server)
+ */
+ 
+CREATE PROCEDURE getFileDestinationRemoteServer(IN envRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER;
+ 	
+ 	IF CARDINALITY(envRef.Destination.File.*[]) > 0
+ 	THEN
+ 		SET sRet = envRef.Destination.File.Remote.Server;
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+ 
+/**
+ * Sets the Remote Server that will be used by a FileOutput 
+ * node. (LocalEnvironment.Destination.File.Remote.Server)
+ */
+
+CREATE PROCEDURE setFileDestinationRemoteServer(IN envRef REFERENCE, IN sVal CHARACTER)
+BEGIN
+	SET envRef.Destination.File.Remote.Server = sVal;
+END;
+	
+/**
+ * Returns the value of the EndOfFile element in the LocalEnvironment
+ * from a FileRead node. (LocalEnvironment.File.Read.EndOfFile).
+ */
+ 
+CREATE PROCEDURE isFileReadEndOfFile(IN envRef REFERENCE) RETURNS BOOLEAN
+BEGIN
+	DECLARE bRet BOOLEAN FALSE;
+	
+	IF envRef.File.Read.EndOfFile IS NOT NULL
+	THEN
+		SET bRet = envRef.File.Read.EndOfFile;
+	END IF;
+	RETURN bRet;
+END;

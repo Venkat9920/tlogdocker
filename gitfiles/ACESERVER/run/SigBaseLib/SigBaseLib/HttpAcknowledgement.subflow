@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" 
+xmlns:xmi="http://www.omg.org/XMI" xmlns:ComIbmWSReply.msgnode="ComIbmWSReply.msgnode" xmlns:SigBaseLib_BuildAcknowledgement.subflow="SigBaseLib/BuildAcknowledgement.subflow" xmlns:ComIbmCompute.msgnode="ComIbmCompute.msgnode" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eflow="http://www.ibm.com/wbi/2005/eflow" 
+xmlns:utility="http://www.ibm.com/wbi/2005/eflow_utility" nsURI="SigBaseLib/HttpAcknowledgement.subflow" 
+nsPrefix="SigBaseLib_HttpAcknowledgement.subflow">
+<eClassifiers xmi:type="eflow:FCMComposite" name="FCMComposite_1">
+<eSuperTypes href="http://www.ibm.com/wbi/2005/eflow#//FCMBlock"/>
+<translation xmi:type="utility:TranslatableString" key="HttpAcknowledgement" bundleName="SigBaseLib/HttpAcknowledgement" pluginId="flowAPIgenerated"/>
+<colorGraphic16 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/flowAPIgenerated/icons/full/obj16/HttpAcknowledgement.gif"/>
+<colorGraphic32 xmi:type="utility:GIFFileGraphic" resourceName="platform:/plugin/flowAPIgenerated/icons/full/obj30/HttpAcknowledgement.gif"/>
+<version xmi:type="utility:ConstantString" string="6.0.0.0005"/>
+<composition>
+<nodes xmi:type="ComIbmWSReply.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_1" location="442,239" validateMaster="none">
+<translation xmi:type="utility:ConstantString" string="HTTP Reply"/>
+</nodes>
+<nodes xmi:type="eflow:FCMSource" xmi:id="InTerminal.Input" location="70,238">
+<translation xmi:type="utility:TranslatableString" key="InTerminal.Input" bundleName="SigBaseLib/HttpAcknowledgement" pluginId="flowAPIgenerated"/>
+</nodes>
+<nodes xmi:type="SigBaseLib_BuildAcknowledgement.subflow:FCMComposite_1" xmi:id="FCMComposite_1_2" location="150,238">
+<translation xmi:type="utility:ConstantString" string="BuildAcknowledgement"/>
+</nodes>
+<nodes xmi:type="ComIbmCompute.msgnode:FCMComposite_1" xmi:id="FCMComposite_1_3" location="297,238" computeExpression="esql://routine/SigBaseLib#HttpAcknowledgement_BuildHttpReply.Main" computeMode="destinationAndMessage">
+<translation xmi:type="utility:ConstantString" string="BuildHttpReply"/>
+</nodes>
+<nodes xmi:type="eflow:FCMSink" xmi:id="OutTerminal.Output" location="561,279">
+<translation xmi:type="utility:TranslatableString" key="OutTerminal.Output" bundleName="SigBaseLib/HttpAcknowledgement" pluginId="flowAPIgenerated"/>
+</nodes>
+<nodes xmi:type="eflow:FCMSink" xmi:id="OutTerminal.Output1" location="566,214">
+<translation xmi:type="utility:TranslatableString" key="OutTerminal.Failure" bundleName="SigBaseLib/HttpAcknowledgement" pluginId="flowAPIgenerated"/>
+</nodes>
+<connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_1" targetNode="FCMComposite_1_2" sourceNode="InTerminal.Input" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.Input"/>
+<connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_2" targetNode="FCMComposite_1_3" sourceNode="FCMComposite_1_2" sourceTerminalName="OutTerminal.Output" targetTerminalName="InTerminal.in"/>
+<connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_3" targetNode="FCMComposite_1_1" sourceNode="FCMComposite_1_3" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+<connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_4" targetNode="OutTerminal.Output" sourceNode="FCMComposite_1_1" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
+<connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_5" targetNode="OutTerminal.Output1" sourceNode="FCMComposite_1_1" sourceTerminalName="OutTerminal.failure" targetTerminalName="InTerminal.in"/>
+</composition>
+<propertyOrganizer>
+</propertyOrganizer>
+<stickyBoard>
+<stickyNote location="57,46" >
+<body xmi:type="utility:ConstantString" string="Constructs a standard acknowedgement and then sends it via HTTP using&#xA;the HTTPReply node.&#xA;&#xA;Prior to using this subflow, set the Acknowledgement in the LocalEnvironment&#xA;as well as the following:&#xA;&#xA;  LocalEnvironment.Acknowledgement.HTTP.Code"/>
+</stickyNote>
+</stickyBoard>
+</eClassifiers>
+</ecore:EPackage>

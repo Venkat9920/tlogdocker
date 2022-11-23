@@ -1,0 +1,84 @@
+CREATE COMPUTE MODULE AceTlogProcessor_PublishTlogXml
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE sTransaction, sTransactionNumber CHARACTER NULL;
+		DECLARE sTopic CHARACTER NULL;
+		DECLARE blobMessage BLOB NULL;
+		DECLARE gzipMessage BLOB NULL;
+		DECLARE sMessage CHARACTER NULL;
+		DECLARE sCorrelationId CHARACTER SigBaseLib.getEnvCorrelationId(InputLocalEnvironment);
+		DECLARE sStoreNumber CHARACTER SigBaseLib.getEnvStore(InputLocalEnvironment);
+		DECLARE sTlogAssuranceId CHARACTER SigBaseLib.getEnvDifAssuranceId(InputLocalEnvironment);
+		DECLARE sDif_Product_Version CHARACTER SigBaseLib.getEnvDifProductVersion(InputLocalEnvironment);
+		DECLARE sStoreName CHARACTER 'GiantEagle';
+
+		IF EXISTS(InputRoot.XMLNSC.Transaction[]) = TRUE -- Parse was successful
+			THEN
+			SET OutputLocalEnvironment = InputLocalEnvironment;
+			SET sTransaction = FIELDNAME(InputRoot.XMLNSC.Transaction.*[1]);
+			SET sTransactionNumber = getTransactionNumberForTopic(sTransaction);
+			IF sTransactionNumber = 'XX' THEN
+				CALL SigBaseLib.logError(MessageFlowLabel, NodeLabel,
+				'TransactionRecordXX' || ' CorrelationId=' || SigBaseLib.formatString(sCorrelationId) || ' StoreId=' || sStoreNumber ||'.');
+				THROW USER EXCEPTION MESSAGE 2951 VALUES('TransactionRecordXX');
+			ELSE
+				SET sTopic = getPublishTlogXmlTopic(sTransactionNumber, sStoreNumber);
+				CALL SigBaseLib.setEnvTopic(OutputLocalEnvironment, sTopic);
+				CALL SigBaseLib.setMqMessagePersistence(OutputRoot, TRUE);
+				-- Setup the RFH2 Header area so that we can add the 'usr'
+				-- data.
+				SET OutputRoot.MQMD.Format = 'MQHRF2 ';
+				SET OutputRoot.MQRFH2.(MQRFH2.Field)Version = 2;
+				SET OutputRoot.MQRFH2.(MQRFH2.Field)Format = 'MQSTR';
+				-- CALL SigBaseLib.initMqHeadersFromEnv(OutputRoot, OutputLocalEnvironment);
+				CALL SigBaseLib.setMqTopic(OutputRoot, sTopic);
+				SET OutputRoot.XMLNSC = InputRoot.XMLNSC;
+				SET OutputRoot.XMLNSC.Transaction.CustomerSpecificData.StoreName = sStoreName;
+				SET OutputRoot.XMLNSC.Transaction.CustomerSpecificData.StoreNumber = sStoreNumber;
+				SET OutputRoot.XMLNSC.Transaction.CustomerSpecificData.GUID = sCorrelationId;
+				SET OutputRoot.XMLNSC.Transaction.CustomerSpecificData.TlogAssuranceId = sTlogAssuranceId;
+				SET OutputRoot.XMLNSC.Transaction.CustomerSpecificData.Dif_Product_Version = sDif_Product_Version;
+
+				IF isAceTlogProcessorServiceDebugMode() = TRUE
+					THEN
+					SET blobMessage = ASBITSTREAM(OutputRoot.XMLNSC);
+					IF blobMessage IS NOT NULL
+						THEN
+						SET sMessage = CAST(blobMessage AS CHARACTER CCSID SigBaseLib.getUTF8_CCSID());
+					END IF;
+
+					SET sMessage = UPPER(MessageFlowLabel) || '.TLOGXML:' || SigBaseLib.formatString(sMessage);
+
+					CALL SigBaseLib.logMessage(MessageFlowLabel, sCorrelationId, sMessage);
+				END IF;
+
+				PROPAGATE TO TERMINAL 'out';
+
+				CALL SigBaseLib.logInfo(MessageFlowLabel, NodeLabel,
+				'Published TLOG XML to topic=' ||
+				SigBaseLib.formatString(sTopic) || ' CorrelationId=' ||
+				SigBaseLib.formatString(sCorrelationId) ||
+				'.');
+
+				SET sTransaction = NULL;
+				SET sTopic = NULL;
+			END IF;
+		ELSE
+			SET OutputLocalEnvironment = InputLocalEnvironment;
+			CALL SigBaseLib.setEnvErrorTopicType(OutputLocalEnvironment, getAceTlogParserErrorTopicTypeString('PARSE'));
+			PROPAGATE TO TERMINAL 'out1';
+		END IF;
+
+		RETURN FALSE;
+	END;
+
+	CREATE PROCEDURE getPublishTlogXmlTopic(IN sTransaction CHARACTER, IN sStore CHARACTER) RETURNS CHARACTER
+	BEGIN
+		DECLARE sTopic CHARACTER getAceTlogPublishTlogXmlTopicString();
+
+		SET sTopic = REPLACE(sTopic, SigBaseLib.getTRANSACTION_TOPIC_EXPRESSION(), sTransaction);
+		SET sTopic = REPLACE(sTopic, SigBaseLib.getSTORE_TOPIC_EXPRESSION(), sStore);
+
+		RETURN sTopic;
+	END;
+END MODULE;

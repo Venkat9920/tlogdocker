@@ -1,0 +1,493 @@
+BROKER SCHEMA SigBaseLib
+
+/**
+ * SigBaseLib.esql
+ *
+ * Set of reusable ESQL routines.
+ */
+
+-------Gets ExceptionList and Returns BIP Number and Text
+
+CREATE PROCEDURE getLastExceptionDetails(IN exceptionTree reference,
+										 OUT messageNumber INTEGER, 
+										 OUT messageText CHARACTER)
+BEGIN
+    declare ptrException reference to exceptionTree.*[1];
+    -- keep looping while the moves to the child of exception list work
+    WHILE lastmove(ptrException) DO
+        IF ptrException.Number is not null THEN
+            SET messageNumber = ptrException.Number;
+            SET messageText = ptrException.Text;
+            END IF;
+        move ptrException lastchild;
+        END WHILE;
+END;
+
+CREATE PROCEDURE getLastException(IN exceptionTree REFERENCE) RETURNS CHARACTER
+BEGIN
+	DECLARE sRet CHARACTER NULL;
+	DECLARE sLastException CHARACTER NULL;
+	DECLARE sTemp CHARACTER NULL;
+	DECLARE ptrException reference to exceptionTree.*[1];
+	DECLARE nCount INTEGER 0;
+	DECLARE ndx INTEGER 0;
+    
+    -- keep looping while the moves to the child of exception list work
+    
+    WHILE LASTMOVE(ptrException)
+    	
+    DO
+    	SET nCount = CARDINALITY(ptrException.Insert[]);
+    	SET ndx = 1;
+    	SET sLastException = NULL;
+    	WHILE ndx <= nCount
+    	DO
+    		IF ptrException.Text IS NOT NULL
+    		THEN
+    			SET sTemp = TRIM(ptrException.Text);
+    			
+    			IF sTemp IS NOT NULL
+    			THEN
+    				IF LENGTH(sTemp) > 0
+    				THEN
+    					SET sLastException = sTemp;
+    				END IF;
+    			END IF;
+    		END IF;
+    		IF ptrException.Insert[ndx].Text IS NOT NULL
+    		THEN
+    			SET sTemp = TRIM(ptrException.Insert[ndx].Text);
+
+				IF sTemp IS NOT NULL
+				THEN
+					IF LENGTH(sTemp) > 0
+					THEN    			
+    					IF sLastException IS NULL
+    					THEN
+    						SET sLastException = sTemp;
+    					ELSE
+    						SET sLastException = sLastException || '; ' || sTemp;
+    					END IF;
+					END IF;
+				END IF;
+    		END IF;
+    		SET ndx = ndx + 1;
+    	END WHILE;
+    	IF sLastException IS NOT NULL
+    	THEN
+    		SET sRet = sLastException;
+    	END IF;
+        MOVE ptrException LASTCHILD;
+    END WHILE;
+	
+	RETURN sRet;
+END;
+
+--------GetsExceptionList and Returns exceptionTree as XML string
+
+CREATE PROCEDURE getExceptionAsXmlString(IN exceptionTree reference, OUT exceptionMessage CHARACTER )
+BEGIN
+	DECLARE RootElement ROW;
+	
+	Create LASTCHILD of RootElement DOMAIN('XMLNSC') Name 'XMLNSC';
+	
+	SET RootElement.XMLNSC.ExceptionList = exceptionTree;
+	
+	DECLARE EXCEPTIONBLOB BLOB ASBITSTREAM(RootElement.XMLNSC.ExceptionList);
+	
+	SET exceptionMessage = CAST(EXCEPTIONBLOB AS CHAR CCSID 437);
+END;
+---------
+
+/**
+ * GetsExceptionList and Returns the whole exceptionTree as User 
+ * Defined Format in CHARACTER DataType. Sample shows how to use this
+ * Procedure and send the exceptionMessage to logError() Procedure.
+ * 
+ *  CALL getExceptionTreeAsCharacter(exceptionTree,exceptionMessage);
+ *  CALL logError(COMPONENT,exceptionMessage);
+ */
+
+CREATE PROCEDURE getExceptionTreeAsCharacter(IN exceptionTree reference, OUT exceptionMessage CHARACTER )
+BEGIN
+
+	DECLARE X,COMPONENT,Line1,Severity1,Number1,mF1,mF2,mF3,mF4,mF5,mF6,mF7,mF8,mF9,mF10,mF11,mF CHARACTER;
+	DECLARE ptrException reference to exceptionTree.*[1];
+
+	SET exceptionMessage = '';
+	-- keep looping while the moves to the child of exception list work
+	WHILE lastmove(ptrException) 
+	DO
+		IF ptrException.Number is not null
+		THEN
+			SET mF = '';
+			SET mF1 = lineSeparator()||' FILE: '||ptrException.File||lineSeparator();
+			SET Line1 = ptrException.Line;
+			SET mF2 = '   LINE: '||Line1||lineSeparator();
+			SET mF3 = '   FUNCTION: '||ptrException.Function||lineSeparator();
+			SET mF4 = '   TYPE: '||ptrException.Type||lineSeparator();
+			SET mF5 = '   NAME: '||ptrException.Name||lineSeparator();
+			SET mF6 = '   LABEL: '||ptrException.Label||lineSeparator();
+			SET mF7 = '   CATALOG: '||ptrException.Catalog||lineSeparator();
+			SET Severity1 = ptrException.Severity;
+			SET mF8 = '   SEVERITY: '||Severity1||lineSeparator();
+			SET Number1 = ptrException.Number;
+			SET mF9 = '   NUMBER: '||Number1||lineSeparator();
+			SET mF10 = '   TEXT: '||ptrException.Text||lineSeparator();
+
+			DECLARE I INTEGER 11;
+			DECLARE J INTEGER;
+			SET J = CARDINALITY(ptrException.Insert[]);
+
+			WHILE (J > 0) 
+			DO
+				set mF11 = '   INSERT TEXT: '||ptrException.*[I].Text||lineSeparator();
+				SET mF = mF ||mF11;
+				SET I = I + 1;
+				SET J = J-1;
+			END WHILE;
+
+			SET X = mF1||mF2||mF3||mF4||mF5||mF6||mF7||mF8||mF9||mF10||mF;
+			SET exceptionMessage = exceptionMessage || X;
+		END IF;
+		move ptrException lastchild;
+	END WHILE;
+END;
+
+/**
+ * Searches the exception text returned by getExceptionTreeAsCharacter() for
+ * the specified search string. If the string is found, the line of text
+ * containing it is returned.
+ */
+ 
+CREATE PROCEDURE findErrorText(IN sSearchFor CHARACTER, IN sExceptionText CHARACTER) RETURNS CHARACTER
+BEGIN
+	DECLARE sRet CHARACTER NULL;
+	DECLARE nCurPos INTEGER 0;
+	DECLARE nEndPos INTEGER 0;
+	DECLARE nPos INTEGER 0;
+	DECLARE nLineLength INTEGER 0;
+	DECLARE sLine CHARACTER NULL;
+	DECLARE nTotalLength INTEGER 0;
+	DECLARE sInsertText CHARACTER 'INSERT TEXT:'; 
+	
+	IF sExceptionText IS NOT NULL AND sSearchFor IS NOT NULL
+	THEN
+		SET nTotalLength = LENGTH(sExceptionText);
+		SET nCurPos = 1;
+		
+		WHILE nCurPos < nTotalLength
+		DO
+			SET nEndPos = POSITION(lineSeparator() IN sExceptionText FROM nCurPos);
+			
+			IF nEndPos = 0		-- At the end.
+			THEN
+				SET nEndPos = nTotalLength - nCurPos + 1;
+			END IF;
+			
+			IF nEndPos > nCurPos
+			THEN
+				SET nLineLength = nEndPos - nCurPos;
+				
+				IF nLineLength > 0
+				THEN
+					SET sLine = SUBSTRING(sExceptionText FROM nCurPos FOR nLineLength);
+					
+					IF sLine IS NOT NULL
+					THEN
+						IF POSITION(sSearchFor IN sLine) > 0
+						THEN
+							-- Remove junk from the beginning of the line
+							-- and just grab the XPath portion.
+							
+							SET nPos = POSITION(sInsertText IN sLine);
+							
+							IF nPos = 0
+							THEN
+								SET nPos = 1;
+							ELSE
+								SET nPos = nPos + LENGTH(sInsertText);
+							END IF;
+							
+							SET sRet = SUBSTRING(sLine FROM nPos);
+							
+							SET sRet = TRIM(sRet);
+						END IF;
+					END IF;
+				END IF; 
+			END IF;
+				
+			SET nCurPos = nEndPos + 1;
+		END WHILE;
+		
+	END IF;
+	RETURN sRet;
+END;
+
+------ RightJustify for Padding Characters to right
+
+CREATE PROCEDURE rightJustify (IN sText CHARACTER,IN nLength INTEGER,IN cPad CHARACTER ) RETURNS CHARACTER
+BEGIN
+	DECLARE rText CHARACTER;
+	DECLARE padText CHARACTER '';
+	IF sText = NULL OR sText = '' OR nLength < 1 OR nLength <= LENGTH(sText) 
+	THEN
+		SET rText = sText;
+	ELSE
+		DECLARE I INTEGER LENGTH(sText);
+		DECLARE J INTEGER (nLength - LENGTH(sText));
+		WHILE (J >0) DO
+			set padText = cPad || padText;
+			SET J = J - 1;
+		END WHILE;
+		SET rText = padText || sText;
+	END IF;
+	RETURN rText;
+END;
+
+-------Returns Current date in yyyy_mm_dd format
+
+CREATE PROCEDURE currentDate() RETURNS CHARACTER
+BEGIN
+     DECLARE CURDATE CHARACTER;
+     DECLARE YEAR1 CHARACTER;
+     DECLARE MONTH1 CHARACTER;
+     DECLARE DAY1 CHARACTER;
+     DECLARE FINAL_DATE CHARACTER;
+     SET CURDATE = CURRENT_DATE;
+     SET YEAR1 = SUBSTRING (CURDATE FROM 7 FOR 4);
+     SET MONTH1 = SUBSTRING (CURDATE FROM 12 FOR 2);
+     SET DAY1 = SUBSTRING (CURDATE FROM 15 FOR 2);
+     SET FINAL_DATE = YEAR1||'_'||MONTH1||'_'||DAY1;
+     RETURN FINAL_DATE;
+END;
+
+/**
+ * Formats a String for display purposes.
+ */
+ 
+CREATE PROCEDURE formatString(IN sStr CHARACTER) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER;
+ 	
+ 	IF sStr IS NULL
+ 	THEN
+ 		SET sRet = '{null}';
+ 	ELSE
+ 		SET sRet = sStr;
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+
+/**
+ * Formats a Boolean for display purposes.
+ */
+ 
+CREATE PROCEDURE formatBoolean(IN b BOOLEAN) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER;
+ 	
+ 	IF b = TRUE
+ 	THEN
+ 		SET sRet = 'true';
+ 	ELSE
+ 		SET sRet = 'false';
+ 	END IF;
+ 	
+ 	RETURN sRet;
+ END;
+ 
+/**
+ * Procedure used to make an error log entry for fatal errors.
+ */
+ 
+CREATE PROCEDURE logFatalError(IN sComponent CHARACTER, IN sCorrelationId CHARACTER, IN exceptionTree REFERENCE)
+BEGIN
+	DECLARE sExceptionMesg CHARACTER;
+	
+	SET sExceptionMesg = NULL;
+	
+	IF CARDINALITY(exceptionTree.*[]) > 0
+	THEN
+		CALL getExceptionTreeAsCharacter(exceptionTree, sExceptionMesg);
+	END IF;
+	
+	CALL logFatal(sComponent, sCorrelationId, sExceptionMesg);
+END;
+
+/**
+ * Sets the message persistence as TRUE or FALSE.
+ */
+ 
+CREATE PROCEDURE setMessagePersistence(IN messageRoot REFERENCE, IN bPersistence BOOLEAN)
+BEGIN
+	SET messageRoot.Properties.Persistence = bPersistence;
+	RETURN;
+END;
+
+/**
+ * Returns whether or not the specified content-type is XML.
+ */
+ 
+ CREATE PROCEDURE isXmlContentType(IN sContentType CHARACTER) RETURNS BOOLEAN
+ BEGIN
+ 	DECLARE bRet BOOLEAN FALSE;
+ 
+ 	IF sContentType IS NOT NULL
+ 	THEN
+ 		IF sContentType = XML_CONTENT_TYPE OR sContentType = XML_TEXT_CONTENT_TYPE
+ 		THEN
+ 			SET bRet = TRUE;
+ 		END IF;
+ 	END IF;
+ 	
+	RETURN bRet;
+ END;
+ 
+/**
+ * Returns a store number padded to the correct length of 5.
+ */
+  
+CREATE PROCEDURE fixStoreNumber(IN sStoreNumber CHARACTER) RETURNS CHARACTER
+BEGIN
+	RETURN rightJustify(sStoreNumber, STORE_NUMBER_LEN, '0');
+END;
+
+/**
+ * Returns a division number paddd tot he correct length of 3.
+ */
+ 
+CREATE PROCEDURE fixDivisionNumber(IN sDivisionNumber CHARACTER) RETURNS CHARACTER
+BEGIN
+	RETURN rightJustify(sDivisionNumber, DIVISION_NUMBER_LEN, '0');
+END;  
+
+/**
+ * Returns the version for the specfied message flow.
+ */
+ 
+CREATE PROCEDURE getMessageFlowVersion(IN sMessageFlowName CHARACTER) RETURNS CHARACTER
+BEGIN
+	RETURN getComponentVersion(BrokerName, ExecutionGroupLabel, sMessageFlowName);
+END;
+
+/**
+ * Returns the version for the specfied message set.
+ */
+ 
+CREATE PROCEDURE getMessageSetVersion(IN sMessageSetName CHARACTER) RETURNS CHARACTER
+BEGIN
+	RETURN getComponentVersion(BrokerName, ExecutionGroupLabel, sMessageSetName);
+END;
+
+/**
+ * Returns whether or not 2 strings are equal.
+ */
+
+CREATE PROCEDURE stringsAreEqual(IN sStr1 CHARACTER, IN sStr2 CHARACTER) RETURNS BOOLEAN
+BEGIN
+	DECLARE bRet BOOLEAN FALSE;
+
+	IF sStr1 IS NOT NULL
+	THEN
+		IF sStr2 IS NOT NULL
+		THEN
+			-- Straight from the INFOCenter for Broker V7: Trailing blanks 
+			-- are regarded as insignificant in character comparisons. Thus 
+			-- if you want to ensure that two strings are truly equal you 
+			-- need to compare both the strings themselves and their lengths.
+			
+			IF LENGTH(sStr1) = LENGTH(sStr2)
+			THEN
+				IF sStr1 = sStr2
+				THEN
+					SET bRet = TRUE;
+				END IF;
+			END IF;
+		END IF;
+	END IF;	
+	RETURN bRet;
+END;
+
+/**
+ * Function used to extract the Division number from a topic string.
+ * Topic strings are expected to be in the format such that the last
+ * 2 fields of the string are division and store respectively.
+ */
+ 
+CREATE PROCEDURE getDivisionFromTopic(IN sTopic CHARACTER) RETURNS CHARACTER
+BEGIN
+	DECLARE sRet CHARACTER NULL;
+	DECLARE sVal CHARACTER NULL;
+	DECLARE nBeginPos INTEGER 0;
+	DECLARE nEndPos INTEGER 0;
+	DECLARE nLength INTEGER 0;
+	
+	IF sTopic IS NOT NULL
+	THEN
+		-- Search for the 2nd to last '/' in the topic string.
+		
+		SET nBeginPos = POSITION('/' IN sTopic REPEAT -2);
+		
+		IF nBeginPos >  0
+		THEN
+			SET nBeginPos = nBeginPos + 1;
+			
+			-- Search for the last '/' in the topic string.
+			
+			SET nEndPos = POSITION('/' IN sTopic REPEAT -1);
+			
+			IF nEndPos > 0
+			THEN
+				SET nLength = nEndPos - nBeginPos;
+				
+				IF nLength > 0
+				THEN
+					SET sVal = SUBSTRING(sTopic FROM nBeginPos FOR nLength);	
+			
+					IF isNumeric(sVal) = TRUE
+					THEN
+						SET sRet = fixDivisionNumber(sVal);
+					END IF;
+				END IF;
+			END IF;
+		END IF;
+	END IF;
+	
+	RETURN sRet;
+END;
+
+/**
+ * Function used to extract the store number from a topic string.
+ * Topic strings are expected to be in the format such that the last
+ * 2 fields of the string are division and store respectively.
+ */
+ 
+CREATE PROCEDURE getStoreFromTopic(IN sTopic CHARACTER) RETURNS CHARACTER
+BEGIN
+	DECLARE sRet CHARACTER NULL;
+	DECLARE sVal CHARACTER NULL;
+	DECLARE nBeginPos INTEGER 0;
+	
+	IF sTopic IS NOT NULL
+	THEN
+		-- Search for the last '/' in the topic string.
+		
+		SET nBeginPos = POSITION('/' IN sTopic REPEAT -1);
+		
+		IF nBeginPos >  0
+		THEN
+			SET nBeginPos = nBeginPos + 1;
+
+			SET sVal = SUBSTRING(sTopic FROM nBeginPos);	
+			
+			IF isNumeric(sVal) = TRUE
+			THEN
+				SET sRet = fixStoreNumber(sVal);
+			END IF;
+		END IF;
+	END IF;
+	
+	RETURN sRet;
+END;

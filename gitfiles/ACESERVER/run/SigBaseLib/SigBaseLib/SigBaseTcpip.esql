@@ -1,0 +1,47 @@
+BROKER SCHEMA SigBaseLib
+
+/**
+ * SigBaseTcpip.esql
+ *
+ * ESQL source holding standard TCPIP related methods.
+ */
+ 
+/**
+ * Sets the Host in a TCPIP Output node.
+ *
+ *  OutputLocalEnvironment.Destination.TCPIP.Output.Hostname
+ */
+
+CREATE PROCEDURE setTcpipOutputHost(IN outputLocalEnvironment REFERENCE, IN sVal CHARACTER)
+BEGIN
+	SET outputLocalEnvironment.Destination.TCPIP.Output.Hostname = sVal;
+END;
+
+/**
+ * Sets the Port in a TCPIP Output node.
+ *
+ *  OutputLocalEnvironment.Destination.TCPIP.Output.Port
+ */
+
+CREATE PROCEDURE setTcpipOutputPort(IN outputLocalEnvironment REFERENCE, IN sVal CHARACTER)
+BEGIN
+	SET outputLocalEnvironment.Destination.TCPIP.Output.Port = sVal;
+END;
+
+/**
+ * Sets the TCPIP Timeout (Timeout sending a data record) in a TCPIP
+ * Output Node. The timeout is specified in milliseconds and then\
+ * converted to seconds for the environmental value.
+ * 
+ *   OutputLocalEnvironment.Destination.TCPIP.Output.Timeout
+ */
+ 
+ CREATE PROCEDURE setTcpipOutputTimeout(IN outputLocalEnvironment REFERENCE, IN nVal INTEGER)
+BEGIN
+	IF nVal > 0
+	THEN
+		SET outputLocalEnvironment.Destination.TCPIP.Output.Timeout = (nVal / 1000);
+	END IF;
+END;
+ 
+ 

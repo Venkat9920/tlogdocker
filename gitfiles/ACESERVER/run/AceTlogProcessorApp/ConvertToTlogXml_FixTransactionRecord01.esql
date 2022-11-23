@@ -1,0 +1,114 @@
+-- Compute node responsible for fixing up the TransactionRecord01
+-- elements within a TransactionRecord00. Pertinent elements are
+-- moved from after the TransactionRecord01 to inside it for 
+-- simplified upstream handling of the TLOG XML.
+
+CREATE COMPUTE MODULE ConvertToTlogXml_FixTransactionRecord01
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE sTransaction CHAR NULL;
+		
+		CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		
+		SET OutputLocalEnvironment = InputLocalEnvironment;
+		
+		SET OutputRoot.XMLNSC = NULL;
+		
+		CREATE LASTCHILD OF OutputRoot DOMAIN ('XMLNSC');
+		
+		SET OutputRoot.XMLNSC = InputRoot.XMLNSC;
+		
+		SET sTransaction = FIELDNAME(OutputRoot.XMLNSC.Transaction.*[1]);
+		
+		IF sTransaction = 'TransactionRecord00'
+		THEN
+			CALL Fix_Transaction01();
+		END IF;
+		
+		PROPAGATE TO TERMINAL 'out';
+		
+		RETURN FALSE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+	
+	CREATE PROCEDURE Fix_Transaction01()
+	BEGIN
+		DECLARE nClear INTEGER 0;
+		DECLARE I INTEGER;
+		DECLARE J INTEGER;
+		DECLARE nTran01 INTEGER;
+		DECLARE sElement CHARACTER NULL;
+		DECLARE nCount INTEGER;
+		
+		SET nClear = 0;
+		SET I = 2; -- Start at 2nd, first is TransactionRecord00
+		SET J = CARDINALITY(OutputRoot.XMLNSC.Transaction.*[]);
+		WHILE I <= J
+		DO
+			SET sElement = FIELDNAME(OutputRoot.XMLNSC.Transaction.*[I]);
+
+			IF sElement = 'TransactionRecord01'
+			THEN
+				-- Found a TransactionRecord01, save the element offset.
+
+				SET nTran01 = I;
+
+			ELSEIF nTran01 > 0
+			THEN
+				-- Copy the following elements inside the
+				-- TransactionRecord01 element.
+
+				IF sElement = 'TransactionRecord02'
+				THEN
+					-- TransactionRecord02 holds the quantity information.
+
+					CREATE LASTCHILD OF OutputRoot.XMLNSC.Transaction.*[nTran01] NAME FIELDNAME(OutputRoot.XMLNSC.Transaction.*[I]);
+					SET nCount = CARDINALITY(OutputRoot.XMLNSC.Transaction.*[nTran01].TransactionRecord02[]);
+					SET OutputRoot.XMLNSC.Transaction.*[nTran01].TransactionRecord02[nCount] = OutputRoot.XMLNSC.Transaction.*[I];
+					SET nClear = nClear + 1;
+					SET OutputLocalEnvironment.ClearField[nClear] = I;
+				ELSEIF sElement = 'TransactionRecord11_DataEntry'
+				THEN
+					-- TransactionRecord11_DataEntry holds user data for the item.
+
+					CREATE LASTCHILD OF OutputRoot.XMLNSC.Transaction.*[nTran01] NAME FIELDNAME(OutputRoot.XMLNSC.Transaction.*[I]);
+					SET nCount = CARDINALITY(OutputRoot.XMLNSC.Transaction.*[nTran01].TransactionRecord11_DataEntry[]);
+					SET OutputRoot.XMLNSC.Transaction.*[nTran01].TransactionRecord11_DataEntry[nCount] = OutputRoot.XMLNSC.Transaction.*[I];
+					SET nClear = nClear + 1;
+					SET OutputLocalEnvironment.ClearField[nClear] = I;
+				END IF;
+			END IF;
+			SET I = I + 1;
+		END WHILE;
+
+		-- Clear out all the elements that were copied into
+		-- the TransactionRecord01 elements.
+
+		IF nClear > 0
+		THEN
+			WHILE nClear > 0
+			DO
+				SET I = OutputLocalEnvironment.ClearField[nClear];
+				SET OutputRoot.XMLNSC.Transaction.*[I] = NULL;
+				SET nClear = nClear - 1;
+			END WHILE;
+			-- We're done with the ClearField array, so remove it.
+
+			SET OutputLocalEnvironment.ClearField = NULL;
+		END IF;
+	END;
+END MODULE;

@@ -1,0 +1,111 @@
+
+CREATE COMPUTE MODULE AceTlogReceiverHttpHandler_Initialize
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE nStartTime INTEGER SigBaseLib.currentTimeMillis();
+		DECLARE sOriginDateTime CHARACTER SigBaseLib.getStandardFormatDate();
+		DECLARE sCorrelationId CHARACTER NULL;
+		DECLARE sTransactionId CHARACTER UUIDASCHAR;
+		DECLARE sStore CHARACTER NULL;
+		DECLARE sDivision CHARACTER NULL;
+		DECLARE sTopic CHARACTER 'STORE/DATA/POS/TLOG';
+		DECLARE sEvent CHARACTER NULL;
+		DECLARE sHttpStatusCode CHARACTER SigBaseLib.getOkStatusCode();
+		DECLARE sStatusCode CHARACTER SigBaseLib.getOkStatusCode();
+		DECLARE sOperationStatus CHARACTER SigBaseLib.getAcceptedStatus();
+		DECLARE sResponseMessage CHARACTER NULL;
+		DECLARE sErrorInfo CHARACTER NULL;
+		-- Initialization.
+
+		CALL SigBaseLib.InitEnvFromHttpRequest(InputRoot, InputLocalEnvironment);
+
+		CALL initEnvFromAceTlogProcessorServiceConfig(InputLocalEnvironment);
+
+		SET sStore = SigBaseLib.getEnvStore(InputLocalEnvironment);
+		SET sCorrelationId = SigBaseLib.getEnvCorrelationId(InputLocalEnvironment);
+		SET sTopic = getPublishTlogTopic(sStore);
+
+		-- Save timing/transaction log info in the environment.
+
+		CALL SigBaseLib.setEnvStartTime(InputLocalEnvironment, nStartTime);
+		CALL SigBaseLib.setEnvComponentStartTime(InputLocalEnvironment, nStartTime);
+		CALL SigBaseLib.setEnvTransactionId(InputLocalEnvironment, sTransactionId);
+		CALL SigBaseLib.setEnvSourceApp(InputLocalEnvironment, SigBaseLib.getEnvOrigin(InputLocalEnvironment));
+		CALL SigBaseLib.setEnvTopic(InputLocalEnvironment, sTopic);
+
+		CALL SigBaseLib.setEnvOriginDateTime(InputLocalEnvironment, sOriginDateTime);		
+
+
+		CALL SigBaseLib.setEnvComponentName(InputLocalEnvironment, MessageFlowLabel);
+		CALL SigBaseLib.setEnvComponentVersion(InputLocalEnvironment, SigBaseLib.getMessageFlowVersion(MessageFlowLabel));
+
+		CALL SigBaseLib.setEnvServiceName(InputLocalEnvironment, getAceTlogProcessorServiceName());
+		CALL SigBaseLib.setEnvServiceVersion(InputLocalEnvironment, getAceTlogProcessorServiceVersion());
+
+		CALL SigBaseLib.setEnvStatusCode(InputLocalEnvironment, sStatusCode);
+		CALL SigBaseLib.setEnvOperationStatus(InputLocalEnvironment, sOperationStatus);
+		-- Initialize Error Topic Type in case an error occurs within the flow.
+
+		CALL SigBaseLib.setEnvErrorTopicType(InputLocalEnvironment, getAceTlogErrorTopicTypeString());
+
+		SET OutputRoot = NULL;
+
+		SET OutputLocalEnvironment = InputLocalEnvironment;
+
+		CALL SigBaseLib.setEnvStatusCode(OutputLocalEnvironment, sStatusCode);
+		CALL SigBaseLib.setEnvOperationStatus(OutputLocalEnvironment, sOperationStatus);
+
+		CALL SigBaseLib.setHttpAcknowledgement(OutputLocalEnvironment,
+		sCorrelationId,
+		sOperationStatus,
+		sStatusCode,
+		NULL,
+		sResponseMessage,
+		sHttpStatusCode);
+
+		PROPAGATE TO TERMINAL 'out1';
+
+		IF isAceTlogProcessorServiceEnabled() = TRUE
+			THEN
+
+			CALL CopyMessageHeaders();
+			CALL CopyEntireMessage();
+
+			SET OutputLocalEnvironment = InputLocalEnvironment;
+			-- Don't pass along the HTTP Headers.
+
+			SET OutputRoot.HTTPInputHeader = NULL;
+
+			PROPAGATE TO TERMINAL 'out';
+			--END IF;
+		ELSE
+			CALL SigBaseLib.logWarn(MessageFlowLabel, NodeLabel, 'TLOG processing is disabled!');
+		END IF;
+
+		RETURN FALSE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+
+	CREATE PROCEDURE getPublishTlogTopic( IN sStore CHARACTER) RETURNS CHARACTER
+	BEGIN
+		DECLARE sTopic CHARACTER getAceTlogTopicString();
+
+
+		SET sTopic = REPLACE(sTopic, SigBaseLib.getSTORE_TOPIC_EXPRESSION(), sStore);
+
+		RETURN sTopic;
+	END;
+END MODULE;

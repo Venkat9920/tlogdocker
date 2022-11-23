@@ -1,0 +1,864 @@
+BROKER SCHEMA SigBaseLib
+
+
+/**
+* SigBaseMq.esql
+*
+* ESQL source holding standard MQ related methods.
+*/
+/**
+* Sets the transaction start time in the MQ RHF2 'usr' header 'StartTime'.
+*/
+
+CREATE PROCEDURE setMqTransactionStartTime(IN outputRootRef REFERENCE, IN nStartTime INTEGER)
+BEGIN
+	SET outputRootRef.MQRFH2.usr.StartTime = CAST(nStartTime AS CHARACTER);
+	RETURN;
+END;
+/**
+* Returns the transaction start time in the MQ RHF2 'usr' header 'StartTime'.
+*/
+
+CREATE PROCEDURE getMqTransactionStartTime(IN inputRootRef REFERENCE) RETURNS INTEGER
+BEGIN
+	DECLARE nRet INTEGER;
+	-- Get the StartTime for the MQ RFH2 Header 'MQRFH2.usr.StartTime'.
+
+	DECLARE sStartTime CHARACTER inputRootRef.MQRFH2.usr.StartTime;
+
+	IF sStartTime IS NULL
+		THEN
+		SET nRet = currentTimeMillis();
+	ELSE
+		SET nRet = CAST(sStartTime AS INTEGER);
+	END IF;
+
+	RETURN nRet;
+END;
+/**
+* Sets the Correlation ID in the MQ RHF2 'usr' header 'CorrelationId'.
+*/
+
+CREATE PROCEDURE setMqCorrelationId(IN outputRootRef REFERENCE, IN sCorrelationId CHARACTER)
+BEGIN
+	IF sCorrelationId IS NOT NULL
+		THEN
+		SET outputRootRef.MQRFH2.usr.CorrelationId = sCorrelationId;
+	END IF;
+	RETURN;
+END;
+/**
+* Returns the Correlation ID in the MQ RHF2 'usr' header 'CorrelationId'.
+*/
+
+CREATE PROCEDURE getMqCorrelationId(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	DECLARE sRet CHARACTER;
+
+	SET sRet = inputRootRef.MQRFH2.usr.CorrelationId;
+
+	IF sRet IS NULL
+		THEN
+		SET sRet = UUIDASCHAR;
+	END IF;
+
+	RETURN sRet;
+END;
+/**
+* Sets the Application Request ID in the MQ RHF2 'usr' header 'ApplicationRequestId'.
+*/
+
+CREATE PROCEDURE setMqApplicationRequestId(IN outputRootRef REFERENCE, IN sApplicationRequestId CHARACTER)
+BEGIN
+	IF sApplicationRequestId IS NOT NULL
+		THEN
+		SET outputRootRef.MQRFH2.usr.ApplicationRequestId = sApplicationRequestId;
+	END IF;
+	RETURN;
+END;
+/**
+* Returns the Application Request ID in the MQ RHF2 'usr' header 'ApplicationRequestId'.
+*/
+
+CREATE PROCEDURE getMqApplicationRequestId(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	DECLARE sRet CHARACTER;
+
+	SET sRet = inputRootRef.MQRFH2.usr.ApplicationRequestId;
+
+	IF sRet IS NULL
+		THEN
+		SET sRet = UUIDASCHAR;
+	END IF;
+
+	RETURN sRet;
+END;
+/**
+* Sets the RequestId in the MQ RHF2 'usr' header 'RequestId'.
+*/
+
+CREATE PROCEDURE setMqRequestId(IN outputRootRef REFERENCE, IN sVal CHARACTER)
+BEGIN
+	IF sVal IS NOT NULL
+		THEN
+		SET outputRootRef.MQRFH2.usr.RequestId = sVal;
+	END IF;
+	RETURN;
+END;
+/**
+* Returns the RequestId in the MQ RHF2 'usr' header 'RequestId'.
+*/
+
+CREATE PROCEDURE getMqRequestId(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	DECLARE sRet CHARACTER NULL;
+
+	SET sRet = inputRootRef.MQRFH2.usr.RequestId;
+
+	IF sRet IS NULL
+		THEN
+		SET sRet = UUIDASCHAR;
+	END IF;
+
+	RETURN sRet;
+END;
+/**
+* Sets the RequestName in the MQ RHF2 'usr' header 'RequestName'.
+*/
+
+CREATE PROCEDURE setMqRequestName(IN outputRootRef REFERENCE, IN sVal CHARACTER)
+BEGIN
+	IF sVal IS NOT NULL
+		THEN
+		SET outputRootRef.MQRFH2.usr.RequestName = sVal;
+	END IF;
+	RETURN;
+END;
+/**
+* Returns the RequestName in the MQ RHF2 'usr' header 'RequestName'.
+*/
+
+CREATE PROCEDURE getMqRequestName(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	RETURN inputRootRef.MQRFH2.usr.RequestName;
+END;
+/**
+* Sets the RequestType in the MQ RHF2 'usr' header 'RequestType'.
+*/
+
+CREATE PROCEDURE setMqRequestType(IN outputRootRef REFERENCE, IN sVal CHARACTER)
+BEGIN
+	IF sVal IS NOT NULL
+		THEN
+		SET outputRootRef.MQRFH2.usr.RequestType = sVal;
+	END IF;
+	RETURN;
+END;
+/**
+* Returns the RequestType in the MQ RHF2 'usr' header 'RequestType'.
+*/
+
+CREATE PROCEDURE getMqRequestType(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	RETURN inputRootRef.MQRFH2.usr.RequestType;
+END;
+/**
+* Sets the RequestTimeout in the MQ RHF2 'usr' header 'RequestTimeout'.
+*/
+
+CREATE PROCEDURE setMqRequestTimeout(IN outputRootRef REFERENCE, IN nVal INTEGER)
+BEGIN
+	SET outputRootRef.MQRFH2.usr.RequestTimeout = nVal;
+	RETURN;
+END;
+/**
+* Returns the RequestTimeout in the MQ RHF2 'usr' header 'RequestTimeout'.
+*/
+
+CREATE PROCEDURE getMqRequestTimeout(IN inputRootRef REFERENCE) RETURNS INTEGER
+BEGIN
+	DECLARE nRet INTEGER 0;
+	DECLARE sVal CHARACTER NULL;
+
+	SET sVal = inputRootRef.MQRFH2.usr.RequestTimeout;
+
+	IF sVal IS NOT NULL
+		THEN
+		IF isNumeric(sVal) = TRUE
+			THEN
+			SET nRet = CAST(sVal AS INTEGER);
+		END IF;
+	END IF;
+	RETURN nRet;
+END;
+/**
+* Sets the Origin Date in the MQ RHF2 'usr' header 'OriginDateTime'.
+*/
+
+CREATE PROCEDURE setMqOriginDateTime(IN outputRootRef REFERENCE, IN sOriginDateTime CHARACTER)
+BEGIN
+	IF sOriginDateTime IS NOT NULL
+		THEN
+		SET outputRootRef.MQRFH2.usr.OriginDateTime = sOriginDateTime;
+	END IF;
+	RETURN;
+END;
+/**
+* Returns the Origin Date in the MQ RHF2 'usr' header 'OriginDateTime'.
+*/
+
+CREATE PROCEDURE getMqOriginDateTime(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	RETURN inputRootRef.MQRFH2.usr.OriginDateTime;
+END;
+/**
+* Sets the Origin in the MQ RHF2 'usr' header 'Origin'.
+*/
+
+CREATE PROCEDURE setMqOrigin(IN outputRootRef REFERENCE, IN sOrigin CHARACTER)
+BEGIN
+	IF sOrigin IS NOT NULL
+		THEN
+		SET outputRootRef.MQRFH2.usr.Origin = sOrigin;
+	END IF;
+	RETURN;
+END;
+/**
+* Returns the Origin in the MQ RHF2 'usr' header 'Origin'.
+*/
+
+CREATE PROCEDURE getMqOrigin(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	RETURN inputRootRef.MQRFH2.usr.Origin;
+END;
+/**
+* Sets the Origin Event the MQ RHF2 'usr' header 'OriginEvent'.
+*/
+
+CREATE PROCEDURE setMqOriginEvent(IN outputRootRef REFERENCE, IN sOriginEvent CHARACTER)
+BEGIN
+	IF sOriginEvent IS NOT NULL
+		THEN
+		SET outputRootRef.MQRFH2.usr.OriginEvent = sOriginEvent;
+	END IF;
+	RETURN;
+END;
+/**
+* Returns the Origin Event in the MQ RHF2 'usr' header 'OriginEvent'.
+*/
+
+CREATE PROCEDURE getMqOriginEvent(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	RETURN inputRootRef.MQRFH2.usr.OriginEvent;
+END;
+/**
+* Sets the Origin Version the MQ RHF2 'usr' header 'OriginVersion'.
+*/
+
+CREATE PROCEDURE setMqOriginVersion(IN outputRootRef REFERENCE, IN sOriginVersion CHARACTER)
+BEGIN
+	IF sOriginVersion IS NOT NULL
+		THEN
+		SET outputRootRef.MQRFH2.usr.OriginVersion = sOriginVersion;
+	END IF;
+	RETURN;
+END;
+/**
+* Returns the Origin Version in the MQ RHF2 'usr' header 'OriginVersion'.
+*/
+
+CREATE PROCEDURE getMqOriginVersion(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	RETURN inputRootRef.MQRFH2.usr.OriginVersion;
+END;
+/**
+* Sets the Source in the MQ RHF2 'usr' header 'Source'.
+*/
+
+CREATE PROCEDURE setMqSource(IN outputRootRef REFERENCE, IN sSource CHARACTER)
+BEGIN
+	IF sSource IS NOT NULL
+		THEN
+		SET outputRootRef.MQRFH2.usr.Source = sSource;
+	END IF;
+	RETURN;
+END;
+/**
+* Returns the Source in the MQ RHF2 'usr' header 'Source'.
+*/
+
+CREATE PROCEDURE getMqSource(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	RETURN inputRootRef.MQRFH2.usr.Source;
+END;
+/**
+* Sets the Source Event in the MQ RHF2 'usr' header 'SourceEvent'.
+*/
+
+CREATE PROCEDURE setMqSourceEvent(IN outputRootRef REFERENCE, IN sSourceEvent CHARACTER)
+BEGIN
+	IF sSourceEvent IS NOT NULL
+		THEN
+		SET outputRootRef.MQRFH2.usr.SourceEvent = sSourceEvent;
+	END IF;
+	RETURN;
+END;
+/**
+* Returns the Source Event in the MQ RHF2 'usr' header 'SourceEvent'.
+*/
+
+CREATE PROCEDURE getMqSourceEvent(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	RETURN inputRootRef.MQRFH2.usr.SourceEvent;
+END;
+/**
+* Sets the Source System in the MQ RHF2 'usr' header 'SourceSystem'.
+*/
+
+CREATE PROCEDURE setMqSourceSystem(IN outputRootRef REFERENCE, IN sSourceSystem CHARACTER)
+BEGIN
+	IF sSourceSystem IS NOT NULL
+		THEN
+		SET outputRootRef.MQRFH2.usr.SourceSystem = sSourceSystem;
+	END IF;
+	RETURN;
+END;
+/**
+* Returns the Source System in the MQ RHF2 'usr' header 'SourceSystem'.
+*/
+
+CREATE PROCEDURE getMqSourceSystem(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	RETURN inputRootRef.MQRFH2.usr.SourceSystem;
+END;
+/**
+* Returns the Event in the MQ RHF2 'usr' header 'Event'.
+*/
+
+CREATE PROCEDURE getMqEvent(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	RETURN inputRootRef.MQRFH2.usr.Event;
+END;
+/**
+* Sets the Event in the MQ RHF2 'usr' header 'Event'.
+*/
+
+CREATE PROCEDURE setMqEvent(IN outputRootRef REFERENCE, IN sEvent CHARACTER)
+BEGIN
+	IF sEvent IS NOT NULL
+		THEN
+		SET outputRootRef.MQRFH2.usr.Event = sEvent;
+	END IF;
+	RETURN;
+END;
+
+/**
+* Sets the SIG Publication TYPE in the MQ RHF2 'usr' header 'SigPublicationType'.
+*/
+
+CREATE PROCEDURE setMqSigPublicationType(IN outputRootRef REFERENCE, IN sVal CHARACTER)
+BEGIN
+	IF sVal IS NOT NULL
+		THEN
+		SET outputRootRef.MQRFH2.usr.SigPublicationType = sVal;
+	END IF;
+	RETURN;
+END;
+/**
+* Returns the SIG Publication TYPE in the MQ RHF2 'usr' header 'SigPublicationType'.
+*/
+
+CREATE PROCEDURE getMqSigPublicationType(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	RETURN inputRootRef.MQRFH2.usr.SigPublicationType;
+END;
+/**
+* Sets the SIG Publication Source in the MQ RHF2 'usr' header 'SigPublicationSource'.
+*/
+
+CREATE PROCEDURE setMqSigPublicationSource(IN outputRootRef REFERENCE, IN sVal CHARACTER)
+BEGIN
+	IF sVal IS NOT NULL
+		THEN
+		SET outputRootRef.MQRFH2.usr.SigPublicationSource = sVal;
+	END IF;
+	RETURN;
+END;
+/**
+* Returns the SIG Publication Source in the MQ RHF2 'usr' header 'SigPublicationSource'.
+*/
+
+CREATE PROCEDURE getMqSigPublicationSource(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	RETURN inputRootRef.MQRFH2.usr.SigPublicationSource;
+END;
+/**
+* Sets the SIG Publication TRANSACTION in the MQ RHF2 'usr' header 'SigPublicationTransaction'.
+*/
+
+CREATE PROCEDURE setMqSigPublicationTransaction(IN outputRootRef REFERENCE, IN sVal CHARACTER)
+BEGIN
+	IF sVal IS NOT NULL
+		THEN
+		SET outputRootRef.MQRFH2.usr.SigPublicationTransaction = sVal;
+	END IF;
+	RETURN;
+END;
+/**
+* Returns the SIG Publication TRANSACTION in the MQ RHF2 'usr' header 'SigPublicationTransaction'.
+*/
+
+CREATE PROCEDURE getMqSigPublicationTransaction(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	RETURN inputRootRef.MQRFH2.usr.SigPublicationTransaction;
+END;
+/**
+* Sets the Raw Payload Data in the MQ RHF2 'usr' header 'RawPayload'.
+*/
+
+CREATE PROCEDURE setMqRawPayload(IN outputRootRef REFERENCE, IN blobVal BLOB)
+BEGIN
+	DECLARE sEncodedRawPayload CHARACTER NULL;
+
+	IF blobVal IS NULL
+		THEN
+		SET outputRootRef.MQRFH2.usr.RawPayload = NULL;
+	ELSE
+		SET sEncodedRawPayload = BASE64ENCODE(blobVal);
+
+		SET outputRootRef.MQRFH2.usr.RawPayload = sEncodedRawPayload;
+	END IF;
+	RETURN;
+END;
+/**
+* Returns the Raw Payload Data in the MQ RHF2 'usr' header 'RawPayload'.
+*/
+
+CREATE PROCEDURE getMqRawPayload(IN inputRootRef REFERENCE) RETURNS BLOB
+BEGIN
+	DECLARE blobData BLOB NULL;
+
+	IF inputRootRef.MQRFH2.usr.RawPayload IS NOT NULL
+		THEN
+		SET blobData = BASE64DECODE(inputRootRef.MQRFH2.usr.RawPayload);
+	END IF;
+	RETURN blobData;
+END;
+/**
+* Sets the ContentType in the MQ RHF2 'usr' header 'ContentType'.
+*/
+
+CREATE PROCEDURE setMqContentType(IN outputRootRef REFERENCE, IN sVal CHARACTER)
+BEGIN
+	IF sVal IS NOT NULL
+		THEN
+		SET outputRootRef.MQRFH2.usr.ContentType = sVal;
+	END IF;
+	RETURN;
+END;
+/**
+* Returns the ContentType in the MQ RHF2 'usr' header 'ContentType'.
+*/
+
+CREATE PROCEDURE getMqContentType(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	RETURN inputRootRef.MQRFH2.usr.ContentType;
+END;
+/**
+* Sets the PayloadType in the MQ RHF2 'usr' header 'PayloadType'.
+*/
+
+CREATE PROCEDURE setMqPayloadType(IN outputRootRef REFERENCE, IN sVal CHARACTER)
+BEGIN
+	IF sVal IS NOT NULL
+		THEN
+		SET outputRootRef.MQRFH2.usr.PayloadType = sVal;
+	END IF;
+	RETURN;
+END;
+/**
+* Returns the PayloadType in the MQ RHF2 'usr' header 'PayloadType'.
+*/
+
+CREATE PROCEDURE getMqPayloadType(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	RETURN inputRootRef.MQRFH2.usr.PayloadType;
+END;
+/**
+* Sets the topic string for a message that is to be published
+* to an MQ Topic via a Publication Node.
+*/
+
+CREATE PROCEDURE setMqTopic(IN outputRootRef REFERENCE, IN sTopic CHARACTER)
+BEGIN
+	IF sTopic IS NOT NULL
+		THEN
+		SET outputRootRef.Properties.Topic = sTopic;
+	END IF;
+	RETURN;
+END;
+/**
+* Returns the topic string for a message that published to
+* an MQ Topic and received via a Destination Queue servicing
+* a subscription.
+*/
+
+CREATE PROCEDURE getMqTopic(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	DECLARE sRet CHARACTER NULL;
+	-- First look for the topic in the Properties.
+
+	SET sRet = inputRootRef.Properties.Topic;
+	-- If the topic is not in the properties, then
+	-- look for it in the RFH2 header.
+
+	IF sRet IS NULL
+		THEN
+		SET sRet = inputRootRef.MQRFH2.mqps.Top;
+	END IF;
+
+	RETURN sRet;
+END;
+/**
+* Sets the JMS Correlation ID in 'OutputRoot.MQRFH2.jms.Cid'.
+*/
+
+CREATE PROCEDURE setMqJmsCorrelationId(IN outputRootRef REFERENCE, IN sVal CHARACTER)
+BEGIN
+	IF sVal IS NOT NULL
+		THEN
+		SET outputRootRef.MQRFH2.jms.Cid = sVal;
+	END IF;
+	RETURN;
+END;
+/**
+* Returns the SIG Publication TYPE in the MQ RHF2 'usr' header 'SigPublicationType'.
+*/
+
+CREATE PROCEDURE getMqJmsCorrelationId(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	RETURN inputRootRef.MQRFH2.jms.Cid;
+END;
+/**
+* Sets the Output Queue for an MQOutput node.
+*
+* OutputLocalEnvironment.Destination.MQ.DestinationData.queueName
+*/
+
+CREATE PROCEDURE setMqOutputQueue(IN envRef REFERENCE, IN sQueue CHARACTER)
+BEGIN
+	SET envRef.Destination.MQ.DestinationData.queueName = sQueue;
+	RETURN;
+END;
+/**
+* Sets the message to either persistent (TRUE) or non-persistent (FALSE).
+*
+* OutputRoot.Properties.Persistence
+*
+* Note that setting OutputRoot.MQMD.Persistence is overridden by
+* the Properties value.
+*/
+
+CREATE PROCEDURE setMqMessagePersistence(IN messageRoot REFERENCE, IN bPersistence BOOLEAN)
+BEGIN
+	CALL setMessagePersistence(messageRoot, bPersistence);
+END;
+/**
+* Verifies that the RFH2 Header area is setup.
+*/
+
+CREATE PROCEDURE verifyRFH2(IN outputRootRef REFERENCE)
+BEGIN
+	IF EXISTS(outputRootRef.MQRFH2[]) = FALSE
+		THEN
+		-- Setup the RHF2 Header area if it's not setup, so that
+		-- we can add 'usr' data.
+
+		SET outputRootRef.MQMD.Format = 'MQHRF2 ';
+		SET outputRootRef.MQRFH2.(MQRFH2.Field)Version = 2;
+		SET outputRootRef.MQRFH2.(MQRFH2.Field)Format = 'MQSTR';
+	END IF;
+
+	RETURN;
+END;
+/**
+* Returns the BackoutCount.
+*/
+
+CREATE PROCEDURE getMqBackoutCount(IN rootRef REFERENCE) RETURNS INTEGER
+BEGIN
+	DECLARE nVal INTEGER 0;
+
+	IF EXISTS(rootRef.MQMD[]) = TRUE
+		THEN
+		SET nVal = rootRef.MQMD.BackoutCount;
+	END IF;
+
+	RETURN nVal;
+END;
+/**
+* Returns the SourceQueue.
+*/
+
+CREATE PROCEDURE getMqSourceQueue(IN rootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	DECLARE sVal CHARACTER NULL;
+
+	IF EXISTS(rootRef.MQMD[]) = TRUE
+		THEN
+		SET sVal = rootRef.MQMD.SourceQueue;
+	END IF;
+
+	RETURN sVal;
+END;
+/**
+* Sets the SourceFlag in the MQ RHF2 'usr' header 'SourceFlag'.
+*/
+
+CREATE PROCEDURE setMqSourceFlag(IN outputRootRef REFERENCE, IN sSourceFlag CHARACTER)
+BEGIN
+	SET outputRootRef.MQRFH2.usr.SourceFlag = sSourceFlag;
+	RETURN;
+END;
+/**
+* Returns the SourceFlag in the MQ RHF2 'usr' header 'SourceFlag'.
+*/
+
+CREATE PROCEDURE getMqSourceFlag(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	-- Get the SourceFlag for the MQ RFH2 Header 'MQRFH2.usr.SourceFlag'.
+
+	DECLARE sRet CHARACTER inputRootRef.MQRFH2.usr.SourceFlag;
+
+	RETURN sRet;
+END;
+
+/**
+* Sets the OperationType in the MQ RHF2 'usr' header 'OperationType'.
+*/
+
+CREATE PROCEDURE setMqOperationType(IN outputRootRef REFERENCE, IN sOperationType CHARACTER)
+BEGIN
+	SET outputRootRef.MQRFH2.usr.OperationType = sOperationType;
+	RETURN;
+END;
+
+/**
+* Returns the OperationType in the MQ RHF2 'usr' header 'OperationType'.
+*/
+
+CREATE PROCEDURE getMqOperationType(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	-- Get the SourceFlag for the MQ RFH2 Header 'MQRFH2.usr.OperationType'.
+
+	DECLARE sRet CHARACTER inputRootRef.MQRFH2.usr.OperationType;
+
+	RETURN sRet;
+END;
+
+/**
+* Sets the MD5Checksum in the MQ RHF2 'usr' header 'MD5Checksum'.
+*/
+
+CREATE PROCEDURE setMqMD5Checksum(IN outputRootRef REFERENCE, IN sVal CHARACTER)
+BEGIN
+	SET outputRootRef.MQRFH2.usr.MD5Checksum = sVal;
+	RETURN;
+END;
+
+/**
+* Returns the MD5Checksum in the MQ RHF2 'usr' header 'MD5Checksum'.
+*/
+
+CREATE PROCEDURE getMqMD5Checksum(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	-- Get the SourceFlag for the MQ RFH2 Header 'MQRFH2.usr.MD5Checksum'.
+
+	DECLARE sRet CHARACTER inputRootRef.MQRFH2.usr.MD5Checksum;
+
+	RETURN sRet;
+END;
+
+/**
+* Sets the Store in the MQ RHF2 'usr' header 'x_dif_store_id'.
+*/
+
+CREATE PROCEDURE setMqStore(IN outputRootRef REFERENCE, IN sVal CHARACTER)
+BEGIN
+	SET outputRootRef.MQRFH2.usr.x_dif_store_id = sVal;
+	RETURN;
+END;
+
+/**
+* Returns the Store in the MQ RHF2 'usr' header 'x_dif_store_id'.
+*/
+
+
+CREATE PROCEDURE getMqStore(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	-- Get the Store for the MQ RFH2 Header 'MQRFH2.usr.x_dif_store_id'.
+
+	DECLARE sRet CHARACTER inputRootRef.MQRFH2.usr.x_dif_store_id;
+
+	RETURN sRet;
+END;
+
+/**
+* Sets the MqDifControllerId in the MQ RHF2 'usr' header 'x_dif_controller_id'.
+*/
+
+CREATE PROCEDURE setMqDifControllerId(IN outputRootRef REFERENCE, IN sVal CHARACTER)
+BEGIN
+	SET outputRootRef.MQRFH2.usr.x_dif_controller_id = sVal;
+	RETURN;
+END;
+
+/**
+* Returns the MqDifControllerId in the MQ RHF2 'usr' header 'x_dif_controller_id'.
+*/
+
+CREATE PROCEDURE getMqDifControllerId(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	-- Get the DifControllerId for the MQ RFH2 Header 'MQRFH2.usr.x_dif_controller_id'.
+
+	DECLARE sRet CHARACTER inputRootRef.MQRFH2.usr.x_dif_controller_id;
+
+	RETURN sRet;
+END;
+
+/**
+* Sets the DifAssuranceId in the MQ RHF2 'usr' header 'x_dif_tlog_assurance_id'.
+*/
+
+CREATE PROCEDURE setMqDifAssuranceId(IN outputRootRef REFERENCE, IN sVal CHARACTER)
+BEGIN
+	SET outputRootRef.MQRFH2.usr.x_dif_tlog_assurance_id = sVal;
+	RETURN;
+END;
+
+/**
+* Returns the DifAssuranceId in the MQ RHF2 'usr' header 'x_dif_tlog_assurance_id'.
+*/
+
+CREATE PROCEDURE getMqDifAssuranceId(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	-- Get the MqDifAssuranceId for the MQ RFH2 Header 'MQRFH2.usr.x_dif_tlog_assurance_id'.
+
+	DECLARE sRet CHARACTER inputRootRef.MQRFH2.usr.x_dif_tlog_assurance_id;
+
+	RETURN sRet;
+END;
+
+/**
+* Sets the DifMsgBundleCnt in the MQ RHF2 'usr' header 'x_dif_message_bundle_count'.
+*/
+
+CREATE PROCEDURE setMqDifMsgBundleCnt(IN outputRootRef REFERENCE, IN sVal CHARACTER)
+BEGIN
+	SET outputRootRef.MQRFH2.usr.x_dif_message_bundle_count = sVal;
+	RETURN;
+END;
+
+/**
+* Returns the DifMsgBundleCnt in the MQ RHF2 'usr' header 'x_dif_message_bundle_count'.
+*/
+
+CREATE PROCEDURE getMqDifMsgBundleCnt(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	-- Get the DifMsgBundleCnt for the MQ RFH2 Header 'MQRFH2.usr.x_dif_message_bundle_count'.
+
+	DECLARE sRet CHARACTER inputRootRef.MQRFH2.usr.x_dif_message_bundle_count;
+
+	RETURN sRet;
+END;
+
+/**
+* Sets the DifProductVersion in the MQ RHF2 'usr' header 'x_dif_product_version'.
+*/
+
+CREATE PROCEDURE setMqDifProductVersion(IN outputRootRef REFERENCE, IN sVal CHARACTER)
+BEGIN
+	SET outputRootRef.MQRFH2.usr.x_dif_product_version = sVal;
+	RETURN;
+END;
+
+/**
+* Returns the DifProductVersion in the MQ RHF2 'usr' header 'x_dif_product_version'.
+*/
+
+CREATE PROCEDURE getMqDifProductVersion(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	-- Get the XDifProductVersion for the MQ RFH2 Header 'MQRFH2.usr.x_dif_product_version'.
+
+	DECLARE sRet CHARACTER inputRootRef.MQRFH2.usr.x_dif_product_version;
+
+	RETURN sRet;
+END;
+
+/**
+* Construct and return an MQ CorrelId.
+*/
+
+CREATE PROCEDURE constructMqCorrelId() RETURNS CHARACTER
+BEGIN
+	DECLARE sCorrelId CHARACTER NULL;
+	DECLARE nLength INTEGER 0;
+	/*
+	* An MQ Correlation ID is a blob of length 24. To construct a blob
+	* of length 24, construct a string of length 48 consisting solely of
+	* 0-9 and A-F.
+	*/
+	-- Start with a UUID.
+
+	SET sCorrelId = UUIDASCHAR;
+	-- Remove the dashes.
+
+	SET sCorrelId = REPLACE(sCorrelId, '-', '');
+	-- Determine number of pad characters to get to length of 48.
+
+	SET nLength = 48 - LENGTH(sCorrelId);
+	-- Pad the unique ID with 0's to a length of 48.
+
+	SET sCorrelId = UPPER(sCorrelId || REPLICATE('0', nLength));
+	-- Cast the unique ID as a blob for use as the MQ Correlation ID.
+
+	RETURN sCorrelId;
+END;
+/**
+* Sets the common variables into the MQ RFH2 Header from the environment.
+*/
+
+CREATE PROCEDURE initMqHeadersFromEnv(IN outputRootRef REFERENCE, IN envRef REFERENCE)
+BEGIN
+	CALL setMqCorrelationId(outputRootRef, getEnvCorrelationId(envRef));
+	CALL setMqApplicationRequestId(outputRootRef, getEnvApplicationRequestId(envRef));
+	CALL setMqSource(outputRootRef, getEnvSource(envRef));
+	CALL setMqOrigin(outputRootRef, getEnvOrigin(envRef));
+	CALL setMqOriginEvent(outputRootRef, getEnvOriginEvent(envRef));
+	CALL setMqOriginVersion(outputRootRef, getEnvOriginVersion(envRef));
+	CALL setMqSourceEvent(outputRootRef, getEnvSourceEvent(envRef));
+	CALL setMqSourceSystem(outputRootRef, getEnvSourceSystem(envRef));
+	CALL setMqSigPublicationType(outputRootRef, getEnvSigPublicationType(envRef));
+	CALL setMqSigPublicationSource(outputRootRef, getEnvSigPublicationSource(envRef));
+	CALL setMqSigPublicationTransaction(outputRootRef, getEnvSigPublicationTransaction(envRef));
+	CALL setMqTransactionStartTime(outputRootRef, getEnvStartTime(envRef));
+	CALL setMqOriginDateTime(outputRootRef, getEnvOriginDateTime(envRef));
+	CALL setMqContentType(outputRootRef, getEnvContentType(envRef));
+	CALL setMqPayloadType(outputRootRef, getEnvPayloadType(envRef));
+	CALL setMqRawPayload(outputRootRef, getEnvRawPayload(envRef));
+	CALL setMqEvent(outputRootRef, getEnvEvent(envRef));
+	CALL setMqRequestId(outputRootRef, getEnvRequestId(envRef));
+	CALL setMqRequestName(outputRootRef, getEnvRequestName(envRef));
+	CALL setMqRequestType(outputRootRef, getEnvRequestType(envRef));
+	CALL setMqRequestTimeout(outputRootRef, getEnvRequestTimeout(envRef));
+	CALL setMqSourceFlag(outputRootRef, getEnvSourceFlag(envRef));	
+	CALL setMqOperationType(outputRootRef, getEnvOperationType(envRef));
+    CALL setMqMD5Checksum(outputRootRef, getEnvMD5Checksum(envRef));
+    CALL setMqStore(outputRootRef, getEnvStore(envRef));
+    CALL setMqDifControllerId(outputRootRef, getEnvDifControllerId(envRef));
+    CALL setMqDifAssuranceId(outputRootRef, getEnvDifAssuranceId(envRef));
+    CALL setMqDifMsgBundleCnt(outputRootRef, getEnvDifMsgBundleCnt(envRef));
+    CALL setMqDifProductVersion(outputRootRef, getEnvDifProductVersion(envRef));
+    
+	RETURN;
+END;

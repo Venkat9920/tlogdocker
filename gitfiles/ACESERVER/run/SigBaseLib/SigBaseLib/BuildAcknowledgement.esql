@@ -1,0 +1,87 @@
+BROKER SCHEMA SigBaseLib
+
+/**
+ * Constructs a standard acknowledgement from the local environment
+ * using the following variables:
+ *
+ *  LocalEnvironment.Acknowledgement.MessageId
+ *  LocalEnvironment.Acknowledgement.Status
+ *  LocalEnvironment.Acknowledgement.Code
+ *  LocalEnvironment.Acknowledgement.ErrorDetail
+ *  LocalEnvironment.Acknowledgement.Message
+ */
+
+CREATE COMPUTE MODULE BuildAcknowledgement_BuildAcknowledgement
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE sCorrelationId CHAR getEnvCorrelationId(InputLocalEnvironment);
+		DECLARE ackRef REFERENCE TO InputLocalEnvironment.Acknowledgement;
+		
+		SET OutputLocalEnvironment = InputLocalEnvironment;
+		
+		SET OutputRoot.XMLNSC.Acknowledgement.(XMLNSC.Attribute)DateTime = getStandardXmlFormatDate();
+		
+		IF ackRef.MessageId IS NOT NULL
+		THEN
+			SET OutputRoot.XMLNSC.Acknowledgement.(XMLNSC.Attribute)MessageId = ackRef.MessageId;
+		ELSE
+			SET OutputRoot.XMLNSC.Acknowledgement.(XMLNSC.Attribute)MessageId = sCorrelationId;
+		END IF;
+		
+		IF ackRef.Status IS NOT NULL
+		THEN
+			SET OutputRoot.XMLNSC.Acknowledgement.(XMLNSC.Attribute)Status = ackRef.Status;
+		ELSE
+			SET OutputRoot.XMLNSC.Acknowledgement.(XMLNSC.Attribute)Status = ACCEPTED_STATUS;
+		END IF;
+		
+		IF ackRef.Code IS NOT NULL
+		THEN
+			SET OutputRoot.XMLNSC.Acknowledgement.(XMLNSC.Attribute)Code = ackRef.Code;
+		ELSE
+			SET OutputRoot.XMLNSC.Acknowledgement.(XMLNSC.Attribute)Code = OK_STATUS_CODE;
+		END IF;
+		
+		IF ackRef.ErrorDetail IS NOT NULL
+		THEN
+			SET OutputRoot.XMLNSC.Acknowledgement.(XMLNSC.CDataField)ErrorDetail = ackRef.ErrorDetail;
+		END IF;
+
+		IF ackRef.Message IS NOT NULL
+		THEN
+			SET OutputRoot.XMLNSC.Acknowledgement.Message = ackRef.Message;
+		END IF;
+
+		PROPAGATE TO TERMINAL 'out';
+		
+		RETURN FALSE;
+	END;
+END MODULE;
+
+/**
+ * Sets standard common variables into the environment used
+ * in constructing the Acknowledgement.
+ */
+ 
+CREATE PROCEDURE setAcknowledgement(IN envRef REFERENCE,
+						 			IN sMessageId CHARACTER,
+						 			IN sStatus CHARACTER,
+						 			IN sCode CHARACTER,
+						 			IN sErrorDetail CHARACTER,
+						 			IN sMessage CHARACTER)
+BEGIN
+	SET envRef.Acknowledgement.MessageId = sMessageId;
+	SET envRef.Acknowledgement.Status = sStatus;
+	SET envRef.Acknowledgement.Code = sCode;
+
+	IF sErrorDetail IS NOT NULL
+	THEN
+		SET envRef.Acknowledgement.ErrorDetail = sErrorDetail;
+	END IF;
+	IF sMessage IS NOT NULL
+	THEN
+		SET envRef.Acknowledgement.Message = sMessage;
+	END IF;	 
+	RETURN;
+END;
+

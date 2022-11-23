@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Broker deployBarfile="AceTlogProcessorApp-1.0.0.0024.bar" deployTimestamp="2022-11-23 12:06:35">
+  <CompiledApplication>
+    <ConfigurableProperty uri="startMode">
+    </ConfigurableProperty>
+  </CompiledApplication>
+  <CompiledMessageFlow name="AceRawTlogParse" type="subflow" deployBarfile="AceTlogProcessorApp-1.0.0.0024.bar" deployTimestamp="2022-11-23 12:06:35">
+    <ConfigurableProperty uri="AceRawTlogParse#ParseRawTlog.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceRawTlogParse#ProcessRawTlogSet.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceRawTlogParse#ProcessRawTlogSet.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceRawTlogParse#ProcessRawTlogSet.validateMaster">
+    </ConfigurableProperty>
+  </CompiledMessageFlow>
+  <CompiledMessageFlow name="AceTlogReceiverHttpHandler" type="subflow" deployBarfile="AceTlogProcessorApp-1.0.0.0024.bar" deployTimestamp="2022-11-23 12:06:35">
+    <ConfigurableProperty uri="AceTlogReceiverHttpHandler#Failure.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiverHttpHandler#Failure.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiverHttpHandler#Failure.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiverHttpHandler#Initialize.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiverHttpHandler#Initialize.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiverHttpHandler#Initialize.validateMaster">
+    </ConfigurableProperty>
+  </CompiledMessageFlow>
+  <CompiledMessageFlow name="AceTlogDFDLParse" type="subflow" deployBarfile="AceTlogProcessorApp-1.0.0.0024.bar" deployTimestamp="2022-11-23 12:06:35">
+    <ConfigurableProperty uri="AceTlogDFDLParse#Failed.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogDFDLParse#Failed.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogDFDLParse#Failed.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogDFDLParse#Success.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogDFDLParse#Success.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogDFDLParse#Success.validateMaster">
+    </ConfigurableProperty>
+  </CompiledMessageFlow>
+  <CompiledMessageFlow name="ParseTlog" type="subflow" deployBarfile="AceTlogProcessorApp-1.0.0.0024.bar" deployTimestamp="2022-11-23 12:06:35">
+    <ConfigurableProperty uri="ParseTlog#ConvertBitFields.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="ParseTlog#ConvertBitFields.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="ParseTlog#ConvertBitFields.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="ParseTlog#MapToXml.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="ParseTlog#MapToXml.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="ParseTlog#MapToXml.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="ParseTlog#ParseTlog.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="ParseTlog#ValidateAsXml.validateMaster" override="contentAndValue">
+    </ConfigurableProperty>
+  </CompiledMessageFlow>
+  <CompiledMessageFlow name="AceTlogReceiver" deployBarfile="AceTlogProcessorApp-1.0.0.0024.bar" deployTimestamp="2022-11-23 12:06:35">
+    <ConfigurableProperty uri="AceTlogReceiver#HTTP Input.URLSpecifier" override="/TLOG/IIB/ACE_BINARY">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#HTTP Input.decompressInputMessage">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#HTTP Input.faultFormat">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#HTTP Input.securityProfileName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#HTTP Input.timeoutForClient">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#HTTP Input.useHTTPS">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#HTTP Input.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#Publication.SSLCipherSpec" override="ANY_TLS12_OR_HIGHER">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#Publication.SSLPeerName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#Publication.channelName" override="DEMOHA.SVRCONN">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#Publication.connection" override="CLIENT">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#Publication.destinationQueueManagerName" override="DEMOHA">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#Publication.listenerPortNumber" override="443">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#Publication.policyUrl">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#Publication.queueManagerHostname" override="demoha-ibm-mq-qm-mq.apps.ocpd.gianteagle.com">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#Publication.securityIdentity" override="demohasid">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#Publication.useSSL" override="yes">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#PublishTlog.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#PublishTlog.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#PublishTlog.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#additionalInstances">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#commitCount">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#commitInterval">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#consumerPolicySet">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#consumerPolicySetBindings">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#coordinatedTransaction">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#maximumRateMsgsPerSec">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#monitoringProfile">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#notificationThresholdMsgsPerSec">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#processingTimeoutAction">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#processingTimeoutSec">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#providerPolicySet">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#providerPolicySetBindings">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#securityProfileName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#startInstancesWhenFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#startMode">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogReceiver#wlmPolicy">
+    </ConfigurableProperty>
+  </CompiledMessageFlow>
+  <CompiledMessageFlow name="ConvertToTlogXml" type="subflow" deployBarfile="AceTlogProcessorApp-1.0.0.0024.bar" deployTimestamp="2022-11-23 12:06:35">
+    <ConfigurableProperty uri="ConvertToTlogXml#FixTransactionRecord01.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="ConvertToTlogXml#FixTransactionRecord01.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="ConvertToTlogXml#FixTransactionRecord01.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="ConvertToTlogXml#RemoveWrapperElements.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="ConvertToTlogXml#RemoveWrapperElements.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="ConvertToTlogXml#RemoveWrapperElements.validateMaster">
+    </ConfigurableProperty>
+  </CompiledMessageFlow>
+  <CompiledMessageFlow name="AceTlogProcessor" deployBarfile="AceTlogProcessorApp-1.0.0.0024.bar" deployTimestamp="2022-11-23 12:06:35">
+    <ConfigurableProperty uri="AceTlogProcessor#ACE_TLOG_BINARY_IN.SSLCertificateLabel">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#ACE_TLOG_BINARY_IN.SSLCipherSpec" override="ANY_TLS12_OR_HIGHER">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#ACE_TLOG_BINARY_IN.SSLPeerName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#ACE_TLOG_BINARY_IN.additionalInstances">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#ACE_TLOG_BINARY_IN.channelName" override="DEMOHA.SVRCONN">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#ACE_TLOG_BINARY_IN.componentLevel">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#ACE_TLOG_BINARY_IN.connection" override="CLIENT">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#ACE_TLOG_BINARY_IN.destinationQueueManagerName" override="DEMOHA">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#ACE_TLOG_BINARY_IN.listenerPortNumber" override="443">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#ACE_TLOG_BINARY_IN.policyUrl">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#ACE_TLOG_BINARY_IN.queueManagerHostname" override="demoha-ibm-mq-qm-mq.apps.ocpd.gianteagle.com">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#ACE_TLOG_BINARY_IN.queueName" override="ACE_TLOG_BINARY_IN">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#ACE_TLOG_BINARY_IN.resetBrowseTimeout">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#ACE_TLOG_BINARY_IN.securityIdentity" override="demohasid">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#ACE_TLOG_BINARY_IN.securityProfileName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#ACE_TLOG_BINARY_IN.serializationToken">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#ACE_TLOG_BINARY_IN.topicProperty">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#ACE_TLOG_BINARY_IN.useSSL" override="yes">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#ACE_TLOG_BINARY_IN.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#Initialize.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#Initialize.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#Initialize.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#Publication.SSLCipherSpec" override="ANY_TLS12_OR_HIGHER">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#Publication.SSLPeerName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#Publication.channelName" override="DEMOHA.SVRCONN">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#Publication.connection" override="CLIENT">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#Publication.destinationQueueManagerName" override="DEMOHA">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#Publication.listenerPortNumber" override="443">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#Publication.policyUrl">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#Publication.queueManagerHostname" override="demoha-ibm-mq-qm-mq.apps.ocpd.gianteagle.com">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#Publication.securityIdentity" override="demohasid">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#Publication.useSSL" override="yes">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#PublishTlogXml.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#PublishTlogXml.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#PublishTlogXml.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#additionalInstances">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#commitCount">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#commitInterval">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#consumerPolicySet">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#consumerPolicySetBindings">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#coordinatedTransaction">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#maximumRateMsgsPerSec">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#monitoringProfile">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#notificationThresholdMsgsPerSec">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#processingTimeoutAction">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#processingTimeoutSec">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#providerPolicySet">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#providerPolicySetBindings">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#securityProfileName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#startInstancesWhenFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#startMode">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessor#wlmPolicy">
+    </ConfigurableProperty>
+  </CompiledMessageFlow>
+  <CompiledMessageFlow name="AceTlogProcessorService" deployBarfile="AceTlogProcessorApp-1.0.0.0024.bar" deployTimestamp="2022-11-23 12:06:35">
+    <ConfigurableProperty uri="AceTlogProcessorService#.AceTlogProcessorServiceStatus.javaClassLoader">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#.AceTlogProcessorServiceStatus.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/flows.URLSpecifier" override="/tlogprocessorservice/flows">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/flows.decompressInputMessage">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/flows.faultFormat">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/flows.securityProfileName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/flows.timeoutForClient">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/flows.useHTTPS">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/flows.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/properties.URLSpecifier" override="/tlogprocessorservice/properties">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/properties.decompressInputMessage">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/properties.faultFormat">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/properties.securityProfileName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/properties.timeoutForClient">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/properties.useHTTPS">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/properties.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/releasenotes.URLSpecifier" override="/tlogprocessorservice/releasenotes">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/releasenotes.decompressInputMessage">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/releasenotes.faultFormat">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/releasenotes.securityProfileName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/releasenotes.timeoutForClient">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/releasenotes.useHTTPS">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/releasenotes.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/status.URLSpecifier" override="/tlogprocessorservice/status">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/status.decompressInputMessage">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/status.faultFormat">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/status.securityProfileName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/status.timeoutForClient">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/status.useHTTPS">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/status.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/version.URLSpecifier" override="/tlogprocessorservice/version">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/version.decompressInputMessage">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/version.faultFormat">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/version.securityProfileName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/version.timeoutForClient">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/version.useHTTPS">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#/tlogprocessorservice/version.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#AceTlogProcessorServiceFlows.javaClassLoader">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#AceTlogProcessorServiceFlows.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#AceTlogProcessorServiceProperties.javaClassLoader">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#AceTlogProcessorServiceProperties.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#AceTlogProcessorServiceReleaseNotes.javaClassLoader">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#AceTlogProcessorServiceReleaseNotes.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#AceTlogProcessorServiceVersion.javaClassLoader">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#AceTlogProcessorServiceVersion.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#HTTP Reply.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#additionalInstances">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#commitCount">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#commitInterval">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#consumerPolicySet">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#consumerPolicySetBindings">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#coordinatedTransaction">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#maximumRateMsgsPerSec">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#monitoringProfile">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#notificationThresholdMsgsPerSec">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#processingTimeoutAction">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#processingTimeoutSec">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#providerPolicySet">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#providerPolicySetBindings">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#securityProfileName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#startInstancesWhenFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#startMode">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="AceTlogProcessorService#wlmPolicy">
+    </ConfigurableProperty>
+  </CompiledMessageFlow>
+  <CompiledMessageFlow name="ProcesDFDLTlog" type="subflow" deployBarfile="AceTlogProcessorApp-1.0.0.0024.bar" deployTimestamp="2022-11-23 12:06:35">
+  </CompiledMessageFlow>
+</Broker>

@@ -1,0 +1,226 @@
+BROKER SCHEMA SigBaseLib
+
+
+/**
+ * SigBaseFunctionDef.esql
+ * 
+ * Declare all standard external java methods used by ESQL routines.
+ */
+
+-- Standard Java Library methods. --
+	
+CREATE PROCEDURE gzip(IN source BLOB) RETURNS BLOB LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.util.GZipUtil.gzip";
+
+CREATE PROCEDURE gunzip(IN source BLOB) RETURNS BLOB LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.util.GZipUtil.gunzip";
+
+CREATE PROCEDURE getStandardFormatDate() RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.util.DateUtil.getStandardFormatDate";
+
+CREATE PROCEDURE getStandardXmlFormatDate() RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.util.DateUtil.getStandardXmlFormatDate";
+
+CREATE PROCEDURE getMD5Checksum(IN source BLOB) RETURNS CHARACTER LANGUAGE JAVA
+    EXTERNAL NAME "com.gianteagle.is.util.Util.getMD5Checksum";
+    
+CREATE PROCEDURE getHostAddress() RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.net.NetUtil.getHostAddress";
+
+CREATE PROCEDURE getHostName() RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.net.NetUtil.getHostName";
+		
+CREATE PROCEDURE lineSeparator() RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.util.Util.lineSeparator";
+	
+CREATE PROCEDURE fileSeparator() RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.util.Util.fileSeparator";
+
+CREATE PROCEDURE makeFileName(IN sDirectory CHARACTER, IN sName CHARACTER) RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigUtil.makeFileName";
+
+CREATE PROCEDURE deleteFile(IN sName CHARACTER) LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigUtil.deleteFile";
+
+CREATE PROCEDURE copyFile(IN sSourceFile CHARACTER, IN sDestFile CHARACTER) LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigUtil.copyFile";
+
+CREATE PROCEDURE renameFile(IN sSourceFile CHARACTER, IN sDestFile CHARACTER) LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigUtil.renameFile";
+
+CREATE PROCEDURE getFileSize(IN sName CHARACTER) RETURNS INTEGER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigUtil.getFileSize";
+
+CREATE PROCEDURE getFileLastModificationTime(IN sName CHARACTER) RETURNS INTEGER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigUtil.getFileLastModificationTime";
+
+CREATE PROCEDURE fileHasChanged(IN sName CHARACTER, IN nLastMod INTEGER, IN nLastLen INTEGER) RETURNS BOOLEAN LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigUtil.fileHasChanged";
+
+CREATE PROCEDURE stringToFile(IN sStr CHARACTER, IN sFile CHARACTER) LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigUtil.stringToFile";
+
+CREATE PROCEDURE fileToString(IN sFile CHARACTER) RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigUtil.fileToString";
+	
+CREATE PROCEDURE fileExists(IN sName CHARACTER) RETURNS BOOLEAN LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigUtil.fileExists";
+
+CREATE PROCEDURE canDeleteFile(IN sDir CHARACTER, IN sFile CHARACTER) RETURNS BOOLEAN LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigUtil.canDeleteFile";
+
+CREATE PROCEDURE canReadFile(IN sDir CHARACTER, IN sFile CHARACTER) RETURNS BOOLEAN LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigUtil.canReadFile";
+
+CREATE PROCEDURE isDecimal(IN sVal CHARACTER) RETURNS BOOLEAN LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigUtil.isDecimal";
+
+CREATE PROCEDURE isInteger(IN sVal CHARACTER) RETURNS BOOLEAN LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigUtil.isInteger";
+
+CREATE PROCEDURE isNumeric(IN sVal CHARACTER) RETURNS BOOLEAN LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigUtil.isNumeric";
+
+CREATE PROCEDURE getShortTimeZoneName() RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigUtil.getShortTimeZoneName";
+	 
+-- SIG Logging related methods.
+
+CREATE FUNCTION isAppLogDebugEnabled() RETURNS BOOLEAN LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigLogger.isAppLogDebugEnabled";
+	
+CREATE FUNCTION logDebug(IN MESSAGEFLOW CHARACTER, IN NODELABEL CHARACTER, IN MESG CHARACTER) LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigLogger.logDebug";
+
+CREATE FUNCTION logDebugMessage(IN MESG CHARACTER) LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigLogger.logDebug";
+
+CREATE PROCEDURE logInfo(IN MESSAGEFLOW CHARACTER, IN NODELABEL CHARACTER, IN MESG CHARACTER) LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigLogger.logInfo";
+
+CREATE PROCEDURE logInfoMessage(IN MESG CHARACTER) LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigLogger.logInfo";
+
+CREATE PROCEDURE logWarn(IN MESSAGEFLOW CHARACTER, IN NODELABEL CHARACTER, IN MESG CHARACTER) LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigLogger.logWarn";
+
+CREATE PROCEDURE logWarnMessage(IN MESG CHARACTER) LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigLogger.logWarn";
+
+CREATE PROCEDURE logErrorMessage(IN MESSAGEFLOW CHARACTER, IN NODELABEL CHARACTER, IN MESG CHARACTER) LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigLogger.logErrorMessage";
+
+CREATE PROCEDURE logError(IN COMPONENT CHARACTER, IN CORRELATIONID CHARACTER, IN MESG CHARACTER) LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigLogger.logError";
+
+CREATE PROCEDURE logFatal(IN COMPONENT CHARACTER, IN CORRELATIONID CHARACTER, IN MESG CHARACTER) LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigLogger.logFatal";
+
+CREATE PROCEDURE logTiming(IN MESG CHARACTER) LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigLogger.logTiming";
+	
+CREATE PROCEDURE logTransaction(IN MESG CHARACTER) LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigLogger.logTransaction";
+	
+CREATE PROCEDURE logMessage(IN MESSAGEFLOW CHARACTER, IN CORRELATIONID CHARACTER, IN MESG CHARACTER) LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigLogger.logMessage";
+
+-- SIG Utility related methods.
+
+CREATE PROCEDURE currentTimeMillis() RETURNS INTEGER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigUtil.currentTimeMillis";
+
+CREATE PROCEDURE currentUTCTimeMillis() RETURNS INTEGER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigUtil.currentUTCTimeMillis";
+
+CREATE PROCEDURE getFileAsBlob(IN FILENAME CHARACTER) RETURNS BLOB LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigUtil.getFileAsBtyeArray";
+
+CREATE PROCEDURE delay(IN MILLISECONDS INTEGER) LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigUtil.delay";
+
+CREATE PROCEDURE stopMessageFlow(IN sBrokerName CHARACTER, IN sExecutionGroupLabel CHARACTER, IN sMessageFlow CHARACTER) LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.BrokerUtil.stopMessageFlow";
+
+CREATE PROCEDURE startMessageFlow(IN sBrokerName CHARACTER, IN sExecutionGroupLabel CHARACTER, IN sMessageFlow CHARACTER) LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.BrokerUtil.startMessageFlow";
+
+CREATE PROCEDURE isExecutionGroupInitialzed(IN sBrokerName CHARACTER, IN sExecutionGroupLabel CHARACTER) RETURNS BOOLEAN LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.BrokerUtil.isExecutionGroupInitialzed";
+	
+CREATE PROCEDURE isFlowRunning(IN sBrokerName CHARACTER, IN sExecutionGroupLabel CHARACTER, IN sMessageFlow CHARACTER) RETURNS BOOLEAN LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.BrokerUtil.isFlowRunning";
+
+CREATE PROCEDURE getComponentVersion(IN sBrokerName CHARACTER, IN sExecutionGroupLabel CHARACTER, IN sComponentName CHARACTER) RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.BrokerUtil.getComponentVersion";
+	
+CREATE PROCEDURE getFlowVersion(IN sBrokerName CHARACTER, IN sExecutionGroupLabel CHARACTER, IN sMessageFlowName CHARACTER) RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.BrokerUtil.getFlowVersion";
+	
+CREATE PROCEDURE getQueueDepth(IN sBrokerName CHARACTER, IN sExecutionGroupLabel CHARACTER, IN sQueueName CHARACTER) RETURNS INTEGER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.BrokerUtil.getQueueDepth";
+
+CREATE PROCEDURE getPOSDateTimeInMillis(IN sPOSDateTime CHARACTER) RETURNS INTEGER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.POSDateTime.getPOSDateTimeInMillis";
+
+CREATE PROCEDURE getPOSDateTimeStamp(IN sPOSDateTime CHARACTER) RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.POSDateTime.getPOSDateTimeStamp";
+
+CREATE PROCEDURE getStandardXmlFormatDateFromTime(IN nTime INTEGER) RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigUtil.getStandardXmlFormatDateFromTime";
+	
+CREATE PROCEDURE getStandardXmlFormatUTCDateFromTime(IN nTime INTEGER) RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigUtil.getStandardXmlFormatUTCDateFromTime";
+
+CREATE PROCEDURE newCollection(IN sName CHARACTER) LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.Collection.newCollection";
+	
+CREATE PROCEDURE removeCollection(IN sName CHARACTER) LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.Collection.removeCollection";
+
+CREATE PROCEDURE clearCollection(IN sName CHARACTER) LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.Collection.clearCollection";
+
+CREATE PROCEDURE addCollectionItem(IN sName CHARACTER, IN sItem CHARACTER) LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.Collection.addCollectionItem";
+	
+CREATE PROCEDURE sizeofCollection(IN sName CHARACTER) RETURNS INTEGER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.Collection.sizeofCollection";
+	
+CREATE PROCEDURE getCollectionItem(IN sName CHARACTER, IN nIndex INTEGER) RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.Collection.getCollectionItem";
+	
+CREATE PROCEDURE getNumberOfCollections() RETURNS INTEGER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.Collection.getNumberOfCollections";
+
+CREATE PROCEDURE collectionsToString() RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.Collection.collectionsToString";
+
+-- SIG Configuration methods.
+
+CREATE PROCEDURE getBaseDir() RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigConfig.getBaseDir";
+
+CREATE PROCEDURE getConfigDir() RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigConfig.getConfigDir";
+
+CREATE PROCEDURE getDataFileDir() RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigConfig.getDataFileDir";
+
+CREATE PROCEDURE getLogDir() RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigConfig.getLogDir";
+
+CREATE PROCEDURE getTmpDir() RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigConfig.getTmpDir";
+
+CREATE PROCEDURE getXferDir() RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigConfig.getXferDir";
+
+CREATE PROCEDURE getOutboundXferDir() RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigConfig.getOutboundXferDir";
+
+CREATE PROCEDURE getInboundXferDir() RETURNS CHARACTER LANGUAGE JAVA
+	EXTERNAL NAME "com.gianteagle.is.sig.base.SigConfig.getInboundXferDir";
+	
+
+	

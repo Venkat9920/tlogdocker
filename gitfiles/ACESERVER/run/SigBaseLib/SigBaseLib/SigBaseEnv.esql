@@ -1,0 +1,2044 @@
+
+
+	BROKER SCHEMA SigBaseLib
+	/**
+	* SigBaseEnv.esql
+	*
+	* ESQL source holding standard Environment related methods.
+	*/
+	/**
+	* Deletes all of the standard environment variables.
+	*/
+
+
+	CREATE PROCEDURE clearEnv(IN envRef REFERENCE)
+	BEGIN
+		DELETE FIELD envRef.Variables;
+	END;
+	/**
+	* Sets the start time in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvStartTime(IN envRef REFERENCE, IN nStartTime INTEGER)
+	BEGIN
+		IF nStartTime > 0
+			THEN
+			SET envRef.Variables.StartTime = CAST(nStartTime AS CHARACTER);
+		END IF;
+		RETURN;
+	END;
+	/**
+	* Returns the start time from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvStartTime(IN envRef REFERENCE) RETURNS INTEGER
+	BEGIN
+		DECLARE nRet INTEGER;
+		DECLARE sStartTime CHARACTER;
+
+		SET sStartTime = envRef.Variables.StartTime;
+
+		IF sStartTime IS NULL
+			THEN
+			SET nRet = currentTimeMillis();
+		ELSE
+			SET nRet = CAST (sStartTime AS INTEGER);
+		END IF;
+
+		RETURN nRet;
+	END;
+	/**
+	* Sets the component start time in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvComponentStartTime(IN envRef REFERENCE, IN nComponentStartTime INTEGER)
+	BEGIN
+		SET envRef.Variables.ComponentStartTime = CAST(nComponentStartTime AS CHARACTER);
+		RETURN;
+	END;
+	/**
+	* Returns the component start time from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvComponentStartTime(IN envRef REFERENCE) RETURNS INTEGER
+	BEGIN
+		DECLARE nRet INTEGER;
+		DECLARE sComponentStartTime CHARACTER;
+
+		SET sComponentStartTime = envRef.Variables.ComponentStartTime;
+
+		IF sComponentStartTime IS NULL
+			THEN
+			SET nRet = currentTimeMillis();
+		ELSE
+			SET nRet = CAST (sComponentStartTime AS INTEGER);
+		END IF;
+
+		RETURN nRet;
+	END;
+	/**
+	* Sets the component name in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvComponentName(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.ComponentName = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the component name from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvComponentName(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.ComponentName;
+	END;
+	/**
+	* Sets the component name in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvComponentVersion(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.ComponentVersion = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the component name from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvComponentVersion(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.ComponentVersion;
+	END;
+	/**
+	* Sets the orginating date and time in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvOriginDateTime(IN envRef REFERENCE, IN sOriginDateTime CHARACTER)
+	BEGIN
+		SET envRef.Variables.OriginDateTime = sOriginDateTime;
+		RETURN;
+	END;
+	/**
+	* Returns the originating date and time from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvOriginDateTime(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.OriginDateTime;
+
+		IF sRet IS NULL
+			THEN
+			SET sRet = getStandardFormatDate();
+		END IF;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets the orgin in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvOrigin(IN envRef REFERENCE, IN sOrigin CHARACTER)
+	BEGIN
+		SET envRef.Variables.Origin = sOrigin;
+		RETURN;
+	END;
+	/**
+	* Returns the origin from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvOrigin(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.Origin;
+	END;
+	/**
+	* Sets the orgin event in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvOriginEvent(IN envRef REFERENCE, IN sOriginEvent CHARACTER)
+	BEGIN
+		SET envRef.Variables.OriginEvent = sOriginEvent;
+		RETURN;
+	END;
+	/**
+	* Returns the origin event from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvOriginEvent(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.OriginEvent;
+	END;
+	/**
+	* Sets the orgin version in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvOriginVersion(IN envRef REFERENCE, IN sOriginVersion CHARACTER)
+	BEGIN
+		SET envRef.Variables.OriginVersion = sOriginVersion;
+		RETURN;
+	END;
+	/**
+	* Returns the origin version from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvOriginVersion(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.OriginVersion;
+	END;
+	/**
+	* Sets the Transaction Id in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvTransactionId(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.TransactionId = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Transaction Id from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvTransactionId(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.TransactionId;
+
+		IF sRet IS NULL
+			THEN
+			SET sRet = UUIDASCHAR;
+		END IF;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets the Application Request Id in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvApplicationRequestId(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		IF sVal IS NOT NULL
+			THEN
+			SET envRef.Variables.ApplicationRequestId = sVal;
+		ELSE
+			SET envRef.Variables.ApplicationRequestId = UUIDASCHAR;
+		END IF;
+		RETURN;
+	END;
+	/**
+	* Returns the Application Request Id from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvApplicationRequestId(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.ApplicationRequestId;
+
+		IF sRet IS NULL
+			THEN
+			SET sRet = UUIDASCHAR;
+		END IF;
+
+		RETURN sRet;
+	END;
+	/**
+	* updateEnvApplicationRequestId():
+	*
+	* Helper method used to update the application request id with the
+	* specified value. The specified value is concatenated onto the
+	* existing application request id. This allows an application customize
+	* the id which is captured in the standard timing log.
+	*/
+
+	CREATE PROCEDURE updateEnvApplicationRequestId(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		DECLARE sApplicationRequestId CHARACTER getEnvApplicationRequestId(envRef);
+
+		IF sVal IS NOT NULL
+			THEN
+			IF sApplicationRequestId IS NULL
+				THEN
+				SET sApplicationRequestId = sVal;
+			ELSE
+				SET sApplicationRequestId = sApplicationRequestId || '-' || sVal;
+			END IF;
+
+			CALL setEnvApplicationRequestId(envRef, sApplicationRequestId);
+		END IF;
+	END;
+	/**
+	* Sets the Correlation Id in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvCorrelationId(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		IF sVal IS NOT NULL
+			THEN
+			SET envRef.Variables.CorrelationId = sVal;
+		ELSE
+			SET envRef.Variables.CorrelationId = UUIDASCHAR;
+		END IF;
+		RETURN;
+	END;
+	/**
+	* Returns the Application Request Id from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvCorrelationId(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.CorrelationId;
+
+		IF sRet IS NULL
+			THEN
+			SET sRet = UUIDASCHAR;
+		END IF;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets the Correlation Id in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvCorrelationIdAllowNull(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.CorrelationId = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Application Request Id from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvCorrelationIdAllowNull(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.CorrelationId;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets the Source in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvSource(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.Source = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Source from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvSource(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.Source;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets the SourceApp in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvSourceApp(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.SourceApp = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the SourceApp from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvSourceApp(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.SourceApp;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets the Source Event in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvSourceEvent(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.SourceEvent = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Source Event from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvSourceEvent(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.SourceEvent;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets the Source System in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvSourceSystem(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.SourceSystem = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Source System from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvSourceSystem(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.SourceSystem;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets the Topic in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvTopic(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.Topic = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Topic from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvTopic(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.Topic;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets the Status Code in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvStatusCode(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.StatusCode = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Status Code from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvStatusCode(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.StatusCode;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets the Operation Status in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvOperationStatus(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.OperationStatus = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the OperationStatus from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvOperationStatus(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.OperationStatus;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets the Event in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvEvent(IN envRef REFERENCE, IN sEvent CHARACTER)
+	BEGIN
+		SET envRef.Variables.Event = sEvent;
+		RETURN;
+	END;
+	/**
+	* Returns the Event from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvEvent(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.Event;
+	END;
+	/**
+	* Returns the Payload Type from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvEventPayloadType(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.PayloadType;
+	END;
+	/**
+	* Sets the Payload Type in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvEventPayloadType(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.PayloadType = sVal;
+		RETURN;
+	END;
+	/**
+	* Sets the Event Type in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvEventType(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.EventType = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Event Type from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvEventType(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.EventType;
+	END;
+	/**
+	* Sets the Event Name in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvEventName(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.EventName = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Event Name from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvEventName(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.EventName;
+	END;
+	/**
+	* Sets whether or not a parse operation succeeded in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvParseFailed(IN envRef REFERENCE, IN bVal BOOLEAN)
+	BEGIN
+		SET envRef.Variables.ParseFailed = bVal;
+		RETURN;
+	END;
+	/**
+	* Returns whether or not a parse operation succeeded from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvParseFailed(IN envRef REFERENCE) RETURNS BOOLEAN
+	BEGIN
+		DECLARE bRet BOOLEAN;
+
+		SET bRet = envRef.Variables.ParseFailed;
+
+		RETURN bRet;
+	END;
+	/**
+	* Sets whether or not debug mode is enabled in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvDebugEnabled(IN envRef REFERENCE, IN bVal BOOLEAN)
+	BEGIN
+		SET envRef.Variables.DebugEnabled = bVal;
+		RETURN;
+	END;
+	/**
+	* Returns whether or not debug mode is enabled from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvDebugEnabled(IN envRef REFERENCE) RETURNS BOOLEAN
+	BEGIN
+		DECLARE bRet BOOLEAN FALSE;
+
+		IF envRef.Variables.DebugEnabled IS NOT NULL
+			THEN
+			SET bRet = envRef.Variables.DebugEnabled;
+		END IF;
+
+		RETURN bRet;
+	END;
+	/**
+	* Sets the backout count in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvBackoutCount(IN envRef REFERENCE, IN nBackoutCount INTEGER)
+	BEGIN
+		SET envRef.Variables.BackoutCount = CAST(nBackoutCount AS CHARACTER);
+		RETURN;
+	END;
+	/**
+	* Returns the Backout count from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvBackoutCount(IN envRef REFERENCE) RETURNS INTEGER
+	BEGIN
+		DECLARE nRet INTEGER;
+		DECLARE sBackoutCount CHARACTER;
+
+		SET sBackoutCount = envRef.Variables.BackoutCount;
+
+		IF sBackoutCount IS NULL
+			THEN
+			SET nRet = 0;
+		ELSE
+			SET nRet = CAST (sBackoutCount AS INTEGER);
+		END IF;
+
+		RETURN nRet;
+	END;
+	/**
+	* Sets a source name in the environment. This is a convenience
+	* for applications that need to manage a source name, such as
+	* a source file name, across multiple compute nodes within a flow.
+	*/
+
+	CREATE PROCEDURE setEnvSourceName(IN envRef REFERENCE, IN sName CHARACTER)
+	BEGIN
+		SET envRef.Variables.SourceName = sName;
+		RETURN;
+	END;
+	/**
+	* Returns a source name from the environment. This is a convenience
+	* for applications that need to manage a source name, such as
+	* a source file name, across multiple compute nodes within a flow.
+	*/
+
+	CREATE PROCEDURE getEnvSourceName(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.SourceName;
+	END;
+	/**
+	* Sets a target name in the environment. This is a convenience
+	* for applications that need to manage a target name, such as
+	* a target file name, across multiple compute nodes within a flow.
+	*/
+
+	CREATE PROCEDURE setEnvTargetName(IN envRef REFERENCE, IN sName CHARACTER)
+	BEGIN
+		SET envRef.Variables.TargetName = sName;
+		RETURN;
+	END;
+	/**
+	* Returns a target name from the environment. This is a convenience
+	* for applications that need to manage a target name, such as
+	* a target file name, across multiple compute nodes within a flow.
+	*/
+
+	CREATE PROCEDURE getEnvTargetName(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.TargetName;
+	END;
+	/**
+	* Sets a destination in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvDestination(IN envRef REFERENCE, IN sDestination CHARACTER)
+	BEGIN
+		SET envRef.Variables.Destination = sDestination;
+		RETURN;
+	END;
+	/**
+	* Returns a destination from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvDestination(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.Destination;
+	END;
+	/**
+	* Sets the raw payload data in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvRawPayload(IN envRef REFERENCE, IN blobVal BLOB)
+	BEGIN
+		SET envRef.Variables.RawPayload = blobVal;
+		RETURN;
+	END;
+	/**
+	* Returns the raw payload data from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvRawPayload(IN envRef REFERENCE) RETURNS BLOB
+	BEGIN
+		RETURN envRef.Variables.RawPayload;
+	END;
+	/**
+	* Sets the Payload Type in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvPayloadType(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.PayloadType = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Payload Type from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvPayloadType(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.PayloadType;
+	END;
+	/**
+	* Sets the transaction key field in the environment.This is
+	* typically defined by the type of transaction. For example,
+	* Item processing flows will set this to the UPC.
+	*/
+
+	CREATE PROCEDURE setEnvTransactionKey(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.TransactionKey = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the transaction key field from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvTransactionKey(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.TransactionKey;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets Error Description, typically associated with a response, into the
+	* environment.
+	*/
+
+	CREATE PROCEDURE setEnvErrorDescription(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.ErrorDescription = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Error Description from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvErrorDescription(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.ErrorDescription;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets Error Information, typically associated with a response, into the
+	* environment.
+	*/
+
+	CREATE PROCEDURE setEnvErrorInformation(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.ErrorInformation = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Error Information from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvErrorInformation(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.ErrorInformation;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets Error Detail into the environment.
+	*/
+
+	CREATE PROCEDURE setEnvErrorDetail(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.ErrorDetail = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Error Detail from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvErrorDetail(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.ErrorDetail;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets Error Detail Content Type into the environment.
+	*/
+
+	CREATE PROCEDURE setEnvErrorDetailContentType(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.ErrorDetailContentType = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Error Detail ContentType from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvErrorDetailContentType(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.ErrorDetailContentType;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets Error Detail Encoding into the environment.
+	*/
+
+	CREATE PROCEDURE setEnvErrorDetailEncoding(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.ErrorDetailEncoding = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Error Detail Encoding from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvErrorDetailEncoding(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.ErrorDetailEncoding;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets Error Detail Compression into the environment.
+	*/
+
+	CREATE PROCEDURE setEnvErrorDetailCompression(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.ErrorDetailCompression = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Error Detail Compression from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvErrorDetailCompression(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.ErrorDetailCompression;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets Error Payload, typically a message associated with an error, into the
+	* environment.
+	*/
+
+	CREATE PROCEDURE setEnvErrorPayload(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.ErrorPayload = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Error Payload from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvErrorPayload(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.ErrorPayload;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets Error Payload Content Type into the environment.
+	*/
+
+	CREATE PROCEDURE setEnvErrorPayloadContentType(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.ErrorPayloadContentType = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Error Payload ContentType from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvErrorPayloadContentType(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.ErrorPayloadContentType;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets Error Payload Encoding Type into the environment.
+	*/
+
+	CREATE PROCEDURE setEnvErrorPayloadEncoding(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.ErrorPayloadEncoding = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Error Payload Encodinge from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvErrorPayloadEncoding(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.ErrorPayloadEncoding;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets Error Payload Compression Type into the environment.
+	*/
+
+	CREATE PROCEDURE setEnvErrorPayloadCompression(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.ErrorPayloadCompression = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Error Payload Compression from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvErrorPayloadCompression(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.ErrorPayloadCompression;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets the SIG Publication TYPE in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvSigPublicationType(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.SigPublicationType = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the SIG Publication TYPE from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvSigPublicationType(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.SigPublicationType;
+	END;
+	/**
+	* Sets the SIG Publication SOURCE in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvSigPublicationSource(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.SigPublicationSource = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the SIG Publication SOURCE from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvSigPublicationSource(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.SigPublicationSource;
+	END;
+	/**
+	* Sets the SIG Publication TRANSACTION in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvSigPublicationTransaction(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.SigPublicationTransaction = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the SIG Publication TOPIC from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvSigPublicationTopic(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.SigPublicationTopic;
+	END;
+	/**
+	* Sets the SIG Publication TRANSACTION in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvSigPublicationTopic(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.SigPublicationTopic = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the SIG Publication TRANSACTION from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvSigPublicationTransaction(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.SigPublicationTransaction;
+	END;
+	/**
+	* Sets the a response message in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvResponse(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.Response = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the response message from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvResponse(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.Response;
+	END;
+	/**
+	* Sets the Response Code in the environment. This code
+	* should be in line with standard HTTP response codes.
+	*/
+
+	CREATE PROCEDURE setEnvResponseCode(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.ResponseCode = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Response Code from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvResponseCode(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.ResponseCode;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets the Content Type in the environment. This
+	* should be in line with standard mime types.
+	*/
+
+	CREATE PROCEDURE setEnvContentType(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.ContentType = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Content Type from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvContentType(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.ContentType;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets the content type that will be accepted in the environment.
+	* Typically used in conjunction with formulating an HTTP request.
+	*/
+
+	CREATE PROCEDURE setEnvAcceptContentType(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.AcceptContentType = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Content Type that will be accepted from the environment.
+	* Typically used in conjunction with formulating an HTTP request.
+	*/
+
+	CREATE PROCEDURE getEnvAcceptContentType(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.AcceptContentType;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets the Source Version in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvSourceVersion(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.SourceVersion = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Source Version from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvSourceVersion(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.SourceVersion;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets TestRouteMessage in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvTestRouteMessage(IN envRef REFERENCE, IN bVal BOOLEAN)
+	BEGIN
+		SET envRef.Variables.TestRouteMessage = bVal;
+		RETURN;
+	END;
+	/**
+	* Returns TestRouteMessage from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvTestRouteMessage(IN envRef REFERENCE) RETURNS BOOLEAN
+	BEGIN
+		RETURN envRef.Variables.TestRouteMessage;
+	END;
+	/**
+	* Sets TestMessage in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvTestMessage(IN envRef REFERENCE, IN bVal BOOLEAN)
+	BEGIN
+		SET envRef.Variables.TestMessage = bVal;
+		RETURN;
+	END;
+	/**
+	* Returns TestMessage from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvTestMessage(IN envRef REFERENCE) RETURNS BOOLEAN
+	BEGIN
+		RETURN envRef.Variables.TestMessage;
+	END;
+	/**
+	* Sets the ServiceName in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvServiceName(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.ServiceName = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the ServiceName from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvServiceName(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.ServiceName;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets the ServiceVersion in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvServiceVersion(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.ServiceVersion = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the ServiceVersion from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvServiceVersion(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.ServiceVersion;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets RollbackDelay in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvRollbackDelay(IN envRef REFERENCE, IN nVal INTEGER)
+	BEGIN
+		SET envRef.Variables.RollbackDelay = nVal;
+		RETURN;
+	END;
+	/**
+	* Returns RollbackDelay from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvRollbackDelay(IN envRef REFERENCE) RETURNS INTEGER
+	BEGIN
+		RETURN envRef.Variables.RollbackDelay;
+	END;
+	/**
+	* Sets MaxBackoutCountEnabled in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvMaxBackoutCountEnabled(IN envRef REFERENCE, IN bVal BOOLEAN)
+	BEGIN
+		SET envRef.Variables.MaxBackoutCountEnabled = bVal;
+		RETURN;
+	END;
+	/**
+	* Returns MaxBackoutCountEnabled from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvMaxBackoutCountEnabled(IN envRef REFERENCE) RETURNS BOOLEAN
+	BEGIN
+		RETURN envRef.Variables.MaxBackoutCountEnabled;
+	END;
+	/**
+	* Sets MaxBackoutCount in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvMaxBackoutCount(IN envRef REFERENCE, IN nVal INTEGER)
+	BEGIN
+		SET envRef.Variables.MaxBackoutCount = nVal;
+		RETURN;
+	END;
+	/**
+	* Returns MaxBackoutCount from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvMaxBackoutCount(IN envRef REFERENCE) RETURNS INTEGER
+	BEGIN
+		RETURN envRef.Variables.MaxBackoutCount;
+	END;
+	/**
+	* Sets the SystemName in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvSystemName(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.SystemName = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the SystemName from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvSystemName(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.SystemName;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets the JMS Correlation ID in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvJmsCorrelationId(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.JMSCorrelationId = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the JMS Correlation ID from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvJmsCorrelationId(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.JMSCorrelationId;
+	END;
+	/**
+	* Sets the DeviceId in the environment. This is typically used to
+	* hold the ID of a device, such as a terminal number.
+	*/
+
+	CREATE PROCEDURE setEnvDeviceId(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.DeviceId = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the DeviceId from the environment. This is typically used to
+	* hold the ID of a device, such as a terminal number.
+	*/
+
+	CREATE PROCEDURE getEnvDeviceId(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.DeviceId;
+	END;
+	/**
+	* Sets the TransactionTimeStamp in the environment. This is typically used to
+	* Time stamp associated with a particular transaction, such as the
+	* DateTime contained in a TLOG.
+	*/
+
+	CREATE PROCEDURE setEnvTransactionTimeStamp(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.TransactionTimeStamp = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the TransactionTimeStamp from the environment. This is typically
+	* used to Time stamp associated with a particular transaction, such as the
+	* DateTime contained in a TLOG.
+	*/
+
+	CREATE PROCEDURE getEnvTransactionTimeStamp(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.TransactionTimeStamp;
+	END;
+	/**
+	* Sets the ElapsedTime in the environment. This is typically used to
+	* hold an elapsed time associated with a particular operation or
+	* transaction.
+	*/
+
+	CREATE PROCEDURE setEnvElapsedTime(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.ElapsedTime = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the ElapsedTime from the environment. This is typically
+	* used to hold an elapsed time associated with a particular operation or
+	* transaction.
+	*/
+
+	CREATE PROCEDURE getEnvElapsedTime(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.ElapsedTime;
+	END;
+	/**
+	* Sets whether or not errors should be published.
+	*/
+
+	CREATE PROCEDURE setEnvPublishErrors(IN envRef REFERENCE, IN bVal BOOLEAN)
+	BEGIN
+		SET envRef.Variables.PublishErrors = bVal;
+		RETURN;
+	END;
+	/**
+	* Returns whether or not errors should be published.
+	*/
+
+	CREATE PROCEDURE getEnvPublishErrors(IN envRef REFERENCE) RETURNS BOOLEAN
+	BEGIN
+		DECLARE bRet BOOLEAN;
+
+		SET bRet = envRef.Variables.PublishErrors;
+
+		IF bRet IS NULL
+			THEN
+			SET bRet = TRUE;
+		END IF;
+
+		RETURN bRet;
+	END;
+	/**
+	* Sets the base topic string used to publish errors.
+	*/
+
+	CREATE PROCEDURE setEnvErrorTopicString(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.ErrorTopicString = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the base topic string used to publish errors.
+	*/
+
+	CREATE PROCEDURE getEnvErrorTopicString(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.ErrorTopicString;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets additional Error properties (name/value pairs) into the Environment).
+	*/
+
+	CREATE PROCEDURE setEnvErrorProperty(IN envRef REFERENCE, IN sName CHARACTER, IN sValue CHARACTER)
+	BEGIN
+		DECLARE nCount INTEGER 0;
+		DECLARE ndx INTEGER 0;
+		DECLARE bExists BOOLEAN FALSE;
+
+		IF sName IS NOT NULL
+			THEN
+			SET nCount = getEnvErrorPropertyCount(envRef);
+
+			WHILE ndx < nCount
+				DO
+				SET ndx = ndx + 1;
+
+				IF envRef.Variables.ErrorProperty[ndx].name = sName
+					THEN
+					SET envRef.Variables.ErrorProperty[ndx].value = sValue;
+					SET bExists = TRUE;
+				END IF;
+			END WHILE;
+
+			IF bExists = FALSE
+				THEN
+				SET nCount = nCount + 1;
+				SET envRef.Variables.ErrorProperty[nCount].name = sName;
+				SET envRef.Variables.ErrorProperty[nCount].value = sValue;
+			END IF;
+		END IF;
+		RETURN;
+	END;
+	/**
+	* Returns the number of Error properties (name/value pairs) that are set
+	* in the environment.
+	*/
+
+	CREATE PROCEDURE getEnvErrorPropertyCount(IN envRef REFERENCE) RETURNS INTEGER
+	BEGIN
+		DECLARE nCount INTEGER 0;
+
+		SET nCount = CARDINALITY(envRef.Variables.ErrorProperty[]);
+
+		RETURN nCount;
+	END;
+	/**
+	* Returns the Error property at the specified index.
+	*/
+
+	CREATE PROCEDURE getEnvErrorProperty(IN envRef REFERENCE, IN ndx INTEGER, OUT sName CHARACTER, OUT sValue CHARACTER)
+	BEGIN
+		DECLARE nCount INTEGER getEnvErrorPropertyCount(envRef);
+		SET sName = NULL;
+		SET sValue = NULL;
+
+		IF ndx > 0
+			THEN
+			IF ndx <= nCount
+				THEN
+				SET sName = envRef.Variables.ErrorProperty[ndx].name;
+				SET sValue = envRef.Variables.ErrorProperty[ndx].value;
+			END IF;
+		END IF;
+		RETURN;
+	END;
+	/**
+	* Sets the Error Topic TYPE in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvErrorTopicType(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.ErrorTopicType = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Error Topic TYPE in the environment.
+	*/
+
+	CREATE PROCEDURE getEnvErrorTopicType(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER;
+
+		SET sRet = envRef.Variables.ErrorTopicType;
+
+		IF sRet IS NULL
+			THEN
+			SET sRet = DEFAULT_ERROR_TOPIC_TYPE;
+		END IF;
+
+		RETURN sRet;
+	END;
+	/**
+	* Sets the Status Topic in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvStatusTopic(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.StatusTopic = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Status Topic in the environment.
+	*/
+
+	CREATE PROCEDURE getEnvStatusTopic(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.StatusTopic;
+	END;
+	/**
+	* Sets the RequestId in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvRequestId(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.RequestId = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the RequestId in the environment.
+	*/
+
+	CREATE PROCEDURE getEnvRequestId(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.RequestId;
+	END;
+	/**
+	* Sets the RequestName in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvRequestName(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.RequestName = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the RequestName in the environment.
+	*/
+
+	CREATE PROCEDURE getEnvRequestName(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.RequestName;
+	END;
+	/**
+	* Sets the RequestType in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvRequestType(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.RequestType = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the RequestType in the environment.
+	*/
+
+	CREATE PROCEDURE getEnvRequestType(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.RequestType;
+	END;
+	/**
+	* Sets the RequestTimeout in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvRequestTimeout(IN envRef REFERENCE, IN nVal INTEGER)
+	BEGIN
+		SET envRef.Variables.RequestTimeout = nVal;
+		RETURN;
+	END;
+	/**
+	* Returns the RequestTimeout in the environment.
+	*/
+
+	CREATE PROCEDURE getEnvRequestTimeout(IN envRef REFERENCE) RETURNS INTEGER
+	BEGIN
+		RETURN envRef.Variables.RequestTimeout;
+	END;
+	/**
+	* Sets the Rollback Delay override in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvRollbackDelayOverride(IN envRef REFERENCE, IN nVal INTEGER)
+	BEGIN
+		SET envRef.Variables.RollbackDelayOverride = nVal;
+		RETURN;
+	END;
+	/**
+	* Returns the FileRead Finish from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvRollbackDelayOverride(IN envRef REFERENCE) RETURNS INTEGER
+	BEGIN
+		DECLARE nRet INTEGER 0;
+
+		IF envRef.Variables.RollbackDelayOverride IS NOT NULL
+			THEN
+			SET nRet = envRef.Variables.RollbackDelayOverride;
+		END IF;
+		RETURN nRet;
+	END;
+	/**
+	* Returns the HTTP Request Method from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvHttpRequestMethod(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.HttpRequestMethod;
+	END;
+	/**
+	* Sets the HTTP Request Method in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvHttpRequestMethod(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.HttpRequestMethod = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the Store from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvStore(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.Store;
+	END;
+	/**
+	* Sets the Store in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvStore(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.Store = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the DifControllerId from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvDifControllerId(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.DifControllerId;
+	END;
+	/**
+	* Sets the DifControllerId in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvDifControllerId(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.DifControllerId = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the DifAssuranceId from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvDifAssuranceId(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.DifAssuranceId;
+	END;
+	/**
+	* Sets the DifAssuranceId in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvDifAssuranceId(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.DifAssuranceId = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the DifMsgBundleCnt from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvDifMsgBundleCnt(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.DifMsgBundleCnt;
+	END;
+	/**
+	* Sets the DifMsgBundleCnt in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvDifMsgBundleCnt(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.DifMsgBundleCnt = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns the DifProductVersion from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvDifProductVersion(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.DifProductVersion;
+	END;
+	/**
+	* Sets the DifProductVersion in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvDifProductVersion(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.DifProductVersion = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns whether or not the HTTP Request Method is a GET Request.
+	*/
+
+	CREATE PROCEDURE isEnvHttpGetRequest(IN envRef REFERENCE) RETURNS BOOLEAN
+	BEGIN
+		DECLARE bRet BOOLEAN FALSE;
+		DECLARE sMethod CHARACTER getEnvHttpRequestMethod(envRef);
+
+		IF sMethod IS NOT NULL
+			THEN
+			IF sMethod = 'GET'
+				THEN
+				SET bRet = TRUE;
+			END IF;
+		END IF;
+		RETURN bRet;
+	END;
+	/**
+	* Returns whether or not the HTTP Request Method is a POST Request.
+	*/
+
+	CREATE PROCEDURE isEnvHttpPostRequest(IN envRef REFERENCE) RETURNS BOOLEAN
+	BEGIN
+		DECLARE bRet BOOLEAN FALSE;
+		DECLARE sMethod CHARACTER getEnvHttpRequestMethod(envRef);
+
+		IF sMethod IS NOT NULL
+			THEN
+			IF sMethod = 'POST'
+				THEN
+				SET bRet = TRUE;
+			END IF;
+		END IF;
+		RETURN bRet;
+	END;
+	/**
+	* Sets standard common variables into the environment when a component
+	* starts up.
+	*/
+
+	CREATE PROCEDURE initEnv(IN envRef REFERENCE,
+	IN nStartTime INTEGER,
+	IN nComponentStartTime INTEGER,
+	IN sOriginDateTime CHARACTER,
+	IN sTransactionId CHARACTER,
+	IN sTopic CHARACTER,
+	IN sDestination CHARACTER)
+	BEGIN
+		IF nStartTime > 0
+			THEN
+			CALL setEnvStartTime(envRef, nStartTime);
+		END IF;
+		IF nComponentStartTime > 0
+			THEN
+			CALL setEnvComponentStartTime(envRef, nComponentStartTime);
+		END IF;
+		IF sOriginDateTime IS NOT NULL
+			THEN
+			CALL setEnvOriginDateTime(envRef, sOriginDateTime);
+		END IF;
+		IF sTransactionId IS NOT NULL
+			THEN
+			CALL setEnvTransactionId(envRef, sTransactionId);
+		END IF;
+		IF sTopic IS NOT NULL
+			THEN
+			CALL setEnvTopic(envRef, sTopic);
+			CALL setEnvEvent(envRef, '/' || sTopic);
+		END IF;
+		IF sDestination IS NOT NULL
+			THEN
+			CALL setEnvDestination(envRef, sDestination);
+		END IF;
+	END;
+	/**
+	* Sets the common variables into the environment from an HTTP request.
+	*/
+
+	CREATE PROCEDURE initEnvFromHttpRequest(IN inputRootRef REFERENCE, IN envRef REFERENCE)
+	BEGIN
+		DECLARE sCorrelationId CHARACTER getHttpCorrelationId(inputRootRef);
+		DECLARE sApplicationRequestId CHARACTER getHttpApplicationRequestId(inputRootRef);
+		DECLARE sRemoteHost CHARACTER getHttpRemoteHost(inputRootRef);
+		DECLARE sOrigin CHARACTER sRemoteHost;
+		DECLARE sOriginEvent CHARACTER getHttpSourceApplication(inputRootRef);
+		DECLARE sOriginVersion CHARACTER getHttpSourceVersion(inputRootRef);
+		DECLARE sSourceEvent CHARACTER getHttpEventName(inputRootRef);
+		DECLARE sSourceSystem CHARACTER getHttpHost(inputRootRef);
+		DECLARE sStore CHARACTER getHttpStore(inputRootRef);
+		DECLARE sDifAssuranceId CHARACTER getHttpDifAssuranceId(inputRootRef);
+		DECLARE sDifControllerId CHARACTER getHttpDifControllerId(inputRootRef);
+		DECLARE sDifMsgBundleCnt CHARACTER getHttpDifMsgBundleCnt(inputRootRef);
+		DECLARE sDifProductVersion CHARACTER getHttpDifProductVersion(inputRootRef);
+		DECLARE sEventPayloadType CHARACTER getHttpEventPayloadType(inputRootRef);
+		DECLARE sEventType CHARACTER getHttpEventType(inputRootRef);
+		DECLARE sEventName CHARACTER getHttpEventName(inputRootRef);
+		DECLARE sContentType CHARACTER getHttpContentType(inputRootRef);
+		DECLARE sSourceVersion CHARACTER getHttpSourceVersion(inputRootRef);
+		DECLARE sHttpRequestMethod CHARACTER getHttpRequestMethod(inputRootRef);
+		DECLARE sRequestId CHARACTER getHttpRequestId(inputRootRef);
+		DECLARE sRequestName CHARACTER getHttpRequestName(inputRootRef);
+		DECLARE sRequestType CHARACTER getHttpRequestType(inputRootRef);
+		DECLARE nRequestTimeout INTEGER getHttpRequestTimeout(inputRootRef);
+		DECLARE bTestmessage BOOLEAN isHttpTestMessage(inputRootRef);
+		DECLARE sOperationType CHARACTER getHttpOperationType(inputRootRef);
+		DECLARE sMD5Checksum CHARACTER getHttpMD5Checksum(inputRootRef);
+
+		CALL setEnvCorrelationId(envRef, sCorrelationId);
+		CALL setEnvApplicationRequestId(envRef, sApplicationRequestId);
+		CALL setEnvSource(envRef, sRemoteHost);
+		CALL setEnvOrigin(envRef, sOrigin);
+		CALL setEnvOriginEvent(envRef, sOriginEvent);
+		CALL setEnvOriginVersion(envRef, sOriginVersion);
+		CALL setEnvSourceEvent(envRef, sSourceEvent);
+		CALL setEnvSourceSystem(envRef, sSourceSystem);
+		CALL setEnvEventPayloadType(envRef, sEventPayloadType);
+		CALL setEnvEventType(envRef, sEventType);
+		CALL setEnvEventName(envRef, sEventName);
+		CALL setEnvHttpRequestMethod(envRef, sHttpRequestMethod);
+		CALL setEnvRequestId(envRef, sRequestId);
+		CALL setEnvRequestName(envRef, sRequestName);
+		CALL setEnvRequestType(envRef, sRequestType);
+		CALL setEnvRequestTimeout(envRef, nRequestTimeout);
+		CALL setEnvTestMessage(envRef, bTestmessage);
+		CALL setEnvOperationType(envRef, sOperationType);
+		CALL setEnvMD5Checksum(envRef, sMD5Checksum);
+		CALL setEnvStore(envRef, sStore);
+		CALL setEnvDifAssuranceId(envRef, sDifAssuranceId);
+		CALL setEnvDifControllerId(envRef, sDifControllerId);
+		CALL setEnvDifMsgBundleCnt(envRef, sDifMsgBundleCnt);
+		CALL setEnvDifProductVersion(envRef, sDifProductVersion);
+
+		IF sContentType IS NULL
+			THEN
+			CALL setEnvContentType(envRef, UNKNOWN_CONTENT_TYPE);
+		ELSE
+			CALL setEnvContentType(envRef, sContentType);
+		END IF;
+
+		CALL setEnvSourceVersion(envRef, sSourceVersion);
+
+		RETURN;
+	END;
+	/**
+	* Sets the common environment variables into the environment from the
+	* MQ RFH2 Headers.
+	*/
+
+	CREATE PROCEDURE initEnvFromMqHeaders(IN inputRootRef REFERENCE, in envRef REFERENCE)
+	BEGIN
+
+		DECLARE sTopic CHARACTER getMqTopic(inputRootRef);
+		DECLARE sSourceFlag CHARACTER getMqSourceFlag(inputRootRef);
+		DECLARE sOperationType CHARACTER getMqOperationType(inputRootRef);
+		DECLARE sMD5Checksum CHARACTER getMqMD5Checksum(inputRootRef);
+		DECLARE sStore CHARACTER getMqStore(inputRootRef);
+		DECLARE sDifAssuranceId CHARACTER getMqDifAssuranceId(inputRootRef);
+		DECLARE sDifControllerId CHARACTER getMqDifControllerId(inputRootRef);
+		DECLARE sDifMsgBundleCnt CHARACTER getMqDifMsgBundleCnt(inputRootRef);
+		DECLARE sDifProductVersion CHARACTER getMqDifProductVersion(inputRootRef);
+
+		CALL setEnvStartTime(envRef, getMqTransactionStartTime(inputRootRef));
+		CALL setEnvCorrelationId(envRef, getMqCorrelationId(inputRootRef));
+		CALL setEnvApplicationRequestId(envRef, getMqApplicationRequestId(inputRootRef));
+		CALL setEnvSource(envRef, getMqSourceQueue(inputRootRef));
+		CALL setEnvBackoutCount(envRef, getMqBackoutCount(inputRootRef));
+		CALL setEnvOrigin(envRef, getMqOrigin(inputRootRef));
+		CALL setEnvOriginEvent(envRef, getMqOriginEvent(inputRootRef));
+		CALL setEnvOriginVersion(envRef, getMqOriginVersion(inputRootRef));
+		CALL setEnvOriginDateTime(envRef, getMqOriginDateTime(inputRootRef));
+		CALL setEnvSourceEvent(envRef, getMqSourceEvent(inputRootRef));
+		CALL setEnvSourceSystem(envRef, getMqSourceSystem(inputRootRef));
+		CALL setEnvSourceFlag(envRef, sSourceFlag);
+		CALL setEnvOperationType(envRef, sOperationType);
+		CALL setEnvMD5Checksum(envRef, sMD5Checksum);
+		CALL setEnvTopic(envRef, sTopic);
+
+		IF sStore IS NULL
+			THEN
+			-- IF we did not get store from the MQ headers, then attempt to
+			-- get it from the Topic String.
+
+			SET sStore = getStoreFromTopic(sTopic);
+		END IF;
+        CALL setEnvStore(envRef, sStore);
+        
+		IF sDifAssuranceId IS NULL
+			THEN
+			SET sDifAssuranceId = envRef.Variables.x_dif_tlog_assurance_id;
+		END IF;
+		CALL setEnvDifAssuranceId(envRef, sDifAssuranceId);
+
+		IF sDifControllerId IS NULL
+			THEN
+			SET sDifControllerId = envRef.Variables.x_dif_controller_id;
+		END IF;
+		CALL setEnvDifControllerId(envRef, sDifControllerId);
+
+		IF sDifMsgBundleCnt IS NULL
+			THEN
+			SET sDifMsgBundleCnt = envRef.Variables.x_dif_message_bundle_count;
+		END IF;
+		CALL setEnvDifMsgBundleCnt(envRef, sDifMsgBundleCnt);
+
+		IF sDifProductVersion IS NULL
+			THEN
+			SET sDifProductVersion = envRef.Variables.x_dif_product_version;
+		END IF;
+		CALL setEnvDifProductVersion(envRef, sDifProductVersion);
+
+
+		CALL setEnvSigPublicationType(envRef, getMqSigPublicationType(inputRootRef));
+		CALL setEnvSigPublicationSource(envRef, getMqSigPublicationSource(inputRootRef));
+		CALL setEnvSigPublicationTransaction(envRef, getMqSigPublicationTransaction(inputRootRef));
+
+		CALL setEnvContentType(envRef, getMqContentType(inputRootRef));
+		CALL setEnvPayloadType(envRef, getMqPayloadType(inputRootRef));
+
+		CALL setEnvRawPayload(envRef, getMqRawPayload(inputRootRef));
+		CALL setEnvEvent(envRef, getMqEvent(inputRootRef));
+
+		CALL setEnvRequestId(envRef, getMqRequestId(inputRootRef));
+		CALL setEnvRequestName(envRef, getMqRequestName(inputRootRef));
+		CALL setEnvRequestType(envRef, getMqRequestType(inputRootRef));
+		CALL setEnvRequestTimeout(envRef, getMqRequestTimeout(inputRootRef));
+
+		RETURN;
+	END;
+	/**
+	* Returns whether or not the initiating request was made via
+	* SOAP from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvIsSoapRequest(IN envRef REFERENCE) RETURNS BOOLEAN
+	BEGIN
+		DECLARE sVal CHARACTER envRef.Variables.IsSoapRequest;
+		DECLARE bRet BOOLEAN FALSE;
+
+		IF sVal IS NOT NULL
+			THEN
+			IF sVal = 'TRUE'
+				THEN
+				SET bRet = TRUE;
+			END IF;
+		END IF;
+		RETURN bRet;
+	END;
+	/**
+	* Sets whether or not the inintiating request was made via
+	* SOAP in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvIsSoapRequest(IN envRef REFERENCE, IN bVal BOOLEAN)
+	BEGIN
+		DECLARE sVal CHARACTER;
+
+		IF bVal = TRUE
+			THEN
+			SET sVal = 'TRUE';
+		ELSE
+			SET sVal = 'FALSE';
+		END IF;
+		SET envRef.Variables.IsSoapRequest = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns whether or not the initiating request was made via
+	* HTTP from the environment.
+	*/
+
+	CREATE PROCEDURE getEnvIsHttpRequest(IN envRef REFERENCE) RETURNS BOOLEAN
+	BEGIN
+		DECLARE sVal CHARACTER envRef.Variables.IsHttpRequest;
+		DECLARE bRet BOOLEAN FALSE;
+
+		IF sVal IS NOT NULL
+			THEN
+			IF sVal = 'TRUE'
+				THEN
+				SET bRet = TRUE;
+			END IF;
+		END IF;
+		RETURN bRet;
+	END;
+	/**
+	* Sets whether or not the inintiating request was made via
+	* HTTP in the environment.
+	*/
+
+	CREATE PROCEDURE setEnvIsHttpRequest(IN envRef REFERENCE, IN bVal BOOLEAN)
+	BEGIN
+		DECLARE sVal CHARACTER;
+
+		IF bVal = TRUE
+			THEN
+			SET sVal = 'TRUE';
+		ELSE
+			SET sVal = 'FALSE';
+		END IF;
+		SET envRef.Variables.IsHttpRequest = sVal;
+		RETURN;
+	END;
+	/**
+	* Returns SourceFlag from environment
+	*/
+
+	CREATE PROCEDURE getEnvSourceFlag(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.SourceFlag;
+	END;
+	/**
+	* Sets SourceFlag from environment
+	*/
+
+	CREATE PROCEDURE setEnvSourceFlag(IN envRef REFERENCE, IN sSourceFlag CHARACTER)
+	BEGIN
+		SET envRef.Variables.SourceFlag = sSourceFlag;
+		RETURN;
+	END;
+	/**
+	* Returns OperationType from environment
+	*/
+
+	CREATE PROCEDURE getEnvOperationType(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.OperationType;
+	END;
+	/**
+	* Sets OperationType from environment
+	*/
+
+	CREATE PROCEDURE setEnvOperationType(IN envRef REFERENCE, IN sOperationType CHARACTER)
+	BEGIN
+		SET envRef.Variables.OperationType = sOperationType;
+		RETURN;
+	END;
+	/**
+	* Returns MD5Checksum from environment
+	*/
+
+	CREATE PROCEDURE getEnvMD5Checksum(IN envRef REFERENCE) RETURNS CHARACTER
+	BEGIN
+		RETURN envRef.Variables.MD5Checksum;
+	END;
+	/**
+	* Sets MD5CheckSum from environment
+	*/
+
+	CREATE PROCEDURE setEnvMD5Checksum(IN envRef REFERENCE, IN sVal CHARACTER)
+	BEGIN
+		SET envRef.Variables.MD5Checksum = sVal;
+		RETURN;
+	END;

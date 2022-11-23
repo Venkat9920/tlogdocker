@@ -1,0 +1,190 @@
+BROKER SCHEMA SigBaseLib
+
+CREATE COMPUTE MODULE StoreProcessingError_LogError
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE sCorrelationId CHARACTER getEnvCorrelationIdAllowNull(InputLocalEnvironment);
+		DECLARE sErrorDescription CHARACTER getEnvErrorDescription(InputLocalEnvironment);
+		DECLARE sErrorCode CHARACTER getEnvStatusCode(InputLocalEnvironment);
+		DECLARE sErrorDetail CHARACTER getEnvErrorDetail(InputLocalEnvironment);
+		DECLARE sErrorDetailContentType CHARACTER getEnvErrorDetailContentType(InputLocalEnvironment);
+		DECLARE sErrorDetailEncoding CHARACTER getEnvErrorDetailEncoding(InputLocalEnvironment);
+		DECLARE sErrorDetailCompression CHARACTER getEnvErrorDetailCompression(InputLocalEnvironment);
+		DECLARE sErrorPayload CHARACTER getEnvErrorPayload(InputLocalEnvironment);
+		DECLARE sErrorPayloadContentType CHARACTER getEnvErrorPayloadContentType(InputLocalEnvironment);
+		DECLARE sErrorPayloadEncoding CHARACTER getEnvErrorPayloadEncoding(InputLocalEnvironment);
+		DECLARE sErrorPayloadCompression CHARACTER getEnvErrorPayloadCompression(InputLocalEnvironment);
+		DECLARE sOperationStatus CHARACTER getEnvOperationStatus(InputLocalEnvironment);
+		DECLARE bPublishErrors BOOLEAN getEnvPublishErrors(InputLocalEnvironment);
+		DECLARE sStore CHARACTER getEnvStore(InputLocalEnvironment);
+		DECLARE sDifControllerId CHARACTER getEnvDifControllerId(InputLocalEnvironment);
+		DECLARE sDifProductVersion CHARACTER getEnvDifProductVersion(InputLocalEnvironment);
+		DECLARE sDifAssuranceId CHARACTER getEnvDifAssuranceId(InputLocalEnvironment);
+		DECLARE sTopic CHARACTER NULL;
+		DECLARE blobMessage BLOB NULL;
+		DECLARE sMessage CHARACTER NULL;
+		DECLARE nErrorPropertyCount INTEGER getEnvErrorPropertyCount(InputLocalEnvironment);
+		DECLARE sName CHARACTER NULL;
+		DECLARE sValue CHARACTER NULL;
+		DECLARE ndx INTEGER 0;
+		DECLARE nProp INTEGER 0;
+
+		SET OutputLocalEnvironment = InputLocalEnvironment;
+
+		SET OutputRoot = NULL;
+		SET OutputRoot.Properties = InputRoot.Properties;
+
+		IF sOperationStatus IS NOT NULL AND sOperationStatus = WARN_STATUS
+			THEN
+			CALL logWarn(MessageFlowLabel, sCorrelationId, sErrorDetail);
+		ELSE
+			CALL logError(MessageFlowLabel, sCorrelationId, sErrorDetail);
+		END IF;
+
+		IF bPublishErrors = TRUE
+			THEN
+			SET sTopic = setErrorTopicString(getEnvErrorTopicType(InputLocalEnvironment));
+
+			CALL setMqMessagePersistence(OutputRoot, TRUE);
+			/**
+			* Set persistence on the message. The allowable values for
+			* Persistence are defined in the MQ header file
+			* /opt/mqm/inc/cmqc.h as follows:
+			*
+			* /* Persistence Values */
+			* #define MQPER_PERSISTENCE_AS_PARENT (-1)
+			* #define MQPER_NOT_PERSISTENT 0
+			* #define MQPER_PERSISTENT 1
+			* #define MQPER_PERSISTENCE_AS_Q_DEF 2
+			* #define MQPER_PERSISTENCE_AS_TOPIC_DEF 2
+			*/
+
+			SET OutputRoot.MQMD.Persistence = 1;
+
+			CALL setMqTopic(OutputRoot, sTopic);
+
+			SET OutputRoot.XMLNSC = NULL;
+
+			CREATE LASTCHILD OF OutputRoot DOMAIN 'XMLNSC';
+			SET OutputRoot.XMLNSC.StoreError TYPE = Name;
+			SET OutputRoot.XMLNSC.StoreError.(XMLNSC.Attribute)DateTime = getStandardXmlFormatDate();
+			SET OutputRoot.XMLNSC.StoreError.(XMLNSC.Attribute)CorrelationId = sCorrelationId;
+			SET OutputRoot.XMLNSC.StoreError.(XMLNSC.Attribute)ApplicationRequestId = getEnvApplicationRequestId(InputLocalEnvironment);
+			SET OutputRoot.XMLNSC.StoreError.(XMLNSC.Attribute)Store = sStore;
+			SET OutputRoot.XMLNSC.StoreError.(XMLNSC.Attribute)DifControllerId = sDifControllerId;
+			SET OutputRoot.XMLNSC.StoreError.(XMLNSC.Attribute)DifProductVersion = sDifProductVersion;
+			SET OutputRoot.XMLNSC.StoreError.(XMLNSC.Attribute)DifAssuranceId = sDifAssuranceId;
+			SET OutputRoot.XMLNSC.StoreError.Component TYPE = Name;
+			SET OutputRoot.XMLNSC.StoreError.Component.(XMLNSC.Attribute)Name = getEnvComponentName(InputLocalEnvironment);
+			SET OutputRoot.XMLNSC.StoreError.Component.(XMLNSC.Attribute)Version = getEnvComponentVersion(InputLocalEnvironment);
+
+			IF sErrorCode IS NULL
+				THEN
+				SET sErrorCode = INTERNAL_SERVER_ERROR_STATUS_CODE;
+			END IF;
+			IF sErrorDescription IS NULL
+				THEN
+				SET sErrorDescription = INTERNAL_SERVER_ERROR_MESSAGE;
+			END IF;
+
+			SET OutputRoot.XMLNSC.StoreError.Error = sErrorDescription;
+			SET OutputRoot.XMLNSC.StoreError.Error.(XMLNSC.Attribute)Code = sErrorCode;
+
+			IF nErrorPropertyCount > 0
+				THEN
+				SET nProp = 0;
+				SET ndx = 0;
+
+				WHILE ndx < nErrorPropertyCount
+					DO
+					SET ndx = ndx + 1;
+
+					CALL getEnvErrorProperty(InputLocalEnvironment, ndx, sName, sValue);
+
+					IF sName IS NOT NULL AND sValue IS NOT NULL
+						THEN
+						SET nProp = nProp + 1;
+
+						SET OutputRoot.XMLNSC.StoreError.Properties.Property[nProp].(XMLNSC.Attribute)Name = sName;
+						SET OutputRoot.XMLNSC.StoreError.Properties.Property[nProp] = sValue;
+					END IF;
+				END WHILE;
+			END IF;
+
+			IF sErrorDetail IS NOT NULL
+				THEN
+				-- This is coded a bit strange because we want the default
+				-- behavior (i.e. The Detail is set, but nothing else) to
+				-- just base 64 encode the detail.
+
+				IF sErrorDetailContentType IS NOT NULL
+					THEN
+					SET OutputRoot.XMLNSC.StoreError.Detail.(XMLNSC.Attribute)"Content-Type" = sErrorDetailContentType;
+				END IF;
+				IF sErrorDetailCompression IS NOT NULL
+					THEN
+					SET OutputRoot.XMLNSC.StoreError.Detail.(XMLNSC.Attribute)Compression = sErrorDetailCompression;
+				END IF;
+				IF sErrorDetailEncoding IS NULL
+					THEN
+					SET blobMessage = CAST(sErrorDetail AS BLOB CCSID UTF8_CCSID);
+					SET OutputRoot.XMLNSC.StoreError.Detail.(XMLNSC.Attribute)Encoding = 'base64';
+					SET OutputRoot.XMLNSC.StoreError.Detail = BASE64ENCODE(blobMessage);
+				ELSE
+					SET OutputRoot.XMLNSC.StoreError.Detail.(XMLNSC.Attribute)Encoding = sErrorDetailEncoding;
+					SET OutputRoot.XMLNSC.StoreError.Detail = sErrorDetail;
+				END IF;
+			END IF;
+
+			IF sErrorPayload IS NOT NULL
+				THEN
+				IF sErrorPayloadContentType IS NOT NULL
+					THEN
+					SET OutputRoot.XMLNSC.StoreError.Payload.(XMLNSC.Attribute)"Content-Type" = sErrorPayloadContentType;
+				END IF;
+				IF sErrorPayloadCompression IS NOT NULL
+					THEN
+					SET OutputRoot.XMLNSC.StoreError.Payload.(XMLNSC.Attribute)Compression = sErrorPayloadCompression;
+				END IF;
+				IF sErrorPayloadEncoding IS NOT NULL
+					THEN
+					SET OutputRoot.XMLNSC.StoreError.Payload.(XMLNSC.Attribute)Encoding = sErrorPayloadEncoding;
+				END IF;
+				SET OutputRoot.XMLNSC.StoreError.Payload = sErrorPayload;
+			END IF;
+
+			SET blobMessage = ASBITSTREAM(OutputRoot.XMLNSC);
+			SET sMessage = CAST(blobMessage AS CHARACTER CCSID UTF8_CCSID);
+			CALL logMessage(MessageFlowLabel, sCorrelationId, sMessage);
+
+			PROPAGATE TO TERMINAL 'out';
+
+			SET sMessage = 'Published ERROR: '||
+			formatString(sErrorDescription) || '. CorrelationId=' ||
+			formatString(sCorrelationId) || ' Topic=' ||
+			formatString(sTopic) || '.';
+
+			IF sOperationStatus IS NOT NULL AND sOperationStatus = WARN_STATUS
+				THEN
+				CALL logWarn(MessageFlowLabel, NodeLabel, sMessage);
+			ELSE
+				CALL logErrorMessage(MessageFlowLabel, NodeLabel, sMessage);
+			END IF;
+		ELSE
+			PROPAGATE TO TERMINAL 'out1';
+		END IF;
+
+		RETURN FALSE;
+	END;
+
+	CREATE PROCEDURE setErrorTopicString(IN sTopicType CHARACTER) RETURNS CHARACTER
+	BEGIN
+		DECLARE sTopic CHARACTER getEnvErrorTopicString(InputLocalEnvironment);
+
+		SET sTopic = REPLACE(sTopic, TYPE_TOPIC_EXPRESSION, sTopicType);
+		SET sTopic = REPLACE(sTopic, STORE_TOPIC_EXPRESSION, formatString(getEnvStore(InputLocalEnvironment)));
+
+		RETURN UPPER(sTopic);
+	END;
+
+END MODULE;

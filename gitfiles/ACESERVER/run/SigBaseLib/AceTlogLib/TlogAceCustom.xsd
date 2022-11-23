@@ -1,0 +1,2500 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- ******************************************************************
+	* Permission has been granted to IBM by Toshiba Global Commerce Solutions to publish the
+	* following schema which contains material derived from the SurePOS Application Client/Server
+	* Environment for 4690 OS, Version 7 Release 4 Programming Reference.
+	*
+	* Toshiba Global Commerce Solutions and IBM hereby grant permission, to those obtaining a copy
+	* of these materials to use, copy and modify the materials solely for use in DFDL processors.
+	* THESE MATERIALS ARE PROVIDED AS IS WITH NO WARRANTIES OF ANY KIND.
+	*
+	* © Copyright Toshiba Global Commerce Solutions, 2013
+	*
+	* © Copyright International Business Machines Corporation, 2014.
+	*
+	*********************************************************************
+	* Version 1.2 	TlogAceCustom.xsd
+	*
+	* Change History
+	* 1.2: Updates to support v7r4 (prolog comments only)
+	*
+	* This DFDL schema is supplied by IBM. It provides a DFDL model for
+	* 4690 point-of-sale transaction log (TLog) data (ACE format) user extensions.
+	*
+	* The following extension points are available: 
+	* - Completely new transaction records 
+	* - New transaction records in the 11 series
+	* - New transaction records in the 99 series
+	* - New transaction records in the 20 series
+	* Discrimination is either using initiators or discriminators.
+	* 
+	* 09-17-2021 - SR - Updated 99_10_58 - OrderInjectionType instead of ShopperAssistantCardNo
+	* 09-27-2021 - SR - Updated 11_BD - Changed ReportingCode to OrdinalNumber
+    * 01-01-2022 - SR - Updated 99_10_56 - Changed SuspendDateTime to type_PL
+    * 01-06-2022 - SR - Updated 99_10_56 - Changed SuspendDateTime to type_PD
+    * 01-11-2022 - SR - Added 99_10_67 and 99_10_68
+    * 01-27-2022 - SR - Added 99_10_69
+    * 02-02-2022 - SR - Updated 99_10_68 - Added Team Member Id
+    * 02-17-2022 - SR - Updated 99_10_31 - Added MixMatchOffer and RPCouponNumber
+    * 03-08-2022 - SR - Added 99_10_70 - Customer Opt-in, Phone  
+    * 03-30-2022 - SR - Updated 99_10_70 - Made Phone Optional      
+    * 04-07-2022 - SR - Updated 99_10_63 - Made ScannedUPCList Optional
+    * 05-03-2022 - SR - Updated 99_10_63 - Made NumberOfItemsAdded Optional
+    * 20-07-2022 - SR - Updated 99_10_34 - Added new string 
+    * 20-07-2022 - SR - Updated 99_10_35 - Added new string
+	******************************************************************* -->
+	
+	<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/" xmlns:fmt="http://www.ibm.com/dfdl/TlogAceFormat" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:ibmDfdlExtn="http://www.ibm.com/dfdl/extensions" xmlns:ibmSchExtn="http://www.ibm.com/schema/extensions">
+
+    <xs:include schemaLocation="TlogAceTypes.xsd"/>
+    <xs:import namespace="http://www.ibm.com/dfdl/TlogAceFormat" schemaLocation="TlogAceFormat.xsd"/>
+    <xs:include schemaLocation="TlogAceCommon.xsd"/>
+ 
+     <xs:element name="TransactionRecord11_BD">
+        <xs:complexType>
+            <xs:sequence>
+           		<!--
+           		<xs:element dfdl:inputValueCalc="{xs:hexBinary('11')}" name="StringType" type="type_PS">
+           		</xs:element> 
+           		-->
+           	    <xs:element dfdl:length="1" dfdl:lengthKind="explicit" fixed="BD" name="SubStringType" type="type_PS">
+						<xs:annotation>
+							<xs:appinfo source="http://www.ogf.org/dfdl/">
+								<dfdl:discriminator>{. eq xs:hexBinary('BD')}</dfdl:discriminator>
+							</xs:appinfo>
+						</xs:annotation>
+                </xs:element>
+		        <xs:element minOccurs="0" name="ItemType" type="type_PD">
+        		</xs:element>
+		        <xs:element minOccurs="0" name="ItemUPC" type="type_PD">
+                </xs:element>
+		        <xs:element minOccurs="0" name="ItemValue" type="type_PD">
+		        </xs:element>
+		        <xs:element minOccurs="0" name="ItemDepartment" type="type_PD">
+		        </xs:element>
+        		<xs:element minOccurs="0" name="CouponCode" type="type_PD">
+		        </xs:element>
+        		<xs:element minOccurs="0" name="CouponValue" type="type_PD">
+		        </xs:element>
+        		<xs:element minOccurs="0" name="CouponDepartment" type="type_PD">
+		        </xs:element>
+        		<xs:element minOccurs="0" name="OrdinalNumber" type="type_PD">
+		        </xs:element>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="CustomUserField"/>
+            </xs:sequence>
+		</xs:complexType>
+    </xs:element>
+
+    <!-- Tim Kracht: Adding 11:BE, added to POS with NRSC code -->
+    <xs:element name="TransactionRecord11_BE">
+      <xs:complexType>
+        <xs:sequence>
+          <!--
+           		<xs:element dfdl:inputValueCalc="{xs:hexBinary('11')}" name="StringType" type="type_PS">
+           		</xs:element> 
+           		-->
+          <xs:element dfdl:length="1" dfdl:lengthKind="explicit" fixed="BE" name="SubStringType" type="type_PS">
+            <xs:annotation>
+              <xs:appinfo source="http://www.ogf.org/dfdl/">
+                <dfdl:discriminator>{. eq xs:hexBinary('BE')}</dfdl:discriminator>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="Messages" type="type_PS">
+          </xs:element>
+            </xs:sequence>
+		</xs:complexType>
+    </xs:element>
+ 
+    <xs:element name="TransactionRecord11_EME">
+        <xs:complexType>
+            <xs:sequence>
+           		<!--
+           		<xs:element dfdl:inputValueCalc="{xs:hexBinary('11')}" name="StringType" type="type_PS">
+           		</xs:element> 
+           		-->
+           	    <xs:element dfdl:length="3" dfdl:lengthKind="delimited" fixed="EME" name="SubStringType" type="xs:string">
+						<xs:annotation>
+							<xs:appinfo source="http://www.ogf.org/dfdl/">
+								
+							<dfdl:discriminator>{. eq xs:string('EME')}</dfdl:discriminator>
+            </xs:appinfo>
+						</xs:annotation>
+                </xs:element>
+		        <xs:element dfdl:textNumberPattern="#0.###" name="Indicator" type="type_PD">
+        		</xs:element>
+            </xs:sequence>
+		</xs:complexType>
+    </xs:element>
+  
+    <xs:element name="TransactionRecord99_10_01">
+        <xs:complexType>
+            <xs:sequence>
+       		<!-- Added 2-9-15 - Chuck Nagy
+       		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+ 		</xs:element> 
+           	-->
+           	<xs:element name="Originator" type="type_PI">
+                </xs:element>
+           	<xs:element fixed="01" name="SubType" type="type_PI">
+			<xs:annotation>
+				<xs:appinfo source="http://www.ogf.org/dfdl/">
+					<dfdl:discriminator>{../Originator eq 10 and . eq 1}</dfdl:discriminator>
+				</xs:appinfo>
+			</xs:annotation>
+                </xs:element>
+                <xs:element minOccurs="0" name="AcctNumber" type="type_PD">
+		        </xs:element>
+                <xs:element minOccurs="0" name="MemberNum" type="type_PD">
+		        </xs:element>
+                <xs:element minOccurs="0" name="InvoiceNum" type="type_PD">
+		        </xs:element>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="CustomUserField"/>
+             </xs:sequence>
+	</xs:complexType>
+    </xs:element>
+
+    <xs:element name="TransactionRecord99_10_03">
+        <xs:complexType>
+            <xs:sequence>
+       		<!-- Added 2-9-15 - Chuck Nagy
+       		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+ 		</xs:element> 
+           	-->
+           	<xs:element name="Originator" type="type_PI">
+                </xs:element>
+           	<xs:element fixed="03" name="SubType" type="type_PI">
+			<xs:annotation>
+				<xs:appinfo source="http://www.ogf.org/dfdl/">
+					<dfdl:discriminator>{../Originator eq 10 and . eq 3}</dfdl:discriminator>
+				</xs:appinfo>
+			</xs:annotation>
+                </xs:element>
+                <xs:element minOccurs="0" name="StoreNumber" type="type_ASCII">
+		        </xs:element>
+                <xs:element minOccurs="0" name="PharmacyTransactionNumber" type="type_ASCII">
+		        </xs:element>
+             </xs:sequence>
+	</xs:complexType>
+    </xs:element>
+
+    <xs:element name="TransactionRecord99_10_04">
+        <xs:complexType>
+            <xs:sequence>
+       		<!-- Added 2-9-15 - Chuck Nagy
+       		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+ 		</xs:element> 
+           	-->
+           	<xs:element name="Originator" type="type_PI">
+                </xs:element>
+           	<xs:element fixed="04" name="SubType" type="type_PI">
+			<xs:annotation>
+				<xs:appinfo source="http://www.ogf.org/dfdl/">
+					<dfdl:discriminator>{../Originator eq 10 and . eq 4}</dfdl:discriminator>
+				</xs:appinfo>
+			</xs:annotation>
+                </xs:element>
+                <xs:element minOccurs="0" name="TermNum" type="type_PI">
+		        </xs:element>
+                <xs:element minOccurs="0" name="TranNum" type="type_PI">
+		        </xs:element>
+                <xs:element minOccurs="0" name="SetAsides" type="type_PI">
+		        </xs:element>
+                <xs:element minOccurs="0" name="AgeRestricted" type="type_PI">
+		        </xs:element>
+                <xs:element minOccurs="0" name="AuditFlg" type="type_PI">
+		        </xs:element>
+             </xs:sequence>
+	</xs:complexType>
+    </xs:element>
+
+    <xs:element name="TransactionRecord99_10_05">
+        <xs:complexType>
+            <xs:sequence>
+       		<!-- Added 2-9-15 - Chuck Nagy - 99:10:05  WIC AAV from GE138, 138b
+       		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+ 		</xs:element> 
+ 		dfdl:textNumberPattern="#0"
+           	-->
+           	<xs:element name="Originator" type="type_PI">
+                </xs:element>
+           	<xs:element fixed="05" name="SubType" type="type_PI">
+			<xs:annotation>
+				<xs:appinfo source="http://www.ogf.org/dfdl/">
+					<dfdl:discriminator>{../Originator eq 10 and . eq 5}</dfdl:discriminator>
+				</xs:appinfo>
+			</xs:annotation>
+                </xs:element>
+                <xs:element  minOccurs="0" name="WICCheckNumber" type="type_PD">
+		        </xs:element>
+                <xs:element  minOccurs="0" name="RoutingNumber" type="type_PD">
+		        </xs:element>
+                <xs:element  minOccurs="0" name="WICAccountNumber" type="type_PD">
+		        </xs:element>
+                <xs:element  minOccurs="0" name="WICVendorNumber" type="type_PD">
+		        </xs:element>
+           </xs:sequence>
+	</xs:complexType>
+    </xs:element>
+
+    <xs:element name="TransactionRecord99_10_06">
+        <xs:complexType>
+            <xs:sequence>
+       		<!-- Added 2-9-15 - Chuck Nagy
+       		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+ 		</xs:element> 
+           	-->
+           	<xs:element name="Originator" type="type_PI">
+                </xs:element>
+           	<xs:element fixed="06" name="SubType" type="type_PI">
+			<xs:annotation>
+				<xs:appinfo source="http://www.ogf.org/dfdl/">
+					<dfdl:discriminator>{../Originator eq 10 and . eq 6}</dfdl:discriminator>
+				</xs:appinfo>
+			</xs:annotation>
+                </xs:element>
+                <xs:element minOccurs="0" name="PromptTime1" type="type_PI">
+		        </xs:element>
+                <xs:element minOccurs="0" name="PromptTime2" type="type_PI">
+		        </xs:element>
+                <xs:element minOccurs="0" name="PromptTime3" type="type_PI">
+		        </xs:element>
+                <xs:element minOccurs="0" name="PromptTime4" type="type_PI">
+		        </xs:element>
+                <xs:element minOccurs="0" name="PromptTime5" type="type_PI">
+		        </xs:element>
+                <xs:element minOccurs="0" name="PromptTime6" type="type_PI">
+		        </xs:element>
+              </xs:sequence>
+	</xs:complexType>
+    </xs:element>
+
+    <xs:element name="TransactionRecord99_10_07">
+        <xs:complexType>
+            <xs:sequence>
+       		<!-- Added 2-9-15 - Chuck Nagy
+       		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+ 		</xs:element> 
+           	-->
+           	<xs:element name="Originator" type="type_PI">
+                </xs:element>
+           	<xs:element fixed="07" name="SubType" type="type_PI">
+			<xs:annotation>
+				<xs:appinfo source="http://www.ogf.org/dfdl/">
+					<dfdl:discriminator>{../Originator eq 10 and . eq 7}</dfdl:discriminator>
+				</xs:appinfo>
+			</xs:annotation>
+                </xs:element>
+                <xs:element minOccurs="0" name="PumpNumber" type="type_ASCII">
+		        </xs:element>
+                <xs:element minOccurs="0" name="VoidFlag" type="type_ASCII">
+		        </xs:element>
+              </xs:sequence>
+	</xs:complexType>
+    </xs:element>
+
+    <xs:element name="TransactionRecord99_10_08">
+        <xs:complexType>
+            <xs:sequence>
+       		<!-- Added 2-9-15 - Chuck Nagy
+       		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+ 		</xs:element> 
+           	-->
+           	<xs:element name="Originator" type="type_PI">
+                </xs:element>
+           	<xs:element fixed="08" name="SubType" type="type_PI">
+			<xs:annotation>
+				<xs:appinfo source="http://www.ogf.org/dfdl/">
+					<dfdl:discriminator>{../Originator eq 10 and . eq 8}</dfdl:discriminator>
+				</xs:appinfo>
+			</xs:annotation>
+                </xs:element>
+                <xs:element minOccurs="0" name="TaxablePrice" type="type_ASCII">
+		        </xs:element>
+              </xs:sequence>
+	</xs:complexType>
+    </xs:element>
+   
+    <xs:element name="TransactionRecord99_10_09">
+        <xs:complexType>
+            <xs:sequence>
+       		<!-- Added 2-9-15 - Chuck Nagy
+       		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+ 		</xs:element> 
+           	-->
+           	<xs:element name="Originator" type="type_PI">
+                </xs:element>
+           	<xs:element fixed="09" name="SubType" type="type_PI">
+			<xs:annotation>
+				<xs:appinfo source="http://www.ogf.org/dfdl/">
+					<dfdl:discriminator>{../Originator eq 10 and . eq 9}</dfdl:discriminator>
+				</xs:appinfo>
+			</xs:annotation>
+                </xs:element>
+                <xs:element minOccurs="0" name="ProductLookupCode" type="type_PD">
+		        </xs:element>
+                <xs:element minOccurs="0" name="AuthorizationCode" type="type_PD">
+		        </xs:element>
+                <xs:element minOccurs="0" name="DaysToExpire" type="type_PD">
+		        </xs:element>
+              </xs:sequence>
+	</xs:complexType>
+    </xs:element>
+     
+         <xs:element name="TransactionRecord99_10_10">
+             <xs:complexType>
+                 <xs:sequence>
+            		<!-- Added 2-9-15 - Chuck Nagy
+            		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+      		</xs:element> 
+                	-->
+                	<xs:element name="Originator" type="type_PI">
+                     </xs:element>
+                	<xs:element name="SubType" type="type_PI">
+     					<xs:annotation>
+     						<xs:appinfo source="http://www.ogf.org/dfdl/">
+     							<dfdl:discriminator>{../Originator eq 10 and . eq 10}</dfdl:discriminator>
+     						</xs:appinfo>
+     					</xs:annotation>
+                     </xs:element>
+                     <xs:element minOccurs="0" name="AuthorizationCode" type="type_ASCII">
+     		        </xs:element>
+                     <xs:element minOccurs="0" name="ItemCode" type="type_ASCII">
+     		        </xs:element>
+                   </xs:sequence>
+     	</xs:complexType>
+         </xs:element>
+    
+        <xs:element name="TransactionRecord99_10_11">
+            <xs:complexType>
+                <xs:sequence>
+           		<!-- Added 2-9-15 - Chuck Nagy
+           		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+     		</xs:element> 
+               	-->
+               	<xs:element name="Originator" type="type_PI">
+                    </xs:element>
+               	<xs:element fixed="11" name="SubType" type="type_PI">
+    			<xs:annotation>
+    				<xs:appinfo source="http://www.ogf.org/dfdl/">
+    					<dfdl:discriminator>{../Originator eq 10 and . eq 11}</dfdl:discriminator>
+    				</xs:appinfo>
+    			</xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="ItemCode" type="type_PD">
+    		        </xs:element>
+                    <xs:element minOccurs="0" name="ManagerOveride" type="type_PI">
+    		        </xs:element>
+                    <xs:element minOccurs="0" name="SoldIndicator" type="type_PI">
+    		        </xs:element>
+                  </xs:sequence>
+    	</xs:complexType>
+        </xs:element>
+    
+        <xs:element name="TransactionRecord99_10_12">
+            <xs:complexType>
+                <xs:sequence>
+           		<!-- Added 2-9-15 - Chuck Nagy
+           		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+     		</xs:element> 
+               	-->
+               	<xs:element name="Originator" type="type_PI">
+                    </xs:element>
+               	<xs:element fixed="12" name="SubType" type="type_PI">
+    			<xs:annotation>
+    				<xs:appinfo source="http://www.ogf.org/dfdl/">
+    					<dfdl:discriminator>{../Originator eq 10 and . eq 12}</dfdl:discriminator>
+    				</xs:appinfo>
+    			</xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="TerminalFunctionType" type="type_PI">
+    		        </xs:element>
+                    <xs:element minOccurs="0" name="TerminalNumber" type="type_PI">
+    		        </xs:element>
+                  </xs:sequence>
+    	</xs:complexType>
+        </xs:element>
+
+     <xs:element name="TransactionRecord99_10_13">
+        <xs:complexType>
+            <xs:sequence>
+           		<!--
+           		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+           		</xs:element> 
+           		-->
+           	    <xs:element name="Originator" type="type_PI">
+                </xs:element>
+           	    <xs:element fixed="13" name="SubType" type="type_PI">
+						<xs:annotation>
+							<xs:appinfo source="http://www.ogf.org/dfdl/">
+								<dfdl:discriminator>{../Originator eq 10 and . eq 13}</dfdl:discriminator>
+							</xs:appinfo>
+						</xs:annotation>
+                </xs:element>
+                <xs:element minOccurs="0" name="CustomerAccountNumber1" type="type_PD">
+		        </xs:element>
+                <xs:element minOccurs="0" name="OfferNumber1" type="type_PD">
+		        </xs:element>
+                <xs:element minOccurs="0" name="ExpirationDate1" type="type_PD">
+		        </xs:element>
+                <xs:element name="Indicat1" type="type_1ByteBitField">
+                </xs:element>
+                <xs:element minOccurs="0" name="CustomerAccountNumber2" type="type_PD">
+		        </xs:element>
+                <xs:element minOccurs="0" name="OfferNumber2" type="type_PD">
+		        </xs:element>
+                <xs:element minOccurs="0" name="ExpirationDate2" type="type_PD">
+		        </xs:element>
+                <xs:element name="Indicat2" type="type_1ByteBitField">
+                </xs:element>
+                <xs:element minOccurs="0" name="PreScreenPrompt" type="type_PD">
+		        </xs:element>
+            </xs:sequence>
+		</xs:complexType>
+    </xs:element>
+
+        <xs:element name="TransactionRecord99_10_14">
+            <xs:complexType>
+                <xs:sequence>
+           		<!-- Added 2-9-15 - Chuck Nagy
+           		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+     		</xs:element> 
+               	-->
+               	<xs:element name="Originator" type="type_PI">
+                    </xs:element>
+               	<xs:element fixed="14" name="SubType" type="type_PI">
+    			<xs:annotation>
+    				<xs:appinfo source="http://www.ogf.org/dfdl/">
+    					<dfdl:discriminator>{../Originator eq 10 and . eq 14}</dfdl:discriminator>
+    				</xs:appinfo>
+    			</xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="EMEResponse" type="type_PI">
+    		        </xs:element>
+                    <xs:element minOccurs="0" name="ProcessingType" type="type_PI">
+    		        </xs:element>
+                    <xs:element minOccurs="0" name="ADSResponse" type="type_PI">
+    		        </xs:element>
+                  </xs:sequence>
+    	</xs:complexType>
+        </xs:element>
+    
+        <xs:element name="TransactionRecord99_10_15">
+            <xs:complexType>
+                <xs:sequence>
+           		<!-- Added 2-9-15 - Chuck Nagy
+           		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+     		</xs:element> 
+               	-->
+               	<xs:element name="Originator" type="type_PI">
+                    </xs:element>
+               	<xs:element fixed="15" name="SubType" type="type_PI">
+    			<xs:annotation>
+    				<xs:appinfo source="http://www.ogf.org/dfdl/">
+    					<dfdl:discriminator>{../Originator eq 10 and . eq 15}</dfdl:discriminator>
+    				</xs:appinfo>
+    			</xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="IneligibleItemCode" type="type_PD">
+    		        </xs:element>
+                    <xs:element minOccurs="0" name="IneligibleItemIndicator" type="type_PD">
+    		        </xs:element>
+                  </xs:sequence>
+    	</xs:complexType>
+        </xs:element>
+    
+        <xs:element name="TransactionRecord99_10_16">
+            <xs:complexType>
+                <xs:sequence>
+           		<!-- Added 2-9-15 - Chuck Nagy
+           		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+     		</xs:element> 
+               	-->
+               	<xs:element name="Originator" type="type_PI">
+                    </xs:element>
+               	<xs:element fixed="16" name="SubType" type="type_PI">
+    			<xs:annotation>
+    				<xs:appinfo source="http://www.ogf.org/dfdl/">
+    					<dfdl:discriminator>{../Originator eq 10 and . eq 16}</dfdl:discriminator>
+    				</xs:appinfo>
+    			</xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="ExpDateOrDOB" type="type_ASCII">
+    		        </xs:element>
+                    <xs:element minOccurs="0" name="EntryMethod" type="type_ASCII">
+    		        </xs:element>
+                    <xs:element minOccurs="0" name="ExpirationDate" type="type_ASCII">
+    		        </xs:element>
+                  </xs:sequence>
+    	</xs:complexType>
+        </xs:element>
+    
+        <xs:element name="TransactionRecord99_10_17">
+            <xs:complexType>
+                <xs:sequence>
+           		<!-- Added 2-9-15 - Chuck Nagy
+           		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+     		</xs:element> 
+               	-->
+               	<xs:element name="Originator" type="type_PI">
+                    </xs:element>
+               	<xs:element fixed="17" name="SubType" type="type_PI">
+    			<xs:annotation>
+    				<xs:appinfo source="http://www.ogf.org/dfdl/">
+    					<dfdl:discriminator>{../Originator eq 10 and . eq 17}</dfdl:discriminator>
+    				</xs:appinfo>
+    			</xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="OriginalCouponBarcode" type="type_PS">
+    		        </xs:element>
+                    <xs:element minOccurs="0" name="CouponValue" type="type_ASCII">
+    		        </xs:element>
+                    <xs:element minOccurs="0" name="OverrideString" type="type_ASCII">
+    		        </xs:element>
+                    <xs:element minOccurs="0" name="SubCouponCount" type="type_ASCII">
+    		        </xs:element>
+                  </xs:sequence>
+    	</xs:complexType>
+        </xs:element>
+    
+        <xs:element name="TransactionRecord99_10_18">
+            <xs:complexType>
+                <xs:sequence>
+           		<!-- Added 2-9-15 - Chuck Nagy
+           		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+     		</xs:element> 
+               	-->
+               	<xs:element name="Originator" type="type_PI">
+                    </xs:element>
+               	<xs:element fixed="18" name="SubType" type="type_PI">
+    			<xs:annotation>
+    				<xs:appinfo source="http://www.ogf.org/dfdl/">
+    					<dfdl:discriminator>{../Originator eq 10 and . eq 18}</dfdl:discriminator>
+    				</xs:appinfo>
+    			</xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="CashLimitExceededAmount" type="type_PI">
+    		        </xs:element>
+                    <xs:element minOccurs="0" name="CashLimitExceededType" type="type_PI">
+    		        </xs:element>
+                  </xs:sequence>
+    	</xs:complexType>
+        </xs:element>
+    
+        <xs:element name="TransactionRecord99_10_19">
+            <xs:complexType>
+                <xs:sequence>
+           		<!-- Added 2-9-15 - Chuck Nagy
+           		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+     		</xs:element> 
+               	-->
+               	<xs:element name="Originator" type="type_PI">
+                    </xs:element>
+               	<xs:element fixed="19" name="SubType" type="type_PI">
+    			<xs:annotation>
+    				<xs:appinfo source="http://www.ogf.org/dfdl/">
+    					<dfdl:discriminator>{../Originator eq 10 and . eq 19}</dfdl:discriminator>
+    				</xs:appinfo>
+    			</xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="SubCouponBarcode" type="type_PS">
+    		        </xs:element>
+                    <xs:element minOccurs="0" name="SubCouponValue" type="type_ASCII">
+    		        </xs:element>
+                  </xs:sequence>
+    	</xs:complexType>
+        </xs:element>
+    
+        <xs:element name="TransactionRecord99_10_20">
+            <xs:complexType>
+                <xs:sequence>
+           		<!-- Added 2-9-15 - Chuck Nagy
+           		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+     		</xs:element> 
+               	-->
+               	<xs:element name="Originator" type="type_PI">
+                    </xs:element>
+               	<xs:element fixed="20" name="SubType" type="type_PI">
+    			<xs:annotation>
+    				<xs:appinfo source="http://www.ogf.org/dfdl/">
+    					<dfdl:discriminator>{../Originator eq 10 and . eq 20}</dfdl:discriminator>
+    				</xs:appinfo>
+    			</xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="BPresponseCode" type="type_PD">
+    		        </xs:element>
+                    <xs:element minOccurs="0" name="BPreceiptSTAN" type="type_PD">
+    		        </xs:element>
+                    <xs:element minOccurs="0" name="BPsiteID" type="type_PD">
+    		        </xs:element>
+                    <xs:element minOccurs="0" name="BPtraceNumber" type="type_PD">
+    		        </xs:element>
+                    <xs:element minOccurs="0" name="BPreferenceNumber" type="type_PS">
+    		        </xs:element>
+                    <xs:element minOccurs="0" name="BPtenderDescription" type="type_ASCII">
+    		        </xs:element>
+                  </xs:sequence>
+    	</xs:complexType>
+        </xs:element>
+    
+        <xs:element name="TransactionRecord99_10_21">
+            <xs:complexType>
+                <xs:sequence>
+           		<!-- 
+           		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+     		</xs:element> 
+               	-->
+               	<xs:element name="Originator" type="type_PI">
+                    </xs:element>
+               	<xs:element fixed="21" name="SubType" type="type_PI">
+    			<xs:annotation>
+    				<xs:appinfo source="http://www.ogf.org/dfdl/">
+    					<dfdl:discriminator>{../Originator eq 10 and . eq 21}</dfdl:discriminator>
+    				</xs:appinfo>
+    			</xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Amount" type="type_PI">
+    		        </xs:element>
+                    <xs:element minOccurs="0" name="Type" type="type_PI">
+    		        </xs:element>
+                  </xs:sequence>
+    	</xs:complexType>
+        </xs:element>
+        
+        <xs:element name="TransactionRecord99_10_22">
+            <xs:complexType>
+                <xs:sequence>
+           		<!-- Added 2-19-15 - Chuck Nagy
+           		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+     		</xs:element> 
+               	-->
+               	<xs:element name="Originator" type="type_PI">
+                    </xs:element>
+               	<xs:element fixed="22" name="SubType" type="type_PI">
+    			<xs:annotation>
+    				<xs:appinfo source="http://www.ogf.org/dfdl/">
+    					<dfdl:discriminator>{../Originator eq 10 and . eq 22}</dfdl:discriminator>
+    				</xs:appinfo>
+    			</xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="AdditionalDataFlag" type="type_PI">
+    		        </xs:element>
+                    <xs:element minOccurs="0" name="ImageOfSignature" type="type_PS">
+    		        </xs:element>
+                  </xs:sequence>
+    	</xs:complexType>
+        </xs:element>
+     
+        <xs:element name="TransactionRecord99_10_23">
+            <xs:complexType>
+                <xs:sequence>
+                   <xs:element name="Originator" type="type_PI">
+                   </xs:element>
+               	   <xs:element fixed="23" name="SubType" type="type_PI">
+    				  <xs:annotation>
+    					<xs:appinfo source="http://www.ogf.org/dfdl/">
+    						<dfdl:discriminator>{../Originator eq 10 and . eq 23}</dfdl:discriminator>
+    					</xs:appinfo>
+    				  </xs:annotation>
+                   </xs:element>
+                   <xs:element minOccurs="0" name="OfflineIndicator" type="type_ASCII">
+    		       </xs:element>
+                   <xs:element minOccurs="0" name="OfflineStatus" type="type_ASCII">
+    		       </xs:element>
+                </xs:sequence>
+    	    </xs:complexType>
+        </xs:element>
+     
+        <xs:element name="TransactionRecord99_10_24">
+            <xs:complexType>
+                <xs:sequence>
+                   <xs:element name="Originator" type="type_PI">
+                   </xs:element>
+               	   <xs:element fixed="24" name="SubType" type="type_PI">
+    				  <xs:annotation>
+    					<xs:appinfo source="http://www.ogf.org/dfdl/">
+    						<dfdl:discriminator>{../Originator eq 10 and . eq 24}</dfdl:discriminator>
+    					</xs:appinfo>
+    				  </xs:annotation>
+                   </xs:element>
+                   <xs:element minOccurs="0" name="PromotionServiceCouponId" type="type_PD">
+    		       </xs:element>
+                   <xs:element minOccurs="0" name="PointsType" type="type_ASCII">
+    		       </xs:element>
+                   <xs:element minOccurs="0" name="PointsRedeemed" type="type_PD">
+    		       </xs:element>
+                   <xs:element minOccurs="0" name="OrdinalNumber" type="type_PD">
+    		       </xs:element>
+                </xs:sequence>
+    	    </xs:complexType>
+        </xs:element>
+     
+        <xs:element name="TransactionRecord99_10_27">
+            <xs:complexType>
+                <xs:sequence>
+                   <xs:element name="Originator" type="type_PI">
+                   </xs:element>
+               	   <xs:element fixed="27" name="SubType" type="type_PI">
+    				  <xs:annotation>
+    					<xs:appinfo source="http://www.ogf.org/dfdl/">
+    						<dfdl:discriminator>{../Originator eq 10 and . eq 27}</dfdl:discriminator>
+    					</xs:appinfo>
+    				  </xs:annotation>
+                   </xs:element>
+                   <xs:element minOccurs="0" name="AccountNumber" type="type_ASCII">
+    		       </xs:element>
+                   <xs:element minOccurs="0" name="OrdinalNumber" type="type_PI">
+    		       </xs:element>
+				   <xs:element ibmDfdlExtn:sampleValue="0F00" maxOccurs="unbounded" minOccurs="0" ref="CustomUserField"/>
+                </xs:sequence>
+    	    </xs:complexType>
+        </xs:element>
+
+        <xs:element name="PurchaseItem">
+		  <xs:complexType>
+        	<xs:sequence dfdl:separator=":">
+              <xs:element minOccurs="1" name="ItemCode" type="type_PL">
+    		  </xs:element>
+              <xs:element minOccurs="1" name="PriceAdjustment" type="type_PL">
+    		  </xs:element>
+              <xs:element minOccurs="1" name="OrdinalNumberCount" type="type_PI">
+    		  </xs:element>
+              <xs:element minOccurs="1" name="LinkedOrdinalNumbers">
+              	<xs:complexType>
+              		<xs:sequence dfdl:separator="~">
+              			<xs:element maxOccurs="unbounded" minOccurs="0" name="LinkedOrdinalNumber" type="type_ASCII"/>
+              		</xs:sequence>
+              	</xs:complexType>
+    		  </xs:element>
+			</xs:sequence>
+		  </xs:complexType>
+        </xs:element>
+     
+        <xs:element name="TransactionRecord99_10_28">
+            <xs:complexType>
+                <xs:sequence>
+                   <xs:element name="Originator" type="type_PI">
+                   </xs:element>
+               	   <xs:element fixed="28" name="SubType" type="type_PI">
+    				  <xs:annotation>
+    					<xs:appinfo source="http://www.ogf.org/dfdl/">
+    						<dfdl:discriminator>{../Originator eq 10 and . eq 28}</dfdl:discriminator>
+    					</xs:appinfo>
+    				  </xs:annotation>
+                   </xs:element>
+                   <xs:element minOccurs="0" name="VoidFlag" type="type_PD">
+    		       </xs:element>
+                   <xs:element minOccurs="0" name="AccountNumber" type="type_ASCII">
+    		       </xs:element>
+                   <xs:element minOccurs="0" name="PurseId" type="type_PD">
+    		       </xs:element>
+                   <xs:element minOccurs="0" name="PurseDescription" type="type_ASCII">
+    		       </xs:element>
+                   <xs:element minOccurs="0" name="RemainingBalance" type="type_PL">
+    		       </xs:element>
+                   <xs:element minOccurs="0" name="ItemCount" type="type_PI">
+    		       </xs:element>
+				   <xs:element name="PurchaseItems" minOccurs="0">
+		             <xs:complexType>
+        		       <xs:sequence>
+				   		  <xs:element maxOccurs="unbounded" ref="PurchaseItem"/>
+				   	   </xs:sequence>
+				   	 </xs:complexType>
+				   </xs:element>
+                </xs:sequence>
+    	    </xs:complexType>
+        </xs:element>
+     
+        <xs:element name="TransactionRecord99_10_31">
+            <xs:complexType>
+                <xs:sequence>
+                   <xs:element name="Originator" type="type_PI">
+                   </xs:element>
+               	   <xs:element fixed="31" name="SubType" type="type_PI">
+    				  <xs:annotation>
+    					<xs:appinfo source="http://www.ogf.org/dfdl/">
+    						<dfdl:discriminator>{../Originator eq 10 and . eq 31}</dfdl:discriminator>
+    					</xs:appinfo>
+    				  </xs:annotation>
+                   </xs:element>
+                   <xs:element minOccurs="0" name="OrdinalNumber" type="type_PI">
+    		       </xs:element>
+                   <xs:element minOccurs="0" name="PromoGUID" type="type_ASCII">
+    		       </xs:element>
+                   <xs:element minOccurs="0" name="PromotionID" type="type_PD">
+    		       </xs:element>
+                   <xs:element minOccurs="0" name="BuyGUID" type="type_ASCII">
+    		       </xs:element>
+                   <xs:element minOccurs="0" name="DiscountType" type="type_PI">
+    		       </xs:element>
+                   <xs:element minOccurs="0" name="PromptToRedeem" type="type_PI">
+    		       </xs:element>
+                   <xs:element minOccurs="0" name="TargetedOffer" type="type_PI">
+    		       </xs:element>
+                   <xs:element minOccurs="0" name="LoyaltyOffer" type="type_PI">
+    		       </xs:element>
+                   <xs:element minOccurs="0" name="MiscAccount1" type="type_PD">
+    		       </xs:element>
+                   <xs:element minOccurs="0" name="MiscAccount2" type="type_PD">
+    		       </xs:element>
+                   <xs:element minOccurs="0" name="MixMatchOffer" type="type_PD">
+    		       </xs:element>
+                   <xs:element minOccurs="0" name="RPCouponNumber" type="type_PD">
+    		       </xs:element>    		           		       
+                </xs:sequence>
+    	    </xs:complexType>
+        </xs:element>
+
+        <xs:element name="TransactionRecord99_10_32">
+            <xs:complexType>
+                <xs:sequence>
+                   <xs:element name="Originator" type="type_PI">
+                   </xs:element>
+               	   <xs:element fixed="32" name="SubType" type="type_PI">
+    				  <xs:annotation>
+    					<xs:appinfo source="http://www.ogf.org/dfdl/">
+    						<dfdl:discriminator>{../Originator eq 10 and . eq 32}</dfdl:discriminator>
+    					</xs:appinfo>
+    				  </xs:annotation>
+                   </xs:element>
+                   <xs:element minOccurs="0" name="ExternalFund1" type="type_ASCII">
+    		       </xs:element>   		       
+                   <xs:element minOccurs="0" name="APNumber1" type="type_ASCII">
+    		       </xs:element>  
+                   <xs:element minOccurs="0" name="BillingAmount1" type="type_PD">
+    		       </xs:element>
+                   <xs:element minOccurs="0" name="ExternalFund2" type="type_ASCII">
+    		       </xs:element>   		       
+                   <xs:element minOccurs="0" name="APNumber2" type="type_ASCII">
+    		       </xs:element>  
+                   <xs:element minOccurs="0" name="BillingAmount2" type="type_PD">
+    		       </xs:element>  
+                   <xs:element minOccurs="0" name="ExternalFund3" type="type_ASCII">
+    		       </xs:element>   		       
+                   <xs:element minOccurs="0" name="APNumber3" type="type_ASCII">
+    		       </xs:element>  
+                   <xs:element minOccurs="0" name="BillingAmount3" type="type_PD">
+    		       </xs:element>  
+                   <xs:element minOccurs="0" name="ExternalFund4" type="type_ASCII">
+    		       </xs:element>   		       
+                   <xs:element minOccurs="0" name="APNumber4" type="type_ASCII">
+    		       </xs:element>  
+                   <xs:element minOccurs="0" name="BillingAmount4" type="type_PD">
+    		       </xs:element>
+                   <xs:element minOccurs="0" name="ExternalFund5" type="type_ASCII">
+    		       </xs:element>   		       
+                   <xs:element minOccurs="0" name="APNumber5" type="type_ASCII">
+    		       </xs:element>  
+                   <xs:element minOccurs="0" name="BillingAmount5" type="type_PD">
+    		       </xs:element>      		             		           		           		            		         		       
+                </xs:sequence>
+    	    </xs:complexType>
+        </xs:element>
+
+        <xs:element name="TransactionRecord99_10_33">
+            <xs:complexType>
+                <xs:sequence>
+                   <xs:element name="Originator" type="type_PI">
+                   </xs:element>
+               	   <xs:element fixed="33" name="SubType" type="type_PI">
+    				  <xs:annotation>
+    					<xs:appinfo source="http://www.ogf.org/dfdl/">
+    						<dfdl:discriminator>{../Originator eq 10 and . eq 33}</dfdl:discriminator>
+    					</xs:appinfo>
+    				  </xs:annotation>
+                   </xs:element>
+                   <xs:element minOccurs="0" name="PEGGDescriptor" type="type_ASCII">
+    		       </xs:element>
+                </xs:sequence>
+    	    </xs:complexType>
+        </xs:element>
+        
+        <xs:element name="TransactionRecord99_10_34">
+            <xs:complexType>
+                <xs:sequence>
+                   <xs:element name="Originator" type="type_PI">
+                   </xs:element>
+               	   <xs:element fixed="34" name="SubType" type="type_PI">
+    				  <xs:annotation>
+    					<xs:appinfo source="http://www.ogf.org/dfdl/">
+    						<dfdl:discriminator>{../Originator eq 10 and . eq 34}</dfdl:discriminator>
+    					</xs:appinfo>
+    				  </xs:annotation>
+                   </xs:element>
+                   <xs:element minOccurs="0" name="ResourceId" type="type_PD"></xs:element>
+                   <xs:element minOccurs="0" name="RelatedSchemeId" type="type_PD"></xs:element>
+                   <xs:element minOccurs="0" name="AccountId" type="type_PD"></xs:element>
+                   <xs:element minOccurs="0" name="WalletId" type="type_PD"></xs:element>
+                </xs:sequence>
+    	    </xs:complexType>
+        </xs:element>
+        
+        
+        <xs:element name="TransactionRecord99_10_35">
+            <xs:complexType>
+                <xs:sequence>
+                   <xs:element name="Originator" type="type_PI">
+                   </xs:element>
+               	   <xs:element fixed="35" name="SubType" type="type_PI">
+    				  <xs:annotation>
+    					<xs:appinfo source="http://www.ogf.org/dfdl/">
+    						<dfdl:discriminator>{../Originator eq 10 and . eq 35}</dfdl:discriminator>
+    					</xs:appinfo>
+    				  </xs:annotation>
+                   </xs:element>
+                   	   <xs:element minOccurs="0" name="Onlineflag" type="type_PI"></xs:element>
+	                   <xs:element minOccurs="0" name="Points" type="type_PI"></xs:element>
+	                   <xs:element minOccurs="0" name="Reference" type="type_PS"></xs:element>
+	                   <xs:element minOccurs="0" name="WalletID" type="type_PS">  </xs:element>
+                </xs:sequence>
+    	    </xs:complexType>
+        </xs:element>
+        
+        
+        <xs:element name="TransactionRecord99_10_50">
+            <xs:complexType>
+                <xs:sequence>
+           		<!-- Added 2-9-15 - Chuck Nagy
+           		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+     		</xs:element> 
+               	-->
+               	<xs:element name="Originator" type="type_PI">
+                    </xs:element>
+               	<xs:element fixed="50" name="SubType" type="type_PI">
+    			<xs:annotation>
+    				<xs:appinfo source="http://www.ogf.org/dfdl/">
+    					<dfdl:discriminator>{../Originator eq 10 and . eq 50}</dfdl:discriminator>
+    				</xs:appinfo>
+    			</xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="BlockedUPC" type="type_PI">
+    		        </xs:element>
+                    <xs:element minOccurs="0" name="BlockingUPC" type="type_PI">
+    		        </xs:element>
+                    <xs:element minOccurs="0" name="ManagerOverrideId" type="type_PI">
+    		        </xs:element>
+                  </xs:sequence>
+    	</xs:complexType>
+        </xs:element>
+        
+           <xs:element name="TransactionRecord99_10_51">
+                <xs:complexType>
+                    <xs:sequence>
+               		<!-- Added 2-9-15 - Chuck Nagy
+               		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+         		</xs:element> 
+                   	-->
+                   	<xs:element name="Originator" type="type_PI">
+                        </xs:element>
+                   	<xs:element fixed="51" name="SubType" type="type_PI">
+        			<xs:annotation>
+        				<xs:appinfo source="http://www.ogf.org/dfdl/">
+        					<dfdl:discriminator>{../Originator eq 10 and . eq 51}</dfdl:discriminator>
+        				</xs:appinfo>
+        			</xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="SingleServeOverriddenUPC" type="type_PS">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="OverrideType" type="type_PS">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="ManagerOverrideID" type="type_PS">
+        		        </xs:element>
+                      </xs:sequence>
+        	</xs:complexType>
+            </xs:element>
+            
+           <xs:element name="TransactionRecord99_10_52">
+                <xs:complexType>
+                    <xs:sequence>
+               		<!-- Added 2-9-15 - Chuck Nagy
+               		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+         		</xs:element> 
+                   	-->
+                   	<xs:element name="Originator" type="type_PI">
+                        </xs:element>
+                   	<xs:element fixed="52" name="SubType" type="type_PI">
+        			<xs:annotation>
+        				<xs:appinfo source="http://www.ogf.org/dfdl/">
+        					<dfdl:discriminator>{../Originator eq 10 and . eq 52}</dfdl:discriminator>
+        				</xs:appinfo>
+        			</xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="Plan" type="type_PS">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="AccountType" type="type_PI">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="RequestType" type="type_PI">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="Amount" type="type_PI">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="Sequence" type="type_PI">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="DateTime" type="type_PS">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="AccountNumber" type="type_PS">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="EntryMethod" type="type_PI">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="UserField" type="type_PS">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="Track1" type="type_PS">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="Track2" type="type_PS">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="Track3" type="type_PS">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="ApprovalCode" type="type_PS">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="ApprovalCodeSource" type="type_ASCII">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="ResponseCode" type="type_PI">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="ValueCardFlags" type="type_PS">
+        		        </xs:element>
+                      </xs:sequence>
+        	</xs:complexType>
+            </xs:element>
+  
+  	<xs:element name="TransactionRecord99_10_53">
+                <xs:complexType>
+                    <xs:sequence>
+               		<!-- Added 2-9-15 - Chuck Nagy
+               		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+         		</xs:element> 
+                   	-->
+                   	<xs:element name="Originator" type="type_PI">
+                        </xs:element>
+                   	<xs:element fixed="53" name="SubType" type="type_PI">
+        			<xs:annotation>
+        				<xs:appinfo source="http://www.ogf.org/dfdl/">
+        					<dfdl:discriminator>{../Originator eq 10 and . eq 53}</dfdl:discriminator>
+        				</xs:appinfo>
+        			</xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="GetToYesCouponAction" type="type_PI">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="GTYissuedBy" type="type_ASCII">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="GTYdepartment" type="type_ASCII">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="GTYCustomerSatisfactionReason" type="type_ASCII">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="GTYotherDescription" type="type_ASCII">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="GTYSolutions" type="type_ASCII">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="GTYdetailsProductName" type="type_ASCII">
+        		        </xs:element>
+                        <xs:element minOccurs="0" name="GTYdiscountedAmount" type="type_PI">
+        		        </xs:element>
+                      </xs:sequence>
+        	</xs:complexType>
+    </xs:element>
+    
+  	<xs:element name="TransactionRecord99_10_54">
+                <xs:complexType>
+                    <xs:sequence>
+                   	<xs:element name="Originator" type="type_PI">
+                        </xs:element>
+                   	<xs:element fixed="54" name="SubType" type="type_PI">
+        			<xs:annotation>
+        				<xs:appinfo source="http://www.ogf.org/dfdl/">
+        					<dfdl:discriminator>{../Originator eq 10 and . eq 54}</dfdl:discriminator>
+        				</xs:appinfo>
+        			</xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="ZipCode" type="type_ASCII">
+        		        </xs:element>
+                      </xs:sequence>
+        	</xs:complexType>
+    </xs:element>
+
+  	<xs:element name="TransactionRecord99_10_55">
+                <xs:complexType>
+                    <xs:sequence>
+                   	<xs:element name="Originator" type="type_PI">
+                        </xs:element>
+                   	<xs:element fixed="55" name="SubType" type="type_PI">
+        			<xs:annotation>
+        				<xs:appinfo source="http://www.ogf.org/dfdl/">
+        					<dfdl:discriminator>{../Originator eq 10 and . eq 55}</dfdl:discriminator>
+        				</xs:appinfo>
+        			</xs:annotation>
+                        </xs:element>
+                        <xs:element minOccurs="0" name="PickupStoreNumber" type="type_ASCII">
+        		        </xs:element>
+                      </xs:sequence>
+        	</xs:complexType>
+    </xs:element>
+            
+           <xs:element name="TransactionRecord99_10_56">
+                <xs:complexType>
+                    <xs:sequence>
+                   	<xs:element name="Originator" type="type_PI">
+                        </xs:element>
+                   	<xs:element fixed="56" name="SubType" type="type_PI">
+        			<xs:annotation>
+        				<xs:appinfo source="http://www.ogf.org/dfdl/">
+        					<dfdl:discriminator>{../Originator eq 10 and . eq 56}</dfdl:discriminator>
+        				</xs:appinfo>
+        			</xs:annotation>
+                        </xs:element>
+                		<xs:element dfdl:length="2" dfdl:lengthKind="explicit" name="SuspendTerminalNumber" type="type_PI">
+                		</xs:element>
+                		<xs:element dfdl:length="2" dfdl:lengthKind="explicit" ibmDfdlExtn:sampleValue="1" name="SuspendTransactionNumber" type="type_PI">
+                		</xs:element>
+                		<xs:element dfdl:length="5" dfdl:lengthKind="explicit" name="SuspendDateTime" type="type_PD">
+                		</xs:element>
+                      </xs:sequence>
+        	</xs:complexType>
+            </xs:element>
+            
+           <xs:element name="TransactionRecord99_10_57">
+                <xs:complexType>
+                    <xs:sequence>
+                   	<xs:element name="Originator" type="type_PI">
+                        </xs:element>
+                   	<xs:element fixed="57" name="SubType" type="type_PI">
+        			<xs:annotation>
+        				<xs:appinfo source="http://www.ogf.org/dfdl/">
+        					<dfdl:discriminator>{../Originator eq 10 and . eq 57}</dfdl:discriminator>
+        				</xs:appinfo>
+        			</xs:annotation>
+                        </xs:element>
+						<xs:element  name="UPC" type="type_PD">
+                		</xs:element>
+						<xs:element dfdl:length="1" dfdl:lengthKind="explicit" name="ItemTypeCode" type="type_PI">
+                		</xs:element>
+                		<xs:element name="OriginalPrice" type="type_PD">
+                		</xs:element>
+                		<xs:element name="MarkdownPrice" type="type_PD">
+                		</xs:element>
+                		<xs:element name="QtyOrWgtOrVol" type="type_PD">
+                		</xs:element>
+                		<xs:element name="MarkdownAmount" type="type_PD">
+                		</xs:element>
+                      </xs:sequence>
+        	</xs:complexType>
+            </xs:element>
+            
+           <xs:element name="TransactionRecord99_10_58">
+                <xs:complexType>
+                    <xs:sequence>
+                   	<xs:element name="Originator" type="type_PI">
+                        </xs:element>
+                   	<xs:element fixed="58" name="SubType" type="type_PI">
+        			<xs:annotation>
+        				<xs:appinfo source="http://www.ogf.org/dfdl/">
+        					<dfdl:discriminator>{../Originator eq 10 and . eq 58}</dfdl:discriminator>
+        				</xs:appinfo>
+        			</xs:annotation>
+                        </xs:element>
+						<xs:element  name="OrderInjectionType" type="type_ASCII">
+                		</xs:element>
+                      </xs:sequence>
+        	</xs:complexType>
+            </xs:element>
+            
+           <xs:element name="TransactionRecord99_10_59">
+                <xs:complexType>
+                    <xs:sequence>
+                   	<xs:element name="Originator" type="type_PI">
+                        </xs:element>
+                   	<xs:element fixed="59" name="SubType" type="type_PI">
+        			<xs:annotation>
+        				<xs:appinfo source="http://www.ogf.org/dfdl/">
+        					<dfdl:discriminator>{../Originator eq 10 and . eq 59}</dfdl:discriminator>
+        				</xs:appinfo>
+        			</xs:annotation>
+                        </xs:element>
+						<xs:element  name="CurbsideOrderId" type="type_ASCII">
+                		</xs:element>
+                      </xs:sequence>
+        	</xs:complexType>
+            </xs:element>
+            
+           <xs:element name="TransactionRecord99_10_60">
+                <xs:complexType>
+                    <xs:sequence>
+                   	<xs:element name="Originator" type="type_PI">
+                        </xs:element>
+                   	<xs:element fixed="60" name="SubType" type="type_PI">
+        			<xs:annotation>
+        				<xs:appinfo source="http://www.ogf.org/dfdl/">
+        					<dfdl:discriminator>{../Originator eq 10 and . eq 60}</dfdl:discriminator>
+        				</xs:appinfo>
+        			</xs:annotation>
+                        </xs:element>
+						<xs:element  name="AllItemsScannedFlag" type="type_ASCII">
+                		</xs:element>
+                      </xs:sequence>
+        	</xs:complexType>
+            </xs:element>
+    
+           <xs:element name="TransactionRecord99_10_61">
+                <xs:complexType>
+                    <xs:sequence>
+                   	<xs:element name="Originator" type="type_PI">
+                        </xs:element>
+                   	<xs:element fixed="61" name="SubType" type="type_PI">
+        			<xs:annotation>
+        				<xs:appinfo source="http://www.ogf.org/dfdl/">
+        					<dfdl:discriminator>{../Originator eq 10 and . eq 61}</dfdl:discriminator>
+        				</xs:appinfo>
+        			</xs:annotation>
+                        </xs:element>
+						<xs:element  name="ClubNumber" type="type_PD">
+                		</xs:element>
+						<xs:element  name="StartingPoints" type="type_PD">
+                		</xs:element>
+						<xs:element  name="ClearedPoints" type="type_PD">
+                		</xs:element>
+                      </xs:sequence>
+        	</xs:complexType>
+            </xs:element>
+    
+           <xs:element name="TransactionRecord99_10_62">
+                <xs:complexType>
+                    <xs:sequence>
+                   	<xs:element name="Originator" type="type_PI">
+                        </xs:element>
+                   	<xs:element fixed="62" name="SubType" type="type_PI">
+        			<xs:annotation>
+        				<xs:appinfo source="http://www.ogf.org/dfdl/">
+        					<dfdl:discriminator>{../Originator eq 10 and . eq 62}</dfdl:discriminator>
+        				</xs:appinfo>
+        			</xs:annotation>
+                        </xs:element>
+						<xs:element name="InternalAuditReasonCode" type="type_ASCII">
+                		</xs:element>
+						<xs:element name="ExternalAuditReasonCode" type="type_ASCII">
+                		</xs:element>
+                      </xs:sequence>
+        	</xs:complexType>
+            </xs:element>
+    
+           <xs:element name="TransactionRecord99_10_63">
+                <xs:complexType>
+                    <xs:sequence>
+                   	<xs:element name="Originator" type="type_PI">
+                        </xs:element>
+                   	<xs:element fixed="63" name="SubType" type="type_PI">
+        			<xs:annotation>
+        				<xs:appinfo source="http://www.ogf.org/dfdl/">
+        					<dfdl:discriminator>{../Originator eq 10 and . eq 63}</dfdl:discriminator>
+        				</xs:appinfo>
+        			</xs:annotation>
+                        </xs:element>
+						<xs:element name="Operator" type="type_ASCII">
+                		</xs:element>
+						<xs:element name="AuditDisposition" type="type_ASCII">
+                		</xs:element>
+						<xs:element minOccurs="0" name="NumberOfItemsAdded" type="type_ASCII">
+                		</xs:element>
+						<xs:element minOccurs="0" name="ScannedUPCList" type="type_ASCII">
+                		</xs:element>              		
+                      </xs:sequence>
+        	</xs:complexType>
+            </xs:element>
+            
+           <xs:element name="TransactionRecord99_10_64">
+                <xs:complexType>
+                    <xs:sequence>
+                   	<xs:element name="Originator" type="type_PI">
+                        </xs:element>
+                   	<xs:element fixed="64" name="SubType" type="type_PI">
+        			<xs:annotation>
+        				<xs:appinfo source="http://www.ogf.org/dfdl/">
+        					<dfdl:discriminator>{../Originator eq 10 and . eq 64}</dfdl:discriminator>
+        				</xs:appinfo>
+        			</xs:annotation>
+                        </xs:element>
+						<xs:element  name="POSId" type="type_PI">
+                		</xs:element>
+						<xs:element  name="TransactionNumber" type="type_PD">
+                		</xs:element>
+						<xs:element  name="Operator" type="type_PD">
+                		</xs:element>
+						<xs:element  name="TerminalNumber" type="type_PD">
+                		</xs:element>
+						<xs:element  name="DateTime" type="type_PD">
+                		</xs:element>
+                      </xs:sequence>
+        	</xs:complexType>
+            </xs:element>
+            
+           <xs:element name="TransactionRecord99_10_65">
+                <xs:complexType>
+                    <xs:sequence>
+                   	<xs:element name="Originator" type="type_PI">
+                        </xs:element>
+                   	<xs:element fixed="65" name="SubType" type="type_PI">
+        			<xs:annotation>
+        				<xs:appinfo source="http://www.ogf.org/dfdl/">
+        					<dfdl:discriminator>{../Originator eq 10 and . eq 65}</dfdl:discriminator>
+        				</xs:appinfo>
+        			</xs:annotation>
+                        </xs:element>
+						<xs:element  name="TransactionStartTime" type="type_PD">
+                		</xs:element>
+						<xs:element  name="TransactionEndTime" type="type_PD">
+                		</xs:element>
+                      </xs:sequence>
+        	</xs:complexType>
+            </xs:element>
+            
+           <xs:element name="TransactionRecord99_10_66">
+                <xs:complexType>
+                    <xs:sequence>
+                   	<xs:element name="Originator" type="type_PI">
+                        </xs:element>
+                   	<xs:element fixed="66" name="SubType" type="type_PI">
+        			<xs:annotation>
+        				<xs:appinfo source="http://www.ogf.org/dfdl/">
+        					<dfdl:discriminator>{../Originator eq 10 and . eq 66}</dfdl:discriminator>
+        				</xs:appinfo>
+        			</xs:annotation>
+                        </xs:element>
+						<xs:element  name="AlcoholValidated" type="type_ASCII">
+                		</xs:element>
+                      </xs:sequence>
+        	</xs:complexType>
+            </xs:element>
+            
+           <xs:element name="TransactionRecord99_10_67">
+                <xs:complexType>
+                    <xs:sequence>
+                   	<xs:element name="Originator" type="type_PI">
+                        </xs:element>
+                   	<xs:element fixed="67" name="SubType" type="type_PI">
+        			<xs:annotation>
+        				<xs:appinfo source="http://www.ogf.org/dfdl/">
+        					<dfdl:discriminator>{../Originator eq 10 and . eq 67}</dfdl:discriminator>
+        				</xs:appinfo>
+        			</xs:annotation>
+                        </xs:element>
+						<xs:element  name="DiscountReasonCode" type="type_ASCII">
+                		</xs:element>
+                      </xs:sequence>
+        	</xs:complexType>
+            </xs:element>            
+
+           <xs:element name="TransactionRecord99_10_68">
+                <xs:complexType>
+                    <xs:sequence>
+                   	<xs:element name="Originator" type="type_PI">
+                        </xs:element>
+                   	<xs:element fixed="68" name="SubType" type="type_PI">
+        			<xs:annotation>
+        				<xs:appinfo source="http://www.ogf.org/dfdl/">
+        					<dfdl:discriminator>{../Originator eq 10 and . eq 68}</dfdl:discriminator>
+        				</xs:appinfo>
+        			</xs:annotation>
+                        </xs:element>
+						<xs:element name="ManualIdEntryReasonCode" type="type_ASCII">
+                		</xs:element>
+						<xs:element name="TeamMemberId" type="type_ASCII">
+                		</xs:element>                		
+                      </xs:sequence>
+        	</xs:complexType>
+            </xs:element>            
+
+           <xs:element name="TransactionRecord99_10_69">
+                <xs:complexType>
+                    <xs:sequence>
+                   	<xs:element name="Originator" type="type_PI">
+                        </xs:element>
+                   	<xs:element fixed="69" name="SubType" type="type_PI">
+        			<xs:annotation>
+        				<xs:appinfo source="http://www.ogf.org/dfdl/">
+        					<dfdl:discriminator>{../Originator eq 10 and . eq 69}</dfdl:discriminator>
+        				</xs:appinfo>
+        			</xs:annotation>
+                        </xs:element>
+						<xs:element  name="BusinessDate" type="type_ASCII">
+                		</xs:element>
+                      </xs:sequence>
+        	</xs:complexType>
+            </xs:element>  
+    <!-- Mobile Shopper Custom Strings -->
+
+           <xs:element name="TransactionRecord99_10_70">
+                <xs:complexType>
+                    <xs:sequence>
+                   	<xs:element name="Originator" type="type_PI">
+                        </xs:element>
+                   	<xs:element fixed="70" name="SubType" type="type_PI">
+        			<xs:annotation>
+        				<xs:appinfo source="http://www.ogf.org/dfdl/">
+        					<dfdl:discriminator>{../Originator eq 10 and . eq 70}</dfdl:discriminator>
+        				</xs:appinfo>
+        			</xs:annotation>
+                        </xs:element>
+						<xs:element name="CustomerOptIn" type="type_ASCII">
+                		</xs:element>
+						<xs:element minOccurs="0" name="CustomerPhoneNumber" type="type_ASCII">
+                		</xs:element>                		
+                      </xs:sequence>
+        	     </xs:complexType>
+            </xs:element>
+              
+    <!-- Add Item Button Pressed -->
+    <xs:element name="TransactionRecord99_11_01">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="Originator" type="type_PI">
+          </xs:element>
+          <xs:element fixed="1" name="SubType" type="type_PI">
+            <xs:annotation>
+              <xs:appinfo source="http://www.ogf.org/dfdl/">
+                <dfdl:discriminator>{../Originator eq 11 and . eq 01}</dfdl:discriminator>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="OperatorId" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="TerminalNumber" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="TransactionNumber" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="ExceptionType" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="ExceptionCode" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="ItemNumber" type="type_ASCII">
+          </xs:element>
+          <xs:element maxOccurs="unbounded" minOccurs="0" ref="CustomUserField"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+
+    <!-- Void Item Button Pressed -->
+    <xs:element name="TransactionRecord99_11_02">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="Originator" type="type_PI">
+          </xs:element>
+          <xs:element fixed="2" name="SubType" type="type_PI">
+            <xs:annotation>
+              <xs:appinfo source="http://www.ogf.org/dfdl/">
+                <dfdl:discriminator>{../Originator eq 11 and . eq 02}</dfdl:discriminator>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="OperatorId" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="TerminalNumber" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="TransactionNumber" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="ExceptionType" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="ExceptionCode" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="ItemNumber" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="CurrentScaleWeight" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="MinimumAgeRestriction" type="type_ASCII">
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+
+    <!-- Verify Item Button Pressed -->
+    <xs:element name="TransactionRecord99_11_03">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="Originator" type="type_PI">
+          </xs:element>
+          <xs:element fixed="3" name="SubType" type="type_PI">
+            <xs:annotation>
+              <xs:appinfo source="http://www.ogf.org/dfdl/">
+                <dfdl:discriminator>{../Originator eq 11 and . eq 03}</dfdl:discriminator>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="OperatorId" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="TerminalNumber" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="TransactionNumber" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="ExceptionType" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="ExceptionCode" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="ItemNumber" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="CurrentScaleWeight" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="MinimumAgeRestriction" type="type_ASCII">
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+
+    <!-- Remove From List Button Pressed -->
+    <xs:element name="TransactionRecord99_11_05">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="Originator" type="type_PI">
+          </xs:element>
+          <xs:element fixed="5" name="SubType" type="type_PI">
+            <xs:annotation>
+              <xs:appinfo source="http://www.ogf.org/dfdl/">
+                <dfdl:discriminator>{../Originator eq 11 and . eq 05}</dfdl:discriminator>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="OperatorId" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="TerminalNumber" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="TransactionNumber" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="ExceptionType" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="ExceptionCode" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="ItemNumber" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="CurrentScaleWeight" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="MinimumAgeRestriction" type="type_ASCII">
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+
+    <!-- Bypass Audit Button Pressed -->
+    <xs:element name="TransactionRecord99_11_06">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="Originator" type="type_PI">
+          </xs:element>
+          <xs:element fixed="6" name="SubType" type="type_PI">
+            <xs:annotation>
+              <xs:appinfo source="http://www.ogf.org/dfdl/">
+                <dfdl:discriminator>{../Originator eq 11 and . eq 06}</dfdl:discriminator>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="OperatorId" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="TerminalNumber" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="TransactionNumber" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="ExceptionType" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="ExceptionCode" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="ItemNumber" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="CurrentScaleWeight" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="MinimumAgeRestriction" type="type_ASCII">
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+
+    <!-- Item Added During Audit -->
+    <xs:element name="TransactionRecord99_11_07">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="Originator" type="type_PI">
+          </xs:element>
+          <xs:element fixed="7" name="SubType" type="type_PI">
+            <xs:annotation>
+              <xs:appinfo source="http://www.ogf.org/dfdl/">
+                <dfdl:discriminator>{../Originator eq 11 and . eq 07}</dfdl:discriminator>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="OperatorId" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="TerminalNumber" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="TransactionNumber" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="ItemNumber" type="type_ASCII">
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+
+    <!-- Audit State-->
+    <xs:element name="TransactionRecord99_11_09">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="Originator" type="type_PI">
+          </xs:element>
+          <xs:element fixed="7" name="SubType" type="type_PI">
+            <xs:annotation>
+              <xs:appinfo source="http://www.ogf.org/dfdl/">
+                <dfdl:discriminator>{../Originator eq 11 and . eq 09}</dfdl:discriminator>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="1" name="OperatorId" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="TerminalNumber" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="TransactionNumber" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="AuditState" type="type_ASCII">
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+
+    <!-- Mobile Transaction Started -->
+    <xs:element name="TransactionRecord99_11_10">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="Originator" type="type_PI">
+          </xs:element>
+          <xs:element fixed="10" name="SubType" type="type_PI">
+            <xs:annotation>
+              <xs:appinfo source="http://www.ogf.org/dfdl/">
+                <dfdl:discriminator>{../Originator eq 11 and . eq 10}</dfdl:discriminator>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="TerminalNumber" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="CustomerLoyaltyId" type="type_ASCII">
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+
+    <!-- Associate Mobile Transaction Started -->
+    <xs:element name="TransactionRecord99_11_11">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="Originator" type="type_PI">
+          </xs:element>
+          <xs:element fixed="11" name="SubType" type="type_PI">
+            <xs:annotation>
+              <xs:appinfo source="http://www.ogf.org/dfdl/">
+                <dfdl:discriminator>{../Originator eq 11 and . eq 11}</dfdl:discriminator>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="TerminalNumber" type="type_ASCII">
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+
+	<!-- Retailer Owned Consumer Mobile Transaction Started -->
+    <xs:element name="TransactionRecord99_11_12">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="Originator" type="type_PI">
+          </xs:element>
+          <xs:element fixed="12" name="SubType" type="type_PI">
+            <xs:annotation>
+              <xs:appinfo source="http://www.ogf.org/dfdl/">
+                <dfdl:discriminator>{../Originator eq 11 and . eq 12}</dfdl:discriminator>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="TerminalNumber" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="CustomerLoyaltyId" type="type_ASCII">
+          </xs:element>		  
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+    <!-- End of Mobile Shopper Custom Strings -->
+    
+    
+	<!-- Solutran Custom Strings -->
+	
+    <xs:element name="TransactionRecord99_20_29">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="Originator" type="type_PI">
+          </xs:element>
+          <xs:element fixed="29" name="SubType" type="type_PI">
+            <xs:annotation>
+              <xs:appinfo source="http://www.ogf.org/dfdl/">
+                <dfdl:discriminator>{../Originator eq 20 and . eq 29}</dfdl:discriminator>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="CardFlag" type="type_PD">
+          </xs:element>
+          <xs:element minOccurs="0" name="EntryMode" type="type_ASCII">
+          </xs:element>		  
+          <xs:element minOccurs="0" name="CardData" type="type_ASCII">
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+	
+    <xs:element name="TransactionRecord99_20_30">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="Originator" type="type_PI">
+          </xs:element>
+          <xs:element fixed="30" name="SubType" type="type_PI">
+            <xs:annotation>
+              <xs:appinfo source="http://www.ogf.org/dfdl/">
+                <dfdl:discriminator>{../Originator eq 20 and . eq 30}</dfdl:discriminator>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="DiscountType" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="DiscountAmount" type="type_PD">
+          </xs:element>		  
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+	
+    <xs:element name="TransactionRecord99_20_31">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="Originator" type="type_PI">
+          </xs:element>
+          <xs:element fixed="31" name="SubType" type="type_PI">
+            <xs:annotation>
+              <xs:appinfo source="http://www.ogf.org/dfdl/">
+                <dfdl:discriminator>{../Originator eq 20 and . eq 31}</dfdl:discriminator>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="DiscountType" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="DiscountAmount" type="type_PD">
+          </xs:element>		  
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+	
+    <xs:element name="TransactionRecord99_20_32">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="Originator" type="type_PI">
+          </xs:element>
+          <xs:element fixed="32" name="SubType" type="type_PI">
+            <xs:annotation>
+              <xs:appinfo source="http://www.ogf.org/dfdl/">
+                <dfdl:discriminator>{../Originator eq 20 and . eq 32}</dfdl:discriminator>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="Identifier" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="CouponType" type="type_ASCII">
+          </xs:element>
+          <xs:element minOccurs="0" name="ItemUPC" type="type_PD">
+          </xs:element>		
+          <xs:element minOccurs="0" name="ItemValue" type="type_PD">
+          </xs:element>
+          <xs:element minOccurs="0" name="ItemQuantity" type="type_PD">
+          </xs:element>		
+          <xs:element minOccurs="0" name="ItemDepartment" type="type_PD">
+          </xs:element>
+          <xs:element minOccurs="0" name="CouponUPC" type="type_PD">
+          </xs:element>		
+          <xs:element minOccurs="0" name="CouponValue" type="type_PD">
+          </xs:element>
+          <xs:element minOccurs="0" name="CouponDepartment" type="type_PD">
+          </xs:element>
+          <xs:element minOccurs="0" name="ItemOrdinalNumber" type="type_PI">
+          </xs:element>
+          <xs:element minOccurs="0" name="CouponOrdinalNumber" type="type_PI">
+          </xs:element>		  
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+    
+    <!-- End of Solutran Custom Strings -->
+
+    <xs:element name="TransactionRecord99_21">
+        <xs:complexType>
+            <xs:sequence>
+       		<!-- 
+       		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+ 		</xs:element> 
+           	-->
+           	<xs:element name="Originator" type="type_PI">
+			    <xs:annotation>
+				    <xs:appinfo source="http://www.ogf.org/dfdl/">
+					    <dfdl:discriminator>{. eq 21}</dfdl:discriminator>
+				    </xs:appinfo>
+			    </xs:annotation>
+            </xs:element>
+           	<xs:element name="SubType" type="type_PI">
+            </xs:element>
+            <xs:element name="UserData" type="type_ASCII">
+		    </xs:element>
+		    <xs:element maxOccurs="unbounded" minOccurs="0" ref="CustomUserField"/>
+           </xs:sequence>
+	</xs:complexType>
+    </xs:element>
+  
+    <xs:element name="TransactionRecord99_70_01">
+        <xs:complexType>
+            <xs:sequence>
+       		<!-- Added 4-16-19 - Chuck Nagy
+       		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+ 		</xs:element> 
+           	-->
+           	<xs:element name="Originator" type="type_PI">
+                </xs:element>
+           	<xs:element fixed="01" name="SubType" type="type_PI">
+			<xs:annotation>
+				<xs:appinfo source="http://www.ogf.org/dfdl/">
+					<dfdl:discriminator>{../Originator eq 70 and . eq 1}</dfdl:discriminator>
+				</xs:appinfo>
+			</xs:annotation>
+                </xs:element>
+                <xs:element minOccurs="0" name="CouponCode" type="type_PD">
+		        </xs:element>
+                <xs:element minOccurs="0" name="AccessToken" type="type_ASCII">
+		        </xs:element>
+                <xs:element minOccurs="0" name="CouponAmount" type="type_PD">
+		        </xs:element>
+                <xs:element minOccurs="0" name="VoidFlag" type="type_ASCII">
+		        </xs:element>
+                <xs:element minOccurs="0" name="OfferId" type="type_ASCII">
+		        </xs:element>
+                <xs:element minOccurs="0" name="OfferCode" type="type_PD">
+		        </xs:element>
+                <xs:element minOccurs="0" name="ProductBarCodes" type="type_ASCII">
+		        </xs:element>
+                <xs:element minOccurs="0" name="ProductBarCodeType" type="type_ASCII">
+		        </xs:element>
+                <xs:element minOccurs="0" name="ProductQuantity" type="type_PD">
+		        </xs:element>
+                <xs:element minOccurs="0" name="ProductPrice" type="type_PD">
+		        </xs:element>
+                <xs:element minOccurs="0" name="CouponType" type="type_PI">
+		        </xs:element>
+                <xs:element minOccurs="0" name="CustomerAccountID" type="type_ASCII">
+		        </xs:element>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="CustomUserField"/>
+             </xs:sequence>
+	</xs:complexType>
+    </xs:element>
+    
+    <xs:element name="TransactionRecord99_70_02">
+        <xs:complexType>
+            <xs:sequence>
+       		<!-- Added 4-16-19 - Chuck Nagy
+       		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+ 		</xs:element> 
+           	-->
+           	<xs:element name="Originator" type="type_PI">
+                </xs:element>
+           	<xs:element fixed="02" name="SubType" type="type_PI">
+			<xs:annotation>
+				<xs:appinfo source="http://www.ogf.org/dfdl/">
+					<dfdl:discriminator>{../Originator eq 70 and . eq 2}</dfdl:discriminator>
+				</xs:appinfo>
+			</xs:annotation>
+                </xs:element>
+                <xs:element minOccurs="0" name="ProductBarCodes" type="type_ASCII">
+		        </xs:element>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="CustomUserField"/>
+             </xs:sequence>
+	</xs:complexType>
+    </xs:element>
+    
+    <xs:annotation>
+		<xs:appinfo source="http://www.ogf.org/dfdl/">
+			<dfdl:format ref="fmt:TlogAceFormat"/>
+		</xs:appinfo>
+	</xs:annotation>
+    
+	<!-- Group for all completely new custom records --> 
+    <xs:group name="choice_Custom">
+				<xs:choice>	
+					<!-- Insert elements here -->
+					 
+					<!--  If we get here ensure choice fails -->
+					<xs:sequence>
+						<xs:annotation>
+							<xs:appinfo source="http://www.ogf.org/dfdl/">
+								<dfdl:assert>{fn:false()}</dfdl:assert>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:sequence>
+        	    </xs:choice>
+    </xs:group>
+
+	<!-- Group for custom 11 records --> 
+	<!-- Custom 11 records are expected to discriminate on SubStringType -->
+	<!-- When testKind 'pattern' supported, we will use that instead -->
+    <xs:group name="choice_11_Custom">
+				<xs:choice>
+					<!-- Insert elements here -->
+	                <xs:element ref="TransactionRecord11_BD">
+					</xs:element>
+	                <xs:element ref="TransactionRecord11_BE">
+					</xs:element>
+	                <xs:element ref="TransactionRecord11_EME">
+					</xs:element>
+					<!--  If we get here ensure choice fails -->
+					<xs:sequence>
+						<xs:annotation>
+							<xs:appinfo source="http://www.ogf.org/dfdl/">
+								<dfdl:assert>{fn:false()}</dfdl:assert>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:sequence>
+        	    </xs:choice>
+    </xs:group>
+
+	<!-- Group for all custom 99 records --> 
+	<!-- Insert elements before the sequence --> 
+	<!-- All 99 records discriminate on Originator and SubType -->
+	<!-- When testKind 'pattern' supported, we will use that instead -->
+	<!-- Dummy example supplied -->
+	<xs:group name="choice_99_Custom">
+				<xs:choice>	
+    	            <xs:element ref="TransactionRecord99_10_01">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_03">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_04">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_05">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_06">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_07">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_08">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_09">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_10">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_11">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_12">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_13">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_14">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_15">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_16">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_17">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_18">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_19">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_20">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_21">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_22">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_23">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_24">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_27">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_28">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_31">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_32">
+					</xs:element>	
+    	            <xs:element ref="TransactionRecord99_10_33">
+					</xs:element>
+					<xs:element ref="TransactionRecord99_10_34">
+					</xs:element>
+					<xs:element ref="TransactionRecord99_10_35">
+					</xs:element>														
+    	            <xs:element ref="TransactionRecord99_10_50">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_51">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_52">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_53">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_54">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_55">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_56">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_57">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_58">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_59">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_60">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_61">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_62">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_63">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_64">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_65">
+					</xs:element>
+    	            <xs:element ref="TransactionRecord99_10_66">
+					</xs:element>
+   	                <xs:element ref="TransactionRecord99_10_67">
+					</xs:element>
+   	                <xs:element ref="TransactionRecord99_10_68">
+					</xs:element>	
+   	                <xs:element ref="TransactionRecord99_10_69">
+					</xs:element>	
+   	                <xs:element ref="TransactionRecord99_10_70">
+					</xs:element>																			
+                  <xs:element ref="TransactionRecord99_11_01">
+          </xs:element>
+                  <xs:element ref="TransactionRecord99_11_02">
+          </xs:element>
+                  <xs:element ref="TransactionRecord99_11_03">
+          </xs:element>
+                  <xs:element ref="TransactionRecord99_11_05">
+          </xs:element>
+                  <xs:element ref="TransactionRecord99_11_06">
+          </xs:element>
+                  <xs:element ref="TransactionRecord99_11_07">
+          </xs:element>
+                  <xs:element ref="TransactionRecord99_11_09">
+          </xs:element>
+                  <xs:element ref="TransactionRecord99_11_10">
+          </xs:element>
+                  <xs:element ref="TransactionRecord99_11_11">
+          </xs:element>
+                  <xs:element ref="TransactionRecord99_11_12">
+          </xs:element>
+                  <xs:element ref="TransactionRecord99_20_29">
+          </xs:element>
+                  <xs:element ref="TransactionRecord99_20_30">
+          </xs:element>
+                  <xs:element ref="TransactionRecord99_20_31">
+          </xs:element>
+                  <xs:element ref="TransactionRecord99_20_32">
+          </xs:element>		  
+                  <xs:element ref="TransactionRecord99_21">
+		  </xs:element>
+                  <xs:element ref="TransactionRecord99_70_01">
+          </xs:element>	
+                  <xs:element ref="TransactionRecord99_70_02">
+          </xs:element>	
+    	            <xs:element ref="TransactionRecord99_99_99">
+					</xs:element>
+					<!--  Ensure choice fails -->
+					<xs:sequence>
+						<xs:annotation>
+							<xs:appinfo source="http://www.ogf.org/dfdl/">
+								<dfdl:assert>{fn:false()}</dfdl:assert>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:sequence>
+        	    </xs:choice>
+    </xs:group>
+   
+
+    <xs:element name="TransactionRecord99_99_99">
+        <xs:complexType>
+            <xs:sequence>
+           		<!--
+           		<xs:element dfdl:inputValueCalc="{xs:hexBinary('99')}" name="StringType" type="type_PS">
+           		</xs:element> 
+           		-->
+           	    <xs:element name="Originator" type="type_PI">
+                </xs:element>
+           	    <xs:element fixed="99" name="SubType" type="type_PI">
+						<xs:annotation>
+							<xs:appinfo source="http://www.ogf.org/dfdl/">
+								<dfdl:discriminator>{../Originator eq 99 and . eq 99}</dfdl:discriminator>
+							</xs:appinfo>
+						</xs:annotation>
+                </xs:element>
+                <xs:element minOccurs="0" name="Field1" type="type_PD">
+		        </xs:element>
+                <xs:element minOccurs="0" name="Field2" type="type_ASCII">
+		        </xs:element>
+				<xs:element maxOccurs="unbounded" minOccurs="0" ref="CustomUserField"/>
+            </xs:sequence>
+		</xs:complexType>
+    </xs:element>
+
+	<!-- Group for all custom 20 records --> 
+	<!-- Note that all 20 records use the alternative field separator -->        
+	<!-- All 20 records discriminate on SubStringType, some also on Originator and SubType --> 
+	<!-- When testKind 'pattern' supported, we will use that instead -->
+	<!-- Dummy example supplied -->
+	<xs:group name="choice_20_Custom">
+        <xs:choice>
+					<!-- Insert elements here -->
+	                <xs:element ref="TransactionRecord20_89_0_50">
+					</xs:element>
+	                <xs:element ref="TransactionRecord20_89_0_60">
+					</xs:element>
+	                <xs:element ref="TransactionRecord20_89_40_10">
+					</xs:element>
+	                <xs:element ref="TransactionRecord20_89_40_20">
+					</xs:element>
+	                <xs:element ref="TransactionRecord20_89_40_50">
+					</xs:element>
+	                <xs:element ref="TransactionRecord20_89_40_60">
+					</xs:element>
+	                <xs:element ref="TransactionRecord20_89_40_70">
+					</xs:element>
+	                <xs:element ref="TransactionRecord20_89_21_01">
+					</xs:element>
+	                <xs:element ref="TransactionRecord20_89_21_03">
+					</xs:element>
+	                <xs:element ref="TransactionRecord20_89_21_04">
+					</xs:element>
+	                <xs:element ref="TransactionRecord20_89_99_99">
+					</xs:element>
+					<!--  If we get here ensure choice fails -->
+					<xs:sequence>
+						<xs:annotation>
+							<xs:appinfo source="http://www.ogf.org/dfdl/">
+								<dfdl:assert>{fn:false()}</dfdl:assert>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:sequence>
+   	    </xs:choice>
+    </xs:group>
+
+    <xs:element name="TransactionRecord20_89_0_50">
+        <xs:complexType>
+            <xs:sequence dfdl:separator="&quot;:&quot;"> 
+				<xs:group ref="sequence_20Common"/>
+                       <xs:element dfdl:length="1" dfdl:lengthKind="explicit" fixed="89" name="SubStringType" type="type_PS">
+                         <xs:annotation>
+                                <xs:appinfo source="http://www.ogf.org/dfdl/">
+                                        <dfdl:assert>{. eq xs:hexBinary('89')}</dfdl:assert>
+                                </xs:appinfo>
+                         </xs:annotation>
+                </xs:element>
+                <xs:element dfdl:length="{5}" minOccurs="0" name="Operator" type="type_PD">
+                </xs:element>
+                       <xs:element dfdl:length="{1}" name="Originator" type="type_PD">
+                </xs:element>
+                       <xs:element dfdl:length="{1}" fixed="50" name="SubType" type="type_PD">
+                          <xs:annotation>
+                                <xs:appinfo source="http://www.ogf.org/dfdl/">
+                                        <dfdl:discriminator>{../Originator eq 0 and . eq 50}</dfdl:discriminator>
+                                </xs:appinfo>
+                          </xs:annotation>
+                </xs:element>
+                  <xs:element name="RefundReasonCode" type="type_ASCII">
+                      </xs:element>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="CustomUserField"/>
+            </xs:sequence>
+          </xs:complexType>
+    </xs:element>
+
+    <xs:element name="TransactionRecord20_89_0_60">
+        <xs:complexType>
+            <xs:sequence dfdl:separator="&quot;:&quot;"> 
+				<xs:group ref="sequence_20Common"/>
+                       <xs:element dfdl:length="1" dfdl:lengthKind="explicit" fixed="89" name="SubStringType" type="type_PS">
+                         <xs:annotation>
+                                <xs:appinfo source="http://www.ogf.org/dfdl/">
+                                        <dfdl:assert>{. eq xs:hexBinary('89')}</dfdl:assert>
+                                </xs:appinfo>
+                         </xs:annotation>
+                </xs:element>
+                <xs:element dfdl:length="{5}" minOccurs="0" name="Operator" type="type_PD">
+                </xs:element>
+                       <xs:element dfdl:length="{1}" name="Originator" type="type_PD">
+                </xs:element>
+                       <xs:element dfdl:length="{1}" fixed="60" name="SubType" type="type_PD">
+                          <xs:annotation>
+                                <xs:appinfo source="http://www.ogf.org/dfdl/">
+                                        <dfdl:discriminator>{../Originator eq 0 and . eq 60}</dfdl:discriminator>
+                                </xs:appinfo>
+                          </xs:annotation>
+                </xs:element>
+                  <xs:element name="RefundReasonCode" type="type_ASCII">
+                      </xs:element>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="CustomUserField"/>
+            </xs:sequence>
+          </xs:complexType>
+    </xs:element>
+
+    <xs:element name="TransactionRecord20_89_40_10">
+        <xs:complexType>
+            <xs:sequence dfdl:separator="&quot;:&quot;"> 
+				<xs:group ref="sequence_20Common"/>
+                       <xs:element dfdl:length="1" dfdl:lengthKind="explicit" fixed="89" name="SubStringType" type="type_PS">
+                         <xs:annotation>
+                                <xs:appinfo source="http://www.ogf.org/dfdl/">
+                                        <dfdl:assert>{. eq xs:hexBinary('89')}</dfdl:assert>
+                                </xs:appinfo>
+                         </xs:annotation>
+                </xs:element>
+                <xs:element dfdl:length="{5}" minOccurs="0" name="Operator" type="type_PD">
+                </xs:element>
+                       <xs:element dfdl:length="{1}" name="Originator" type="type_PD">
+                </xs:element>
+                       <xs:element dfdl:length="{1}" fixed="10" name="SubType" type="type_PD">
+                          <xs:annotation>
+                                <xs:appinfo source="http://www.ogf.org/dfdl/">
+                                        <dfdl:discriminator>{../Originator eq 40 and . eq 10}</dfdl:discriminator>
+                                </xs:appinfo>
+                          </xs:annotation>
+                </xs:element>
+                  <xs:element name="UserData" type="type_ASCII">
+                      </xs:element>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="CustomUserField"/>
+            </xs:sequence>
+          </xs:complexType>
+    </xs:element>
+
+    <xs:element name="TransactionRecord20_89_40_20">
+        <xs:complexType>
+            <xs:sequence dfdl:separator="&quot;:&quot;"> 
+				<xs:group ref="sequence_20Common"/>
+                       <xs:element dfdl:length="1" dfdl:lengthKind="explicit" fixed="89" name="SubStringType" type="type_PS">
+                         <xs:annotation>
+                                <xs:appinfo source="http://www.ogf.org/dfdl/">
+                                        <dfdl:assert>{. eq xs:hexBinary('89')}</dfdl:assert>
+                                </xs:appinfo>
+                         </xs:annotation>
+                </xs:element>
+                <xs:element dfdl:length="{5}" minOccurs="0" name="Operator" type="type_PD">
+                </xs:element>
+                       <xs:element dfdl:length="{1}" name="Originator" type="type_PD">
+                </xs:element>
+                       <xs:element dfdl:length="{1}" fixed="20" name="SubType" type="type_PD">
+                          <xs:annotation>
+                                <xs:appinfo source="http://www.ogf.org/dfdl/">
+                                        <dfdl:discriminator>{../Originator eq 40 and . eq 20}</dfdl:discriminator>
+                                </xs:appinfo>
+                          </xs:annotation>
+                </xs:element>
+                  <xs:element name="UserData" type="type_ASCII">
+                      </xs:element>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="CustomUserField"/>
+            </xs:sequence>
+          </xs:complexType>
+    </xs:element>
+
+    <xs:element name="TransactionRecord20_89_40_50">
+        <xs:complexType>
+            <xs:sequence dfdl:separator="&quot;:&quot;"> 
+				<xs:group ref="sequence_20Common"/>
+                       <xs:element dfdl:length="1" dfdl:lengthKind="explicit" fixed="89" name="SubStringType" type="type_PS">
+                         <xs:annotation>
+                                <xs:appinfo source="http://www.ogf.org/dfdl/">
+                                        <dfdl:assert>{. eq xs:hexBinary('89')}</dfdl:assert>
+                                </xs:appinfo>
+                         </xs:annotation>
+                </xs:element>
+                <xs:element dfdl:length="{5}" minOccurs="0" name="Operator" type="type_PD">
+                </xs:element>
+                       <xs:element dfdl:length="{1}" name="Originator" type="type_PD">
+                </xs:element>
+                       <xs:element dfdl:length="{1}" fixed="50" name="SubType" type="type_PD">
+                          <xs:annotation>
+                                <xs:appinfo source="http://www.ogf.org/dfdl/">
+                                        <dfdl:discriminator>{../Originator eq 40 and . eq 50}</dfdl:discriminator>
+                                </xs:appinfo>
+                          </xs:annotation>
+                </xs:element>
+                  <xs:element name="UserData" type="type_ASCII">
+                      </xs:element>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="CustomUserField"/>
+            </xs:sequence>
+          </xs:complexType>
+    </xs:element>
+
+    <xs:element name="TransactionRecord20_89_40_60">
+        <xs:complexType>
+            <xs:sequence dfdl:separator="&quot;:&quot;"> 
+				<xs:group ref="sequence_20Common"/>
+                       <xs:element dfdl:length="1" dfdl:lengthKind="explicit" fixed="89" name="SubStringType" type="type_PS">
+                         <xs:annotation>
+                                <xs:appinfo source="http://www.ogf.org/dfdl/">
+                                        <dfdl:assert>{. eq xs:hexBinary('89')}</dfdl:assert>
+                                </xs:appinfo>
+                         </xs:annotation>
+                </xs:element>
+                <xs:element dfdl:length="{5}" minOccurs="0" name="Operator" type="type_PD">
+                </xs:element>
+                       <xs:element dfdl:length="{1}" name="Originator" type="type_PD">
+                </xs:element>
+                       <xs:element dfdl:length="{1}" fixed="60" name="SubType" type="type_PD">
+                          <xs:annotation>
+                                <xs:appinfo source="http://www.ogf.org/dfdl/">
+                                        <dfdl:discriminator>{../Originator eq 40 and . eq 60}</dfdl:discriminator>
+                                </xs:appinfo>
+                          </xs:annotation>
+                </xs:element>
+                  <xs:element name="UserData" type="type_ASCII">
+                      </xs:element>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="CustomUserField"/>
+            </xs:sequence>
+          </xs:complexType>
+    </xs:element>
+
+    <xs:element name="TransactionRecord20_89_40_70">
+        <xs:complexType>
+            <xs:sequence dfdl:separator="&quot;:&quot;"> 
+				<xs:group ref="sequence_20Common"/>
+                       <xs:element dfdl:length="1" dfdl:lengthKind="explicit" fixed="89" name="SubStringType" type="type_PS">
+                         <xs:annotation>
+                                <xs:appinfo source="http://www.ogf.org/dfdl/">
+                                        <dfdl:assert>{. eq xs:hexBinary('89')}</dfdl:assert>
+                                </xs:appinfo>
+                         </xs:annotation>
+                </xs:element>
+                <xs:element dfdl:length="{5}" minOccurs="0" name="Operator" type="type_PD">
+                </xs:element>
+                       <xs:element dfdl:length="{1}" name="Originator" type="type_PD">
+                </xs:element>
+                       <xs:element dfdl:length="{1}" fixed="70" name="SubType" type="type_PD">
+                          <xs:annotation>
+                                <xs:appinfo source="http://www.ogf.org/dfdl/">
+                                        <dfdl:discriminator>{../Originator eq 40 and . eq 70}</dfdl:discriminator>
+                                </xs:appinfo>
+                          </xs:annotation>
+                </xs:element>
+                  <xs:element name="UserData" type="type_ASCII">
+                      </xs:element>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="CustomUserField"/>
+            </xs:sequence>
+          </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="TransactionRecord20_89_21_01">
+        <xs:complexType>
+            <xs:sequence dfdl:separator="&quot;:&quot;"> 
+				<xs:group ref="sequence_20Common"/>
+                       <xs:element dfdl:length="1" dfdl:lengthKind="explicit" fixed="89" name="SubStringType" type="type_PS">
+                         <xs:annotation>
+                                <xs:appinfo source="http://www.ogf.org/dfdl/">
+                                        <dfdl:assert>{. eq xs:hexBinary('89')}</dfdl:assert>
+                                </xs:appinfo>
+                         </xs:annotation>
+                </xs:element>
+                <xs:element dfdl:length="{5}" minOccurs="0" name="Operator" type="type_PD">
+                </xs:element>
+                       <xs:element dfdl:length="{1}" name="Originator" type="type_PD">
+                </xs:element>
+                <xs:element dfdl:length="{1}" fixed="01" name="SubType" type="type_PD">
+                          <xs:annotation>
+                                <xs:appinfo source="http://www.ogf.org/dfdl/">
+                                        <dfdl:discriminator>{../Originator eq 21 and . eq 1}</dfdl:discriminator>
+                                </xs:appinfo>
+                          </xs:annotation>
+                </xs:element>
+                  <xs:element name="UserData" type="type_ASCII">
+                      </xs:element>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="CustomUserField"/>
+            </xs:sequence>
+          </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="TransactionRecord20_89_21_03">
+        <xs:complexType>
+            <xs:sequence dfdl:separator="&quot;:&quot;"> 
+				<xs:group ref="sequence_20Common"/>
+                       <xs:element dfdl:length="1" dfdl:lengthKind="explicit" fixed="89" name="SubStringType" type="type_PS">
+                         <xs:annotation>
+                                <xs:appinfo source="http://www.ogf.org/dfdl/">
+                                        <dfdl:assert>{. eq xs:hexBinary('89')}</dfdl:assert>
+                                </xs:appinfo>
+                         </xs:annotation>
+                </xs:element>
+                <xs:element dfdl:length="{5}" minOccurs="0" name="Operator" type="type_PD">
+                </xs:element>
+                       <xs:element dfdl:length="{1}" name="Originator" type="type_PD">
+                </xs:element>
+                <xs:element dfdl:length="{1}" fixed="03" name="SubType" type="type_PD">
+                          <xs:annotation>
+                                <xs:appinfo source="http://www.ogf.org/dfdl/">
+                                        <dfdl:discriminator>{../Originator eq 21 and . eq 3}</dfdl:discriminator>
+                                </xs:appinfo>
+                          </xs:annotation>
+                </xs:element>
+                  <xs:element name="UserData" type="type_ASCII">
+                      </xs:element>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="CustomUserField"/>
+            </xs:sequence>
+          </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="TransactionRecord20_89_21_04">
+        <xs:complexType>
+            <xs:sequence dfdl:separator="&quot;:&quot;"> 
+				<xs:group ref="sequence_20Common"/>
+                       <xs:element dfdl:length="1" dfdl:lengthKind="explicit" fixed="89" name="SubStringType" type="type_PS">
+                         <xs:annotation>
+                                <xs:appinfo source="http://www.ogf.org/dfdl/">
+                                        <dfdl:assert>{. eq xs:hexBinary('89')}</dfdl:assert>
+                                </xs:appinfo>
+                         </xs:annotation>
+                </xs:element>
+                <xs:element dfdl:length="{5}" minOccurs="0" name="Operator" type="type_PD">
+                </xs:element>
+                       <xs:element dfdl:length="{1}" name="Originator" type="type_PD">
+                </xs:element>
+                <xs:element dfdl:length="{1}" fixed="04" name="SubType" type="type_PD">
+                          <xs:annotation>
+                                <xs:appinfo source="http://www.ogf.org/dfdl/">
+                                        <dfdl:discriminator>{../Originator eq 21 and . eq 4}</dfdl:discriminator>
+                                </xs:appinfo>
+                          </xs:annotation>
+                </xs:element>
+                  <xs:element name="UserData" type="type_ASCII">
+                      </xs:element>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="CustomUserField"/>
+            </xs:sequence>
+          </xs:complexType>
+    </xs:element>
+
+    <xs:element name="TransactionRecord20_89_99_99">
+        <xs:complexType>
+            <xs:sequence dfdl:separator="&quot;:&quot;">
+				<xs:group ref="sequence_20Common"/>
+           	    <xs:element dfdl:length="1" dfdl:lengthKind="explicit" fixed="89" name="SubStringType" type="type_PS">
+						<xs:annotation>
+							<xs:appinfo source="http://www.ogf.org/dfdl/">
+								<dfdl:assert>{. eq xs:hexBinary('89')}</dfdl:assert>
+							</xs:appinfo>
+						</xs:annotation>
+                </xs:element>
+                <xs:element dfdl:length="{5}" minOccurs="0" name="Operator" type="type_PD">
+                </xs:element>
+           	    <xs:element dfdl:length="{1}" name="Originator" type="type_PD">
+                </xs:element>
+           	    <xs:element dfdl:length="{1}" fixed="99" name="SubType" type="type_PD">
+						<xs:annotation>
+							<xs:appinfo source="http://www.ogf.org/dfdl/">
+								<dfdl:discriminator>{../Originator eq 99 and . eq 99}</dfdl:discriminator>
+							</xs:appinfo>
+						</xs:annotation>
+                </xs:element>
+	            <xs:element minOccurs="0" name="Field1" type="type_PD">
+    	        </xs:element>
+	            <xs:element minOccurs="0" name="Field2" type="type_ASCII">
+    	        </xs:element>
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="CustomUserField"/>
+            </xs:sequence>
+		</xs:complexType>
+    </xs:element>
+
+
+</xs:schema>

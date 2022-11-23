@@ -1,0 +1,386 @@
+BROKER SCHEMA SigBaseLib
+
+/**
+ * SigTimingTransaction.esql
+ *
+ * Set of standard ESQL routines used to handle timing and transaction
+ * logging.
+ */
+
+/**
+ * Procedure used to make a transaction log entry. The transaction
+ * log entries consist of the following fields:
+ *
+ *   1. Version of the log format.
+ *   2. Timestamp in the format yyyy-mm-ddThh:mm:ss-zzzz
+ *   3. Transaction ID.
+ *   4. Application Request Id (x-app-request-id).
+ *   5. Correlation Id (x-correlation-id).
+ *   6. Service Id (x-service-id).
+ *   7. Web Service Gateway Certificate ID (x-wsgcert-id).
+ *   8. Business Function Id (Topic, etc.)
+ *   9. Component Id (MessageFlowLabel)
+ *  10. Total Time in milliseconds.
+ */
+ 
+CREATE PROCEDURE logTransactionData(IN sTransactionId CHARACTER,
+									IN sApplicationRequestId CHARACTER,
+									IN sCorrelationId CHARACTER,
+									IN sServiceId CHARACTER,
+									IN sWebServiceCertId CHARACTER,
+									IN sBusinessFunctionId CHARACTER,
+									IN sComponentId CHARACTER,
+									IN nTotalTime INTEGER)
+BEGIN
+	
+	DECLARE sEntry CHARACTER;
+	
+	IF sTransactionId IS NOT NULL
+	THEN
+		SET sEntry = sTransactionId || ',';
+	ELSE
+		SET sEntry =',';
+	END IF;
+			
+	IF sApplicationRequestId IS NOT NULL
+	THEN
+		SET sEntry = sEntry || sApplicationRequestId;
+	END IF;
+	
+	SET sEntry = sEntry || ',';
+
+	IF sCorrelationId IS NOT NULL
+	THEN
+		SET sEntry = sEntry || sCorrelationId;
+	END IF;
+	
+	SET sEntry = sEntry || ',';
+			
+	IF sServiceId is NOT NULL
+	THEN
+		SET sEntry = sEntry || sServiceId;
+	END IF;
+	
+	SET sEntry = sEntry || ',';
+
+	IF sWebServiceCertId is NOT NULL
+	THEN
+		SET sEntry = sEntry || sWebServiceCertId;
+	END IF;
+	
+	SET sEntry = sEntry || ',';
+
+	IF sBusinessFunctionId is NOT NULL
+	THEN
+		SET sEntry = sEntry || sBusinessFunctionId;
+	END IF;
+	
+	SET sEntry = sEntry || ',';
+
+	IF sComponentId is NOT NULL
+	THEN
+		SET sEntry = sEntry || sComponentId;
+	END IF;
+	
+	SET sEntry = sEntry || ',';
+
+	SET sEntry = sEntry || CAST(nTotalTime AS CHARACTER);
+			
+	CALL logTransaction(sEntry);
+END;
+
+/**
+ * Procedure used to make a timing log entry. The timing 
+ * log entries consist of the following fields:
+ *
+ *   1. Version of the log format.
+ *   2. Timestamp in the format yyyy-mm-ddThh:mm:ss-zzzz
+ *   3. Transaction ID.
+ *   4. Application Request Id (x-app-request-id).
+ *   5. Correlation Id (x-correlation-id).
+ *   6. Business Function Id (Topic, etc.)
+ *   7. Component Id (MessageFlowLabel)
+ *   8. Component Version
+ *   9. Total Time in milliseconds. (lifecycle time)
+ *  10. Total Component Time in milliseconds
+ *  11. Retry/backout count
+ *  12. Server Address
+ *  13. VSA Name (System Name)
+ *  14. Store Number
+ *  15. Origin Date and Time stamp
+ *  16. Origin (original input source, name of queue, IP address, etc.)
+ *  17. Origin Event
+ *  18. Origin Version
+ *  19. Source (IP address, queue, etc.)
+ *  20. Source Event
+ *  21. Destination
+ *  22. Status Code
+ *  23. Operation Status (ACCEPTED, ERROR, etc.)
+ */
+ 
+CREATE PROCEDURE logTimingData(IN sTransactionId CHARACTER,
+							   IN sApplicationRequestId CHARACTER,
+							   IN sCorrelationId CHARACTER,
+							   IN sBusinessFunctionId CHARACTER,
+							   IN sComponentId CHARACTER,
+							   IN sComponentVersion CHARACTER,
+							   IN nTotalTime INTEGER,
+							   IN nTotalComponentTime INTEGER,
+							   IN nRetryCount INTEGER,
+							   IN sSystemName CHARACTER,
+							   IN sStore CHARACTER,
+							   IN sOriginDateTime CHARACTER,
+							   IN sOrigin CHARACTER,
+							   IN sOriginEvent CHARACTER,
+							   IN sOriginVersion CHARACTER,
+							   IN sSource CHARACTER,
+							   IN sSourceEvent CHARACTER,
+							   IN sDestination CHARACTER,
+							   IN sStatusCode CHARACTER,
+							   IN sOperationStatus CHARACTER)
+BEGIN
+	
+	DECLARE sEntry CHARACTER;
+	DECLARE sHostAddress CHARACTER;
+	
+	IF sTransactionId IS NOT NULL
+	THEN
+		SET sEntry = sTransactionId || ',';
+	ELSE
+		SET sEntry =',';
+	END IF;
+			
+	IF sApplicationRequestId IS NOT NULL
+	THEN
+		SET sEntry = sEntry || sApplicationRequestId;
+	END IF;
+	
+	SET sEntry = sEntry || ',';
+
+	IF sCorrelationId IS NOT NULL
+	THEN
+		SET sEntry = sEntry || sCorrelationId;
+	END IF;
+	
+	SET sEntry = sEntry || ',';
+			
+	IF sBusinessFunctionId is NOT NULL
+	THEN
+		SET sEntry = sEntry || sBusinessFunctionId;
+	END IF;
+	
+	SET sEntry = sEntry || ',';
+
+	IF sComponentId is NOT NULL
+	THEN
+		SET sEntry = sEntry || sComponentId;
+	END IF;
+	
+	SET sEntry = sEntry || ',';
+
+	IF sComponentVersion is NOT NULL
+	THEN
+		SET sEntry = sEntry || sComponentVersion;
+	END IF;
+	
+	SET sEntry = sEntry || ',';
+	
+	SET sEntry = sEntry || CAST(nTotalTime AS CHARACTER);
+
+	SET sEntry = sEntry || ',';
+	
+	SET sEntry = sEntry || CAST(nTotalComponentTime AS CHARACTER);
+
+	SET sEntry = sEntry || ',';
+	
+	SET sEntry = sEntry || CAST(nRetryCount AS CHARACTER);
+	
+	SET sEntry = sEntry || ',';
+	
+	SET sHostAddress = getHostAddress();
+
+	IF sHostAddress is NOT NULL
+	THEN
+		SET sEntry = sEntry || sHostAddress;
+	END IF;
+			
+	SET sEntry = sEntry || ',';
+	
+	IF sSystemName is NOT NULL
+	THEN
+		SET sEntry = sEntry || sSystemName;
+	END IF;
+	
+	SET sEntry = sEntry || ',';
+	
+	
+	SET sEntry = sEntry || ',';
+	
+	IF sStore is NOT NULL
+	THEN
+		SET sEntry = sEntry || sStore;
+	END IF;
+	
+	SET sEntry = sEntry || ',';
+	
+	IF sOriginDateTime IS NOT NULL
+	THEN
+		SET sEntry = sEntry || sOriginDateTime;
+	END IF;
+	
+	SET sEntry = sEntry || ',';
+	
+	IF sOrigin IS NOT NULL
+	THEN
+		SET sEntry = sEntry || sOrigin;
+	END IF;
+	
+	SET sEntry = sEntry || ',';
+	
+	IF sOriginEvent IS NOT NULL
+	THEN
+		SET sEntry = sEntry || sOriginEvent;
+	END IF;
+	
+	SET sEntry = sEntry || ',';
+
+	IF sOriginVersion IS NOT NULL
+	THEN
+		SET sEntry = sEntry || REPLACE(sOriginVersion, ',', ' ');
+	END IF;
+	
+	SET sEntry = sEntry || ',';
+	
+	IF sSource is NOT NULL
+	THEN
+		SET sEntry = sEntry || sSource;
+	END IF;
+	
+	SET sEntry = sEntry || ',';
+	
+	IF sSourceEvent is NOT NULL
+	THEN
+		SET sEntry = sEntry || sSourceEvent;
+	END IF;
+	
+	SET sEntry = sEntry || ',';
+	
+	IF sDestination is NOT NULL
+	THEN
+		SET sEntry = sEntry || sDestination;
+	END IF;
+	
+	SET sEntry = sEntry || ',';
+	
+	IF sStatusCode is NOT NULL
+	THEN
+		SET sEntry = sEntry || sStatusCode;
+	END IF;
+	
+	SET sEntry = sEntry || ',';
+	
+	IF sOperationStatus is NOT NULL
+	THEN
+		SET sEntry = sEntry || sOperationStatus;
+	END IF;
+	
+	CALL logTiming(sEntry);
+END;
+
+/**
+ * Convenience method to log the timing and transaction
+ * details. This method expects that the following are setup
+ * in the local environment so that the log details can be
+ * filled in:
+ *
+ *  StartTime
+ *  Component Start Time
+ *  TransactionId
+ *  ApplicationRequestId (or MessageId)
+ *  CorrelationId
+ *  Topic
+ *  Event
+ *  Source
+ *  SourceEvent
+ *  OriginDateTime
+ *  Origin
+ *  OriginEvent
+ *  OriginVersion
+ *  BackoutCount
+ *  SystemName (VSA Name)
+ *  Division Number
+ *  Store Number
+ */
+ 
+CREATE PROCEDURE logTimingTransaction(IN envRef REFERENCE,
+									  IN sMessageFlowLabel CHARACTER,
+									  IN sComponentVersion CHARACTER,
+						   			  IN sStatusCode CHARACTER, 
+						   			  IN sOperationStatus CHARACTER)
+BEGIN
+		DECLARE nStartTime INTEGER getEnvStartTime(envRef);
+		DECLARE nComponentStartTime INTEGER getEnvComponentStartTime(envRef);
+		DECLARE sTransactionId CHARACTER getEnvTransactionId(envRef);
+		DECLARE sApplicationRequestId CHARACTER getEnvApplicationRequestId(envRef);
+		DECLARE sCorrelationId CHARACTER getEnvCorrelationId(envRef);
+		DECLARE sTopic CHARACTER getEnvTopic(envRef);
+		DECLARE sEvent CHARACTER getEnvEvent(envRef);
+		DECLARE sSource CHARACTER getEnvSource(envRef);
+		DECLARE sSourceEvent CHARACTER getEnvSourceEvent(envRef);
+		DECLARE sOriginDateTime CHARACTER getEnvOriginDateTime(envRef);
+		DECLARE sOrigin CHARACTER getEnvOrigin(envRef);
+		DECLARE sOriginEvent CHARACTER getEnvOriginEvent(envRef);
+		DECLARE sOriginVersion CHARACTER getEnvOriginVersion(envRef);
+		DECLARE sDestination CHARACTER getEnvDestination(envRef);
+		DECLARE nBackoutCount INTEGER getEnvBackoutCount(envRef);
+		DECLARE sSystemName CHARACTER getEnvSystemName(envRef);
+		DECLARE sStore CHARACTER getEnvStore(envRef);
+		DECLARE nProcessingTime INTEGER;
+		DECLARE nCurrentTime INTEGER;
+		DECLARE nComponentTime INTEGER;
+
+		SET nCurrentTime = currentTimeMillis();
+		
+		SET nProcessingTime = nCurrentTime - nStartTime;
+		IF nComponentStartTime <= 0
+		THEN
+			SET nComponentStartTime = nStartTime;
+		END IF;
+		SET nComponentTime = nCurrentTime - nComponentStartTime;
+
+		CALL logTransactionData(sTransactionId,
+								sApplicationRequestId,
+								sCorrelationId,
+								NULL,
+								NULL,
+								sTopic,
+								sMessageFlowLabel,
+								nProcessingTime);
+								
+		-- Since the transaction originates with this flow, the total time
+		-- and processing time are the same.
+		
+		CALL logTimingData(sTransactionId,
+						   sApplicationRequestId,
+						   sCorrelationId,
+						   sTopic,
+						   sMessageFlowLabel,
+						   sComponentVersion,
+						   nProcessingTime,
+						   nComponentTime,
+						   nBackoutCount,
+						   sSystemName,
+						   sStore,
+						   sOriginDateTime,
+						   sOrigin,
+						   sOriginEvent,
+						   sOriginVersion,
+						   sSource,
+						   sSourceEvent,
+						   sDestination,
+						   sStatusCode,
+						   sOperationStatus);
+ 	RETURN;
+END;
+
+

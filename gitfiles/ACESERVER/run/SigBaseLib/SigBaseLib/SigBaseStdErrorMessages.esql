@@ -1,0 +1,88 @@
+BROKER SCHEMA SigBaseLib
+
+/**
+ * SigBaseStdErrorMessages.esql
+ *
+ * Set methods used to construct Standard Error Messages.
+ */
+
+/**
+ * ERROR(0001): Message Flow Stop Error Message: Constructs the standard
+ * error associated with stopping a message flow due to some sort of
+ * catastrophic processing error.
+ */
+ 
+CREATE PROCEDURE getMessageFlowStopMessage(IN sMessageFlow CHARACTER, IN sReason CHARACTER) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER;
+ 	
+ 	SET sRet = 'ERROR(0001): MessageFlow STOP! MessageFlow=' || 
+ 			   formatString(sMessageFlow) || 
+ 			   ', Reason=' || 
+ 			   formatString(sReason) ||
+ 			   '.';
+ 	
+ 	RETURN sRet;
+END;
+
+/**
+ * ERROR(0002): Unknown Queue Delivery Error Message: Constructs the standard error
+ * message associated with failure to deliver a message to a queue as a result
+ * of an unkown error.
+ */
+
+CREATE PROCEDURE getUnkownQueueErrorMessage(IN sMessageFlow CHARACTER, IN sQueueName CHARACTER) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER;
+ 	
+ 	SET sRet = 'ERROR(0002): Unknown queue error! MessageFlow=' || 
+ 			   formatString(sMessageFlow) || 
+ 			   ', Queue=' || formatString(sQueueName) ||
+ 			   '.';
+ 	
+ 	RETURN sRet;
+END;
+ 
+/**
+ * ERROR(0003): Backout Count Exceeded Error Message: Constructs the standard
+ * error message used to indicate that the queue backount count has been
+ * exceeded.
+ */
+
+CREATE PROCEDURE getBackoutCountExceededMessage(IN sMessageFlow CHARACTER,
+												IN sCorrelationId CHARACTER,
+										 		IN sQueueName CHARACTER, 
+										 		IN nBackoutCount INTEGER,
+										 		IN nMaxBackoutCount INTEGER) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER;
+ 	
+ 	SET sRet = 'ERROR(0003): Queue backout count exceeded! MessageFlow=' || 
+ 			   formatString(sMessageFlow) || 
+ 			   ', ID=' || formatString(sCorrelationId) ||
+ 			   ', Queue=' || formatString(sQueueName) ||
+ 			   ', BackoutCount=' || CAST(nBackoutCount AS CHARACTER) ||
+ 			   ', MaxBackountCount=' || CAST(nMaxBackoutCount AS CHARACTER) ||
+ 			   '.';
+ 	
+ 	RETURN sRet;
+END;
+
+/**
+ * ERROR(0004): Message Flow Rollback Error Message: Constructs the standard
+ * error associated with rolling back a message in a flow due to some sort of
+ * catastrophic processing error.
+ */
+ 
+CREATE PROCEDURE getMessageFlowRollbackMessage(IN sMessageFlow CHARACTER, IN sReason CHARACTER) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER;
+ 	
+ 	SET sRet = 'ERROR(0004): MessageFlow Rollback! MessageFlow=' || 
+ 			   formatString(sMessageFlow) || 
+ 			   ', Reason=' || 
+ 			   formatString(sReason) ||
+ 			   '.';
+ 	
+ 	RETURN sRet;
+END;

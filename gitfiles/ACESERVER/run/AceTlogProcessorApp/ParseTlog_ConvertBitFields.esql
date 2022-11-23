@@ -1,0 +1,339 @@
+-- Compute node responsible for converting all Bit fields
+-- the their individual values.
+
+CREATE COMPUTE MODULE ParseTlog_ConvertBitFields
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE nTransactionRecordCount INTEGER 0;
+		DECLARE ndx INTEGER 0;
+		DECLARE TransactionRecord ROW;
+		DECLARE sFieldName CHARACTER NULL;
+				
+		CALL CopyMessageHeaders();
+		CALL CopyEntireMessage();
+		
+		SET OutputLocalEnvironment = InputLocalEnvironment;
+		
+		SET OutputRoot.XMLNSC = NULL;
+		
+		CREATE LASTCHILD OF OutputRoot DOMAIN ('XMLNSC');
+
+		-- Output document should be a <Transaction>.
+		
+		CREATE LASTCHILD OF OutputRoot.XMLNSC NAME 'Transactions';
+		
+		CREATE LASTCHILD OF OutputRoot.XMLNSC.Transactions NAME 'Transaction';
+		
+		-- Loop through all of the internal <TransactionRecordXX>
+		-- elements and process the bit fields within them.
+		
+		SET nTransactionRecordCount = CARDINALITY(InputRoot.XMLNSC.Transactions.Transaction.TransactionRecord[]);
+		
+		SET ndx = 0;
+		
+		WHILE ndx < nTransactionRecordCount
+		DO
+			SET ndx = ndx + 1;
+			
+			SET sFieldName = FIELDNAME(InputRoot.XMLNSC.Transactions.Transaction.TransactionRecord[ndx].*[<]);
+			
+			CREATE LASTCHILD OF OutputRoot.XMLNSC.Transactions.Transaction NAME 'TransactionRecord';
+			
+			CREATE LASTCHILD OF OutputRoot.XMLNSC.Transactions.Transaction.TransactionRecord[ndx] NAME sFieldName;
+			
+			SET TransactionRecord = InputRoot.XMLNSC.Transactions.Transaction.TransactionRecord[ndx].*[<];
+
+			CALL Convert_Bits(OutputRoot.XMLNSC.Transactions.Transaction.TransactionRecord[ndx].*[<], TransactionRecord);
+
+		END WHILE;
+		
+		PROPAGATE TO TERMINAL 'out';
+		
+		RETURN FALSE;
+	END;
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+	CREATE PROCEDURE Convert_Bits(IN outputRef REFERENCE, IN recordRef REFERENCE)
+	BEGIN
+		DECLARE nElementCount INTEGER 0;
+		DECLARE ndx INTEGER 0;
+		DECLARE sElementName CHARACTER NULL;
+		
+		SET nElementCount = CARDINALITY(recordRef.*[]);
+		
+		SET ndx = 0;
+		
+		WHILE ndx < nElementCount
+		DO
+			SET ndx = ndx + 1;
+			
+			SET sElementName = FIELDNAME(recordRef.*[ndx]);
+			
+			CREATE LASTCHILD OF outputRef NAME sElementName;
+			
+			IF EXISTS(recordRef.*[ndx].*[]) = TRUE
+			THEN
+				SET sElementName = FIELDNAME(recordRef.*[ndx].*[<]);
+				
+				IF sElementName = 'Bits_31_0'
+				THEN
+					CALL Convert_Bits_31_0(outputRef.*[ndx], recordRef.*[ndx].*[<]);
+				ELSEIF sElementName = 'Bits_0_31'
+				THEN
+					CALL Convert_Bits_0_31(outputRef.*[ndx], recordRef.*[ndx].*[<]);
+				ELSEIF sElementName = 'Bits_0_15_LittleEndian'
+				THEN
+					CALL Convert_Bits_0_15_LittleEndian(outputRef.*[ndx], recordRef.*[ndx].*[<]);
+				ELSEIF sElementName = 'Bits_0_7'
+				THEN
+					CALL Convert_Bits_0_7(outputRef.*[ndx], recordRef.*[ndx].*[<]);
+				ELSEIF sElementName = 'Bits_0_23'
+				THEN
+					CALL Convert_Bits_0_23(outputRef.*[ndx], recordRef.*[ndx].*[<]);
+				ELSEIF sElementName = 'Bits_0_15'
+				THEN
+					CALL Convert_Bits_0_15(outputRef.*[ndx], recordRef.*[ndx].*[<]);
+				ELSE
+					SET outputRef.*[ndx] = recordRef.*[ndx];
+				END IF;
+			ELSE
+				SET outputRef.*[ndx] = recordRef.*[ndx];
+			END IF; 
+		END WHILE;
+	END;
+
+	-- Converts the element 'Bits_31_0' to the individual bit fields.
+	-- The value is specified as an integer value that is meant to
+	-- represent ascending order (from left to right). From TlogAceTypes.xsd
+	-- this file is:
+	--
+	--     x'00000001' is Bit_31, x'80000000' is Bit_0
+	
+	CREATE PROCEDURE Convert_Bits_31_0(IN outputRef REFERENCE, IN bitRef REFERENCE)
+	BEGIN
+		DECLARE nBitNumber INTEGER 31;
+		DECLARE nBitPower INTEGER 0;
+		DECLARE sElementName CHARACTER NULL;
+		DECLARE nFieldValue INTEGER FIELDVALUE(bitRef);
+		DECLARE sElementValue CHARACTER NULL;
+		DECLARE nMask INTEGER 0;
+		
+		WHILE nBitNumber >= 0
+		DO
+			SET sElementName = 'Bit' || CAST(nBitNumber AS CHARACTER);
+			
+			SET nMask = POWER(2, nBitPower);
+			
+			SET sElementValue = getBitValue(nMask, nFieldValue);
+			
+			CREATE LASTCHILD OF outputRef NAME sElementName
+				VALUE sElementValue;
+				
+			SET nBitNumber = nBitNumber - 1;
+			SET nBitPower = nBitPower + 1;
+		END WHILE;
+	END;	
+
+	-- Converts the element 'Bits_0_31' to the individual bit fields.
+	-- The value is specified as an integer value that is meant to
+	-- represent descending order (from left to right). From TlogAceTypes.xsd
+	-- this value is:
+	--
+	--     x'00000001' is Bit_0, x'80000000' is Bit_31
+	
+	CREATE PROCEDURE Convert_Bits_0_31(IN outputRef REFERENCE, IN bitRef REFERENCE)
+	BEGIN
+		DECLARE nBitNumber INTEGER 0;
+		DECLARE nBitPower INTEGER 0;
+		DECLARE sElementName CHARACTER NULL;
+		DECLARE nFieldValue INTEGER FIELDVALUE(bitRef);
+		DECLARE sElementValue CHARACTER NULL;
+		DECLARE nMask INTEGER 0;
+		
+		WHILE nBitNumber < 32
+		DO
+			SET sElementName = 'Bit' || CAST(nBitNumber AS CHARACTER);
+			
+			SET nMask = POWER(2, nBitPower);
+			
+			SET sElementValue = getBitValue(nMask, nFieldValue);
+			
+			CREATE LASTCHILD OF outputRef NAME sElementName
+				VALUE sElementValue;
+				
+			SET nBitNumber = nBitNumber + 1;
+			SET nBitPower = nBitPower + 1;
+		END WHILE;
+	END;	
+
+	-- Converts the element 'Bits_0_15_LittleEndian' to the individual bit 
+	-- fields.The value is specified as an integer value that is meant to
+	-- represent little endian order. From TlogAceTypes.xsd
+	-- this value is:
+	--
+	--     x'0100' is Bit_0, x'8000' is Bit_7, x'0080' is Bit_15, x'0001' is Bit_8
+	
+	CREATE PROCEDURE Convert_Bits_0_15_LittleEndian(IN outputRef REFERENCE, IN bitRef REFERENCE)
+	BEGIN
+		DECLARE nBitNumber INTEGER 0;
+		DECLARE nBitPower INTEGER 0;
+		DECLARE sElementName CHARACTER NULL;
+		DECLARE nFieldValue INTEGER FIELDVALUE(bitRef);
+		DECLARE sElementValue CHARACTER NULL;
+		DECLARE nMask INTEGER 0;
+		
+		SET nBitNumber = 8;
+		SET nBitPower = 0;
+		
+		WHILE nBitNumber < 16
+		DO
+			SET sElementName = 'Bit' || CAST(nBitNumber AS CHARACTER);
+			
+			SET nMask = POWER(2, nBitPower);
+			
+			SET sElementValue = getBitValue(nMask, nFieldValue);
+			
+			CREATE LASTCHILD OF outputRef NAME sElementName
+				VALUE sElementValue;
+				
+			SET nBitNumber = nBitNumber + 1;
+			SET nBitPower = nBitPower + 1;
+		END WHILE;
+		
+		SET nBitNumber = 0;
+		
+		WHILE nBitNumber < 8
+		DO
+			SET sElementName = 'Bit' || CAST(nBitNumber AS CHARACTER);
+			
+			SET nMask = POWER(2, nBitPower);
+			
+			SET sElementValue = getBitValue(nMask, nFieldValue);
+			
+			CREATE LASTCHILD OF outputRef NAME sElementName
+				VALUE sElementValue;
+				
+			SET nBitNumber = nBitNumber + 1;
+			SET nBitPower = nBitPower + 1;
+		END WHILE;
+	END;	
+
+	-- Converts the element 'Bits_0_7' to the individual bit fields.
+	-- The value is specified as an integer value that is meant to
+	-- represent descending order (from left to right). From TlogAceTypes.xsd
+	-- this value is:
+	--
+	--     x'00000001' is Bit_0, x'80000000' is Bit_31
+	
+	CREATE PROCEDURE Convert_Bits_0_7(IN outputRef REFERENCE, IN bitRef REFERENCE)
+	BEGIN
+		DECLARE nBitNumber INTEGER 0;
+		DECLARE nBitPower INTEGER 0;
+		DECLARE sElementName CHARACTER NULL;
+		DECLARE nFieldValue INTEGER FIELDVALUE(bitRef);
+		DECLARE sElementValue CHARACTER NULL;
+		DECLARE nMask INTEGER 0;
+		
+		WHILE nBitNumber < 8
+		DO
+			SET sElementName = 'Bit' || CAST(nBitNumber AS CHARACTER);
+			
+			SET nMask = POWER(2, nBitPower);
+			
+			SET sElementValue = getBitValue(nMask, nFieldValue);
+			
+			CREATE LASTCHILD OF outputRef NAME sElementName
+				VALUE sElementValue;
+				
+			SET nBitNumber = nBitNumber + 1;
+			SET nBitPower = nBitPower + 1;
+		END WHILE;
+	END;	
+
+	-- Converts the element 'Bits_0_23' to the individual bit fields.
+	-- The value is specified as an integer value that is meant to
+	-- represent descending order (from left to right). From TlogAceTypes.xsd
+	-- this value is:
+	--
+	--     x'000001' is Bit_0, x'800000' is Bit_23
+	
+	CREATE PROCEDURE Convert_Bits_0_23(IN outputRef REFERENCE, IN bitRef REFERENCE)
+	BEGIN
+		DECLARE nBitNumber INTEGER 0;
+		DECLARE nBitPower INTEGER 0;
+		DECLARE sElementName CHARACTER NULL;
+		DECLARE nFieldValue INTEGER FIELDVALUE(bitRef);
+		DECLARE sElementValue CHARACTER NULL;
+		DECLARE nMask INTEGER 0;
+		
+		WHILE nBitNumber < 24
+		DO
+			SET sElementName = 'Bit' || CAST(nBitNumber AS CHARACTER);
+			
+			SET nMask = POWER(2, nBitPower);
+			
+			SET sElementValue = getBitValue(nMask, nFieldValue);
+			
+			CREATE LASTCHILD OF outputRef NAME sElementName
+				VALUE sElementValue;
+				
+			SET nBitNumber = nBitNumber + 1;
+			SET nBitPower = nBitPower + 1;
+		END WHILE;
+	END;	
+
+	-- Converts the element 'Bits_0_15' to the individual bit fields.
+	-- The value is specified as an integer value that is meant to
+	-- represent descending order (from left to right). From TlogAceTypes.xsd
+	-- this value is:
+	--
+	--     x'0001' is Bit_0, x'8000' is Bit_15
+	
+	CREATE PROCEDURE Convert_Bits_0_15(IN outputRef REFERENCE, IN bitRef REFERENCE)
+	BEGIN
+		DECLARE nBitNumber INTEGER 0;
+		DECLARE nBitPower INTEGER 0;
+		DECLARE sElementName CHARACTER NULL;
+		DECLARE nFieldValue INTEGER FIELDVALUE(bitRef);
+		DECLARE sElementValue CHARACTER NULL;
+		DECLARE nMask INTEGER 0;
+		
+		WHILE nBitNumber < 16
+		DO
+			SET sElementName = 'Bit' || CAST(nBitNumber AS CHARACTER);
+			
+			SET nMask = POWER(2, nBitPower);
+			
+			SET sElementValue = getBitValue(nMask, nFieldValue);
+			
+			CREATE LASTCHILD OF outputRef NAME sElementName
+				VALUE sElementValue;
+				
+			SET nBitNumber = nBitNumber + 1;
+			SET nBitPower = nBitPower + 1;
+		END WHILE;
+	END;	
+
+	CREATE PROCEDURE getBitValue(IN nMask INTEGER, IN nFieldValue INTEGER) RETURNS CHARACTER
+	BEGIN
+		DECLARE sRet CHARACTER 'false';
+		
+		IF BITAND(nMask, nFieldValue) = nMask
+		THEN
+			SET sRet = 'true';
+		END IF;
+		
+		RETURN sRet;
+	END;
+END MODULE;

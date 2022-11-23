@@ -1,0 +1,18 @@
+BROKER SCHEMA SigBaseLib
+
+CREATE COMPUTE MODULE LogTimingTransaction_LogTimingTransaction
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE sStatusCode CHARACTER getEnvStatusCode(InputLocalEnvironment);
+		DECLARE sOperationStatus CHARACTER getEnvOperationStatus(InputLocalEnvironment);
+		DECLARE sComponentName CHARACTER getEnvComponentName(InputLocalEnvironment);
+		DECLARE sComponentVersion CHARACTER getEnvComponentVersion(InputLocalEnvironment);
+		
+		CALL logTimingTransaction(InputLocalEnvironment, sComponentName,
+								  sComponentVersion, sStatusCode, sOperationStatus);
+								  
+		CALL clearEnv(InputLocalEnvironment);
+		
+		RETURN FALSE;
+	END;
+END MODULE;

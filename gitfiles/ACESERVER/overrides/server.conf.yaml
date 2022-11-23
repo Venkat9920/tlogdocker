@@ -1,0 +1,21 @@
+---
+serverConfVersion: 1
+additionalSharedClassesDirectories: 'C:\Venkat_INBNG233\ACE\ws01\iib-acetlogprocessor\ACESERVER\shared-classes' # Extra directories to add to the shared classloader search path; can reference shared libraries using 
+RestAdminListener:
+   port: 7600
+ResourceManagers:
+  HTTPConnector:
+    ListenerPort: 7801
+  HTTPSConnector:
+    ListenerPort: 7843
+  JVM:
+    jvmDebugPort: 6800
+    # keystoreType: 'jks'                # JVM key store type
+    # keystoreFile: 'C:\Venkat_INBNG233\software\connectMQ\selfsigned.jks'                # JVM location of the key store
+    # keystorePass: 'pass@123'                # JVM resource alias containing the key store password
+    # truststoreType: 'jks'              # JVM trust store type
+    # truststoreFile: 'C:\Venkat_INBNG233\software\connectMQ\ocpmq.jks'              # JVM location of the trust store
+    # truststorePass: 'test123'              # JVM resource alias containing the trust store password
+BrokerRegistry:
+    mqKeyRepository: 'C:\Venkat_INBNG233\software\connectMQ\SSL\key'
+    

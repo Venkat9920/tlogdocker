@@ -1,0 +1,204 @@
+BROKER SCHEMA SigBaseLib
+
+CREATE COMPUTE MODULE SigHttpPost_Initialize
+    CREATE FUNCTION Main() RETURNS BOOLEAN
+    BEGIN
+        DECLARE sCorrelationId CHARACTER getEnvCorrelationId(InputLocalEnvironment);
+        DECLARE blobMessage BLOB NULL;
+        DECLARE sMessage CHARACTER NULL;
+        
+        SET OutputLocalEnvironment = InputLocalEnvironment;
+        
+        SET OutputRoot.Properties = InputRoot.Properties;
+        
+        CALL setStandardHttpRequestHeaders(OutputRoot, OutputLocalEnvironment);
+        
+        IF EXISTS(InputRoot.XMLNSC.*[]) = TRUE
+        THEN
+            SET OutputRoot.XMLNSC = InputRoot.XMLNSC;
+        ELSE
+            SET OutputRoot.BLOB = InputRoot.BLOB;
+        END IF;
+
+        -- Attempt to log the request. If a failure occurs in parsing
+        -- or casting we will at least log an error to the application
+        -- log that we were unable to log the message.
+        
+        
+        
+        PROPAGATE TO TERMINAL 'out';
+        
+        RETURN FALSE;
+    END;
+    
+    CREATE PROCEDURE setStandardHttpRequestHeaders(IN rootRef REFERENCE, IN envRef REFERENCE)
+    BEGIN
+    CALL setHttpRequestContentType(rootRef, getEnvContentType(envRef));
+    CALL setHttpRequestAccept(rootRef, getEnvAcceptContentType(envRef));
+    CALL setHttpRequestCorrelationId(rootRef, getEnvCorrelationId(envRef));
+    CALL setHttpRequestEventName(rootRef, getEnvEvent(envRef));
+    CALL setHttpRequestEventType(rootRef, getEnvPayloadType(envRef));
+    CALL setHttpRequestSourceApplication(rootRef, getEnvComponentName(envRef));
+    CALL setHttpRequestSourceVersion(rootRef, getEnvComponentVersion(envRef));
+    CALL setHttpRequestRemoteHost(rootRef, getHostName());      
+    
+    RETURN;
+END;    
+END MODULE;
+
+
+CREATE COMPUTE MODULE SigHttpPost_LogResponse
+    CREATE FUNCTION Main() RETURNS BOOLEAN
+    BEGIN
+        DECLARE blobMessage BLOB NULL;
+        DECLARE sMessage CHARACTER NULL;
+        DECLARE sCorrelationId CHARACTER getEnvCorrelationId(InputLocalEnvironment);
+        DECLARE sStatusCode CHARACTER NULL;
+        DECLARE sOperationStatus CHARACTER NULL;
+        DECLARE sURL CHARACTER InputLocalEnvironment.Destination.HTTP.RequestURL; --getEnvTopic(InputLocalEnvironment);
+        
+        CALL CopyMessageHeaders();
+        CALL CopyEntireMessage();
+        
+        SET OutputLocalEnvironment = InputLocalEnvironment;
+
+        SET sStatusCode = getHttpStatusCode(InputRoot);
+        
+        IF sStatusCode = OK_STATUS_CODE
+        THEN
+            SET sOperationStatus = ACCEPTED_STATUS;
+        ELSE
+            SET sOperationStatus = REJECTED_STATUS;
+        END IF;
+    
+        CALL setEnvStatusCode(OutputLocalEnvironment, sStatusCode);
+        CALL setEnvOperationStatus(OutputLocalEnvironment, sOperationStatus);
+        
+        CALL logInfo(MessageFlowLabel, NodeLabel, 'HTTP Request, CorrelationId=' ||
+                     formatString(sCorrelationId) || ', URL=' || formatString(sURL) ||
+                     ', StatusCode=' || formatString(sStatusCode) || '.');
+                                       
+        PROPAGATE TO TERMINAL 'out';
+
+        RETURN FALSE;
+    END;
+
+    CREATE PROCEDURE CopyMessageHeaders() BEGIN
+        DECLARE I INTEGER 1;
+        DECLARE J INTEGER;
+        SET J = CARDINALITY(InputRoot.*[]);
+        WHILE I < J DO
+            SET OutputRoot.*[I] = InputRoot.*[I];
+            SET I = I + 1;
+        END WHILE;
+    END;
+
+    CREATE PROCEDURE CopyEntireMessage() BEGIN
+        SET OutputRoot = InputRoot;
+    END;
+END MODULE;
+
+
+CREATE COMPUTE MODULE SigHttpPost_HttpError
+    CREATE FUNCTION Main() RETURNS BOOLEAN
+    BEGIN
+        DECLARE blobMessage BLOB NULL;
+        DECLARE sErrorDetail CHARACTER NULL;
+        DECLARE sErrorDescription CHARACTER NULL;
+        DECLARE sErrorText CHARACTER NULL;
+        DECLARE sMessage CHARACTER NULL;
+        DECLARE sCorrelationId CHARACTER getEnvCorrelationId(InputLocalEnvironment);
+        DECLARE sTopic CHARACTER getEnvTopic(InputLocalEnvironment);
+        DECLARE sStatusCode CHARACTER getHttpStatusCode(InputRoot); 
+        DECLARE nStatusCode INTEGER 0;
+        
+        CALL CopyMessageHeaders();
+        CALL CopyEntireMessage();
+            
+        SET OutputLocalEnvironment = InputLocalEnvironment;
+
+        SET sErrorDescription = 'ERROR POSTing Request, Topic=' || formatString(sTopic);
+            
+        IF EXISTS(InputRoot.XMLNSC.*[]) = TRUE
+        THEN
+            SET blobMessage = ASBITSTREAM(InputRoot.XMLNSC);
+            SET sMessage = CAST(blobMessage AS CHARACTER CCSID UTF8_CCSID);
+
+            SET sErrorDetail = sErrorDescription || lineSeparator() ||
+                               'Response:' || lineSeparator() || formatString(sMessage);
+                            
+            SET sStatusCode = InputRoot.XMLNSC.Acknowledgement.(XMLNSC.Attribute)Code;
+        ELSEIF EXISTS (InputRoot.BLOB.*[]) = TRUE
+        THEN
+            SET sMessage = CAST(InputRoot.BLOB.BLOB AS CHARACTER CCSID UTF8_CCSID);
+
+            SET sErrorDetail = sErrorDescription || lineSeparator() ||
+                               'Response:' || lineSeparator() || formatString(sMessage);            
+        ELSE
+            CALL getExceptionTreeAsCharacter(InputExceptionList, sMessage);
+            
+            SET sErrorDetail = sErrorDescription || lineSeparator() ||
+                                'ExceptionString:' || lineSeparator() || formatString(sMessage);
+        END IF; 
+
+        IF sStatusCode IS NULL
+        THEN
+            SET sStatusCode = SERVICE_UNAVAILABLE_STATUS_CODE;
+        END IF;
+        
+        SET sErrorText = sErrorDescription || 
+                         ', CorrelationId=' || formatString(sCorrelationId) || 
+                         ', StatusCode=' || sStatusCode || '.';
+                         
+        CALL logErrorMessage(MessageFlowLabel, NodeLabel, sErrorText);
+
+        CALL setEnvStatusCode(OutputLocalEnvironment, sStatusCode);
+        CALL setEnvOperationStatus(OutputLocalEnvironment, ERROR_STATUS);
+        
+        IF sMessage IS NOT NULL
+        THEN
+            SET sMessage = UPPER(MessageFlowLabel) || '.HTTP.RESPONSE:' || formatString(sMessage);
+                
+            CALL logMessage(MessageFlowLabel, sCorrelationId, sMessage);
+        END IF;
+        
+        CALL setEnvErrorDescription(OutputLocalEnvironment, sErrorDescription);
+        CALL setEnvErrorDetail(OutputLocalEnvironment, sErrorDetail);
+        
+        -- For the following status codes, we want to cause a rollback,
+        -- so throw the appropriate exception. Note: We should not see a 5xx
+        -- error here because it should be routed out the Failure terminal
+        -- of the HTTP Request node, but just in case we get one, we'll 
+        -- check for it and rollback.
+        
+        SET nStatusCode = CAST(sStatusCode AS INTEGER);
+        
+        IF nStatusCode >= 500 OR
+           sStatusCode = UNAUTHORIZED_STATUS_CODE OR
+           sStatusCode = NOT_FOUND_STATUS_CODE OR
+           sStatusCode = PROXY_AUTH_REQUIRED_STATUS_CODE OR
+           sStatusCode = REQUEST_TIMEOUT_STATUS_CODE
+        THEN
+            THROW USER EXCEPTION MESSAGE 2951 VALUES(sErrorText) ;
+        END IF;
+        
+        PROPAGATE TO TERMINAL 'out';
+
+        RETURN FALSE;
+    END;
+
+    CREATE PROCEDURE CopyMessageHeaders() BEGIN
+        DECLARE I INTEGER 1;
+        DECLARE J INTEGER;
+        SET J = CARDINALITY(InputRoot.*[]);
+        WHILE I < J DO
+            SET OutputRoot.*[I] = InputRoot.*[I];
+            SET I = I + 1;
+        END WHILE;
+    END;
+
+    CREATE PROCEDURE CopyEntireMessage() BEGIN
+        SET OutputRoot = InputRoot;
+    END;
+END MODULE;
+

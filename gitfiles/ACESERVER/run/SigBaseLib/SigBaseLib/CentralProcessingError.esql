@@ -1,0 +1,130 @@
+BROKER SCHEMA SigBaseLib
+
+CREATE COMPUTE MODULE CentralProcessingError_LogError
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE sCorrelationId CHARACTER getEnvCorrelationIdAllowNull(InputLocalEnvironment);
+		DECLARE sErrorDescription CHARACTER getEnvErrorDescription(InputLocalEnvironment);
+		DECLARE sErrorCode CHARACTER getEnvStatusCode(InputLocalEnvironment);
+		DECLARE sErrorDetail CHARACTER getEnvErrorDetail(InputLocalEnvironment);
+		DECLARE sErrorDetailContentType CHARACTER getEnvErrorDetailContentType(InputLocalEnvironment);		
+		DECLARE sOperationStatus CHARACTER getEnvOperationStatus(InputLocalEnvironment);
+		DECLARE bPublishErrors BOOLEAN getEnvPublishErrors(InputLocalEnvironment);
+		DECLARE sTopic CHARACTER NULL;
+		DECLARE blobMessage BLOB NULL;
+		DECLARE sMessage CHARACTER NULL;
+		DECLARE sName CHARACTER NULL;
+		DECLARE sValue CHARACTER NULL;
+		DECLARE ndx INTEGER 0;
+		DECLARE nProp INTEGER 0;
+		
+		SET OutputLocalEnvironment = InputLocalEnvironment;
+
+		SET OutputRoot = NULL;
+		SET OutputRoot.Properties = InputRoot.Properties;
+	
+		IF sOperationStatus IS NOT NULL AND sOperationStatus = WARN_STATUS
+		THEN
+			CALL logWarn(MessageFlowLabel, sCorrelationId, sErrorDetail);
+		ELSE
+			CALL logError(MessageFlowLabel, sCorrelationId, sErrorDetail);
+		END IF;
+				
+		IF bPublishErrors = TRUE
+		THEN
+			SET sTopic = setErrorTopicString(getEnvErrorTopicType(InputLocalEnvironment));
+	
+			CALL setMqMessagePersistence(OutputRoot, TRUE);
+			
+			/**
+			 * Set persistence on the message. The allowable values for
+			 * Persistence are defined in the MQ header file
+			 * /opt/mqm/inc/cmqc.h as follows:
+			 *
+			 *  /* Persistence Values */
+             *  #define MQPER_PERSISTENCE_AS_PARENT    (-1)
+             *  #define MQPER_NOT_PERSISTENT           0
+             *  #define MQPER_PERSISTENT               1
+             *  #define MQPER_PERSISTENCE_AS_Q_DEF     2
+             *  #define MQPER_PERSISTENCE_AS_TOPIC_DEF 2
+			 */
+
+			SET OutputRoot.MQMD.Persistence = 1;
+			
+			CALL setMqTopic(OutputRoot, sTopic);
+			
+			SET OutputRoot.XMLNSC = NULL;
+	
+			CREATE LASTCHILD OF OutputRoot DOMAIN 'XMLNSC';
+			SET OutputRoot.XMLNSC.SigError TYPE = Name;
+			SET OutputRoot.XMLNSC.SigError.(XMLNSC.Attribute)DateTime = getStandardXmlFormatDate();
+			SET OutputRoot.XMLNSC.SigError.(XMLNSC.Attribute)CorrelationId = sCorrelationId;
+			SET OutputRoot.XMLNSC.SigError.(XMLNSC.Attribute)ApplicationRequestId = getEnvApplicationRequestId(InputLocalEnvironment);
+			SET OutputRoot.XMLNSC.SigError.Component TYPE = Name;
+			SET OutputRoot.XMLNSC.SigError.Component.(XMLNSC.Attribute)Name = getEnvComponentName(InputLocalEnvironment);
+			SET OutputRoot.XMLNSC.SigError.Component.(XMLNSC.Attribute)Version = getEnvComponentVersion(InputLocalEnvironment);
+	
+			IF sErrorCode IS NULL
+			THEN
+				SET sErrorCode = INTERNAL_SERVER_ERROR_STATUS_CODE;
+			END IF;
+			
+			IF sErrorDescription IS NULL
+			THEN
+				SET sErrorDescription = INTERNAL_SERVER_ERROR_MESSAGE;
+			END IF;
+			
+			SET OutputRoot.XMLNSC.SigError.Error = sErrorDescription;
+			SET OutputRoot.XMLNSC.SigError.Error.(XMLNSC.Attribute)Code = sErrorCode;
+
+			
+			IF sErrorDetail IS NOT NULL
+			THEN
+				-- This is coded a bit strange because we want the default
+				-- behavior (i.e. The Detail is set, but nothing else) to
+				-- just base 64 encode the detail.
+				
+				IF sErrorDetailContentType IS NOT NULL
+				THEN
+					SET OutputRoot.XMLNSC.SigError.Detail.(XMLNSC.Attribute)"Content-Type" = sErrorDetailContentType;
+				END IF;
+
+				SET blobMessage = CAST(sErrorDetail AS BLOB CCSID UTF8_CCSID);
+                SET OutputRoot.XMLNSC.SigError.Detail.(XMLNSC.Attribute)Encoding = 'base64';
+                SET OutputRoot.XMLNSC.SigError.Detail = BASE64ENCODE(blobMessage);
+			END IF;
+			
+			SET blobMessage = ASBITSTREAM(OutputRoot.XMLNSC);
+			SET sMessage = CAST(blobMessage AS CHARACTER CCSID UTF8_CCSID);
+			CALL logMessage(MessageFlowLabel, sCorrelationId, sMessage);
+
+			PROPAGATE TO TERMINAL 'out';
+			
+			SET sMessage = 'Published ERROR: '||
+						   formatString(sErrorDescription) || '. CorrelationId=' ||
+						   formatString(sCorrelationId) || ' Topic=' ||
+						   formatString(sTopic) || '.';
+			
+			IF sOperationStatus IS NOT NULL AND sOperationStatus = WARN_STATUS
+			THEN
+				CALL logWarn(MessageFlowLabel, NodeLabel, sMessage);
+			ELSE
+				CALL logErrorMessage(MessageFlowLabel, NodeLabel, sMessage);
+			END IF;
+		ELSE
+			PROPAGATE TO TERMINAL 'out1';
+		END IF;
+
+		RETURN FALSE;
+	END;
+
+	CREATE PROCEDURE setErrorTopicString(IN sTopicType CHARACTER) RETURNS CHARACTER
+	BEGIN
+		DECLARE sTopic CHARACTER getEnvErrorTopicString(InputLocalEnvironment);
+		
+		SET sTopic = REPLACE(sTopic, TYPE_TOPIC_EXPRESSION, sTopicType);
+	
+		RETURN UPPER(sTopic);
+	END;
+
+END MODULE;

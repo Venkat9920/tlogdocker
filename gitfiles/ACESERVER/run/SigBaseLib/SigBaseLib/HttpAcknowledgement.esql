@@ -1,0 +1,62 @@
+BROKER SCHEMA SigBaseLib
+
+/**
+ * Sets up the HTTP response for an Acknowledgement.
+ */
+
+CREATE COMPUTE MODULE HttpAcknowledgement_BuildHttpReply
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE blobMessage BLOB NULL;
+		DECLARE sMessage CHARACTER NULL;
+		DECLARE sCorrelationId CHARACTER getEnvCorrelationId(InputLocalEnvironment);
+		
+		SET OutputLocalEnvironment = InputLocalEnvironment;
+		
+		-- WARNING: Order is everything. Make sure the header values are in
+		--          place BEFORE the message (XMLNSC). If they are not, the
+		--          HTTPReply node send the response to the client but
+		--          will fail on the output.
+		
+		CALL setHttpContentType(OutputRoot, XML_CONTENT_TYPE);
+		
+		CALL setHttpStatusCode(OutputRoot, OutputLocalEnvironment, InputLocalEnvironment.Acknowledgement.HTTP.Code);
+
+		CALL CopyEntireMessage();
+
+		-- Save the message for logging.
+		
+		SET blobMessage = ASBITSTREAM(OutputRoot.XMLNSC);
+		SET sMessage = CAST(blobMessage AS CHARACTER CCSID UTF8_CCSID);
+		
+		PROPAGATE TO TERMINAL 'out';
+
+		CALL logMessage(MessageFlowLabel, sCorrelationId, sMessage);			
+
+		RETURN FALSE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;
+
+/**
+ * Sets standard common variables into the environment used
+ * in constructing the HTTP Acknowledgement.
+ */
+ 
+CREATE PROCEDURE setHttpAcknowledgement(IN envRef REFERENCE,
+						 				IN sMessageId CHARACTER,
+						 				IN sStatus CHARACTER,
+						 				IN sCode CHARACTER,
+						 				IN sErrorDetail CHARACTER,
+						 				IN sMessage CHARACTER,
+						 				IN sHttpStatusCode CHARACTER)
+BEGIN
+	CALL setAcknowledgement(envRef, sMessageId, sStatus, sCode, sErrorDetail, sMessage);
+	
+	SET envRef.Acknowledgement.HTTP.Code = sHttpStatusCode;
+	
+	RETURN;
+END;

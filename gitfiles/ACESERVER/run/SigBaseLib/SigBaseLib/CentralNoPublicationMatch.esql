@@ -1,0 +1,42 @@
+BROKER SCHEMA SigBaseLib
+
+CREATE COMPUTE MODULE CentralNoPublicationMatch_NoMatch
+    CREATE FUNCTION Main() RETURNS BOOLEAN
+    BEGIN
+        DECLARE sPublicationTopic CHARACTER getEnvTopic(InputLocalEnvironment);
+        DECLARE sErrorDetail CHARACTER NULL;
+    
+        CALL CopyMessageHeaders();
+        CALL CopyEntireMessage();
+        SET OutputLocalEnvironment = InputLocalEnvironment;
+
+        CALL setEnvErrorDescription(OutputLocalEnvironment, NO_SUBSCRIPTION_MATCH_MESSAGE);
+        
+        SET sErrorDetail = NO_SUBSCRIPTION_MATCH_MESSAGE ||  '. Publication Failed. Topic: ' || sPublicationTopic;
+
+        CALL setEnvErrorDetail(OutputLocalEnvironment, sErrorDetail);
+
+        CALL setEnvErrorProperty(OutputLocalEnvironment, 'Topic', sPublicationTopic);
+    
+        CALL setEnvStatusCode(OutputLocalEnvironment, NO_SUBSCRIPTION_MATCH_STATUS_CODE);
+        CALL setEnvOperationStatus(OutputLocalEnvironment, WARN_STATUS);
+        
+        PROPAGATE TO TERMINAL 'out';    
+
+        RETURN FALSE;
+    END;
+
+    CREATE PROCEDURE CopyMessageHeaders() BEGIN
+        DECLARE I INTEGER 1;
+        DECLARE J INTEGER;
+        SET J = CARDINALITY(InputRoot.*[]);
+        WHILE I < J DO
+            SET OutputRoot.*[I] = InputRoot.*[I];
+            SET I = I + 1;
+        END WHILE;
+    END;
+
+    CREATE PROCEDURE CopyEntireMessage() BEGIN
+        SET OutputRoot = InputRoot;
+    END;
+END MODULE;

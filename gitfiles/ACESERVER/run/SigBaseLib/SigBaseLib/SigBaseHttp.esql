@@ -1,0 +1,996 @@
+BROKER SCHEMA SigBaseLib
+
+/**
+ * SigBaseHttp.esql
+ *
+ * ESQL source holding standard HTTP related methods.
+ */
+ 
+/**
+ * Standard constants.
+ */
+ 
+DECLARE HTTP_CONNECTION_CLOSE EXTERNAL CHARACTER 'close';
+DECLARE HTTP_CONNECTION_KEEP_ALIVE EXTERNAL CHARACTER 'keep-alive';
+
+/**
+ * Returns the Correlation ID from the HTTP Header X-Correlation-Id.
+ * If the header is not set, a new UUID is returned for it.
+ */
+ 
+CREATE PROCEDURE getHttpCorrelationId(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER;
+  	
+ 	IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = inputRootRef.HTTPInputHeader."X-Correlation-Id";
+ 	END IF;
+ 	
+ 	IF sRet IS NULL
+ 	THEN
+ 		SET sRet = UUIDASCHAR;
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+ 
+/**
+ * Returns the Application Request ID from the HTTP Header X-App-Request-Id.
+ * If the header is not set, a new UUID is returned for it.
+ */
+ 
+CREATE PROCEDURE getHttpApplicationRequestId(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = inputRootRef.HTTPInputHeader."X-App-Request-Id";
+ 	END IF;
+ 	
+ 	IF sRet IS NULL
+ 	THEN
+ 		SET sRet = UUIDASCHAR;
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+
+/**
+ * Returns the HTTP Request Method.
+ */
+ 
+CREATE PROCEDURE getHttpRequestMethod(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = inputRootRef.HTTPInputHeader."X-Original-HTTP-Command";
+ 		
+ 		SET sRet = UPPER(sRet);
+ 		
+ 		IF STARTSWITH(sRet, 'GET')
+ 		THEN
+ 			SET sRet = 'GET';
+ 		ELSEIF STARTSWITH(sRet, 'POST')
+ 		THEN
+ 			SET sRet = 'POST';
+ 		ELSEIF STARTSWITH(sRet, 'PUT')
+ 		THEN
+ 			SET sRet = 'PUT';
+ 		ELSEIF STARTSWITH(sRet, 'HEAD')
+ 		THEN
+ 			SET sRet = 'HEAD';
+ 		ELSEIF STARTSWITH(sRet, 'OPTIONS')
+ 		THEN
+ 			SET sRet = 'OPTIOINS';
+ 		ELSEIF STARTSWITH(sRet, 'TRACE')
+ 		THEN
+ 			SET sRet = 'TRACE';
+ 		ELSEIF STARTSWITH(sRet, 'DELETE')
+ 		THEN
+ 			SET sRet = 'DELETE';
+ 		ELSE
+ 			SET sRet = NULL;
+ 		END IF;
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+
+/**
+ * Returns the Request URI from an HTTPInput node request.
+ */
+ 
+CREATE PROCEDURE getHttpInputRequestURI(IN envRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER NULL;
+ 	
+ 	SET sRet = envRef.HTTP.Input.RequestLine.RequestURI;
+ 	
+ 	RETURN sRet;
+END;
+
+/**
+ * Returns the Request Method from an HTTPInput node request.
+ */
+ 
+CREATE PROCEDURE getHttpInputMethod(IN envRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER NULL;
+ 	
+ 	SET sRet = envRef.HTTP.Input.RequestLine.Method;
+ 	
+ 	RETURN sRet;
+END;
+
+/**
+ * Returns the HTTP Version from an HTTPInput node request.
+ */
+ 
+CREATE PROCEDURE getHttpInputVersion(IN envRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER NULL;
+ 	
+ 	SET sRet = envRef.HTTP.Input.RequestLine.HTTPVersion;
+ 	
+ 	RETURN sRet;
+END;
+
+/**
+ * Returns the Operation Type from the HTTP Header X-Opreation-Type.
+ * If the header is not set, null is returned for it.
+ */
+ 
+CREATE PROCEDURE getHttpOperationType(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER NULL;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = inputRootRef.HTTPInputHeader."X-Operation-Type";
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END; 
+
+/**
+ * Returns the MD5Checksum from the HTTP Header X-MD5-Checksum.
+ * If the header is not set, null is returned for it.
+ */
+ 
+CREATE PROCEDURE getHttpMD5Checksum(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+    DECLARE sRet CHARACTER NULL;
+    
+    IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+    THEN
+        -- This is a really bad feature of IIB. It will automatically
+        -- change the case of all letters after the first from upper
+        -- to lower. So, even though we diligently passed in the
+        -- HTTP Header of "X-MD5-Checksum" it changed it to "X-Md5-Checksum".
+        
+        SET sRet = inputRootRef.HTTPInputHeader."X-MD5-Checksum";
+        
+        IF sRet IS NULL
+        THEN
+            SET sRet = inputRootRef.HTTPInputHeader."X-Md5-Checksum";
+        END IF;
+    END IF;
+    
+    RETURN sRet;
+END; 
+
+/**
+ * Returns whether or not the HTTP request method is a GET request.
+ */
+ 
+CREATE PROCEDURE isHttpGetRequest(IN inputRootRef REFERENCE) RETURNS BOOLEAN
+BEGIN
+	DECLARE bRet BOOLEAN FALSE;
+	DECLARE sRequestMethod CHARACTER getHttpRequestMethod(inputRootRef);
+
+	IF sRequestMethod IS NOT NULL
+	THEN
+		IF sRequestMethod = 'GET'
+		THEN
+			SET bRet = TRUE;
+		END IF;
+	END IF;
+	RETURN bRet;
+END;
+
+/**
+ * Returns whether or not the HTTP request method is a POST request.
+ */
+ 
+CREATE PROCEDURE isHttpPostRequest(IN inputRootRef REFERENCE) RETURNS BOOLEAN
+BEGIN
+	DECLARE bRet BOOLEAN FALSE;
+	DECLARE sRequestMethod CHARACTER getHttpRequestMethod(inputRootRef);
+
+	IF sRequestMethod IS NOT NULL
+	THEN
+		IF sRequestMethod = 'POST'
+		THEN
+			SET bRet = TRUE;
+		END IF;
+	END IF;
+	RETURN bRet;
+END;
+
+/**
+ * Sets the request Method. This is set in the following environment 
+ * variable and overrides the Method configured in an HTTP request
+ * node:
+ *
+ *  OutputLocalEnvironment.Destination.HTTP.RequestURL
+ */
+
+CREATE PROCEDURE setHttpRequestMethod(IN envRef REFERENCE, IN sMethod CHARACTER)
+BEGIN
+	SET envRef.Destination.HTTP.RequestLine.Method = sMethod;
+	RETURN;
+END;
+
+/**
+ * Returns the Remote Host from the HTTP Header X-Remote-Host.
+ */
+ 
+CREATE PROCEDURE getHttpRemoteHost(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER;
+ 	DECLARE ndx INTEGER;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = inputRootRef.HTTPInputHeader."X-Forwarded-For";
+ 		
+ 		IF sRet IS NULL
+ 		THEN
+	 		SET sRet = inputRootRef.HTTPInputHeader."X-Remote-Host";
+ 		END IF;
+ 	END IF;
+
+	IF sRet IS NOT NULL
+	THEN
+		-- Just in case the header contains multiple addresses.
+		SET ndx = POSITION(',' IN sRet);
+		
+		IF ndx > 0
+		THEN
+		    SET ndx = ndx - 1;
+		    IF ndx > 0
+		    THEN
+				SET sRet = SUBSTRING(sRet FROM 1 FOR ndx);
+		    END IF;
+		END IF;
+	END IF;
+
+ 	RETURN sRet;
+END;
+
+/**
+ * Returns the Host from the HTTP Header X-Server-Name.
+ */
+ 
+CREATE PROCEDURE getHttpHost(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = inputRootRef.HTTPInputHeader."X-Server-Name";
+ 	END IF;
+ 	
+ 	IF sRet IS NULL
+ 	THEN
+ 		SET sRet = getHostAddress();
+ 	END IF;
+ 	RETURN sRet;
+END;
+ 
+/**
+ * Returns the Content-Type from the HTTP Header Content-Type.
+ */
+ 
+CREATE PROCEDURE getHttpContentType(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = inputRootRef.HTTPInputHeader."Content-Type";
+ 	END IF;
+ 	
+ 	IF sRet IS NULL
+ 	THEN
+ 		SET sRet = 'content/unknown';
+ 	END IF;
+ 	RETURN sRet;
+END;
+
+/**
+ * Returns the Event Name from the HTTP Header X-Event-Name.
+ */
+ 
+CREATE PROCEDURE getHttpEventName(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER NULL;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = inputRootRef.HTTPInputHeader."X-Event-Name";
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+
+/**
+ * Returns the Event Type from the HTTP Header X-Event-Type.
+ */
+ 
+CREATE PROCEDURE getHttpEventType(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER NULL;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = inputRootRef.HTTPInputHeader."X-Event-Type";
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+ 
+/**
+ * Returns the Event Payload Type from the HTTP Header X-Payload-Type.
+ */
+ 
+CREATE PROCEDURE getHttpEventPayloadType(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER NULL;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = inputRootRef.HTTPInputHeader."X-Event-Payload-Type";
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+
+
+/**
+ * Returns the  Store from the HTTP Header X-Dif-Store-Id.
+ */
+ 
+CREATE PROCEDURE getHttpStore(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER NULL;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = inputRootRef.HTTPInputHeader."X-Dif-Store-Id";
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+
+/**
+ * Returns the  DifControllerId from the HTTP Header X-Dif-Controller-Id.
+ */
+ 
+CREATE PROCEDURE getHttpDifControllerId(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER NULL;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = inputRootRef.HTTPInputHeader."X-Dif-Controller-Id";
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+
+/**
+ * Returns the  DifAssuranceId from the HTTP Header X-Dif-Tlog-Assurance-Id.
+ */
+ 
+CREATE PROCEDURE getHttpDifAssuranceId(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER NULL;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = inputRootRef.HTTPInputHeader."X-Dif-Tlog-Assurance-Id";
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+
+
+/**
+ * Returns the  DifMsgBundleCnt from the HTTP Header X-Dif-Message-Bundle-Count.
+ */
+ 
+CREATE PROCEDURE getHttpDifMsgBundleCnt(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER NULL;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = inputRootRef.HTTPInputHeader."X-Dif-Message-Bundle-Count";
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+
+/**
+ * Returns the  DifProdctVersion from the HTTP Header X-Dif-Product-Version.
+ */
+ 
+CREATE PROCEDURE getHttpDifProductVersion(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER NULL;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = inputRootRef.HTTPInputHeader."X-Dif-Product-Version";
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+
+/**
+ * Returns the Source Application from the HTTP Header X-Source-Application.
+ */
+ 
+CREATE PROCEDURE getHttpSourceApplication(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER NULL;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = inputRootRef.HTTPInputHeader."X-Source-Application";
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+
+/**
+ * Returns the Request date specified in the HTTP Header X-Request-Date.
+ */
+ 
+CREATE PROCEDURE getHttpRequestDate(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER NULL;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = inputRootRef.HTTPInputHeader."X-Request-Date";
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+
+/**
+ * Returns the Request ID from the HTTP Header X-Request-Id.
+ * If the header is not set, a new UUID is returned for it.
+ */
+
+CREATE PROCEDURE getHttpRequestId(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = inputRootRef.HTTPInputHeader."X-Request-Id";
+ 	END IF;
+ 	
+ 	IF sRet IS NULL
+ 	THEN
+ 		SET sRet = UUIDASCHAR;
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+ 
+/**
+ * Returns the Request Name from the HTTP Header X-Request-Name.
+ * If the header is not set, NULL is returned.
+ */
+
+CREATE PROCEDURE getHttpRequestName(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER NULL;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = inputRootRef.HTTPInputHeader."X-Request-Name";
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+
+/**
+ * Returns the Request Type from the HTTP Header X-Request-Type.
+ * If the header is not set, NULL is returned.
+ */
+
+CREATE PROCEDURE getHttpRequestType(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER NULL;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = inputRootRef.HTTPInputHeader."X-Request-Type";
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+
+/**
+ * Returns the Request Timeout from the HTTP Header X-Request-Timeout.
+ * If the header is not set, NULL is returned.
+ */
+
+CREATE PROCEDURE getHttpRequestTimeout(IN inputRootRef REFERENCE) RETURNS INTEGER
+BEGIN
+ 	DECLARE nRet INTEGER 0;
+ 	DECLARE sVal CHARACTER NULL;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+ 	THEN
+ 		SET sVal = inputRootRef.HTTPInputHeader."X-Request-Timeout";
+ 		
+ 		IF sVal IS NOT NULL
+ 		THEN
+ 			IF isNumeric(sVal) = TRUE
+ 			THEN
+ 				SET nRet = CAST(sVal AS INTEGER);
+ 			END IF;
+ 		END IF;
+ 	END IF;
+ 	
+ 	RETURN nRet;
+END;
+
+/**
+ * Returns the Source Version from the HTTP Header X-Source-Version.
+ */
+ 
+CREATE PROCEDURE getHttpSourceVersion(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER NULL;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = inputRootRef.HTTPInputHeader."X-Source-Version";
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+
+/**
+ * Returns whether or not the request is a test message..
+ */
+ 
+CREATE PROCEDURE isHttpTestMessage(IN inputRootRef REFERENCE) RETURNS BOOLEAN
+BEGIN
+ 	DECLARE bRet BOOLEAN FALSE;
+ 	DECLARE sValue CHARACTER NULL;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPInputHeader.*[]) > 0
+ 	THEN
+ 		SET sValue = inputRootRef.HTTPInputHeader."X-Test-Message";
+ 		
+ 		IF sValue IS NOT NULL
+ 		THEN
+ 			SET sValue = UPPER(sValue);
+ 			
+ 			IF sValue = 'TRUE'
+ 			THEN
+ 				SET bRet = TRUE;
+ 			END IF;
+ 		END IF;
+ 	END IF;
+ 	
+ 	RETURN bRet;
+END;
+
+/**
+ * Sets the request URL in an HTTP request. This is
+ * set in the following environment variable and
+ * overrides the URL configured in an HTTP request
+ * node:
+ *
+ *  OutputLocalEnvironment.Destination.HTTP.RequestURL
+ */
+
+CREATE PROCEDURE setHttpRequestUrl(IN envRef REFERENCE, IN sUrl CHARACTER)
+BEGIN
+	SET envRef.Destination.HTTP.RequestURL = sUrl;
+	RETURN;
+END;
+
+/**
+ * Returns the request URL used in an HTTP request. This
+ * is retrieved from the following environment variable:
+ * 
+ * InputLocalEnvironment.Destination.HTTP.RequestURL
+ */
+ 
+CREATE PROCEDURE getHttpRequestUrl(IN envRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	DECLARE sRet CHARACTER NULL;
+	
+ 	IF CARDINALITY(envRef.Destination.*[]) > 0
+ 	THEN
+ 		SET sRet = envRef.Destination.HTTP.RequestURL;
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;	
+
+/**
+ * Sets the request timeout in an HTTP request. This is
+ * set in the following environment variable and
+ * overrides the timeout configured in an HTTP request
+ * node:
+ *
+ *  OutputLocalEnvironment.Destination.HTTP.Timeout
+ */
+
+CREATE PROCEDURE setHttpRequestTimeout(IN envRef REFERENCE, IN nVal INTEGER)
+BEGIN
+	IF nVal > 0
+	THEN
+		SET envRef.Destination.HTTP.Timeout = (nVal / 1000);
+	END IF;
+	RETURN;
+END;
+
+/**
+ * Sets the request timeout in milliseconds for an HTTP request. This is
+ * set in the following environment variable and the timeout configured 
+ * in an HTTP request node:
+ *
+ *  OutputLocalEnvironment.Destination.HTTP.TimeoutMillis
+ */
+
+CREATE PROCEDURE setHttpRequestTimeoutMillis(IN envRef REFERENCE, IN nVal INTEGER)
+BEGIN
+	IF nVal > 0
+	THEN
+		SET envRef.Destination.HTTP.TimeoutMillis = nVal;
+	END IF;
+	RETURN;
+END;
+
+/**
+ * Adds the specified parameter name and value to the set of 
+ * HTTP Query parameters.
+ */
+ 
+CREATE PROCEDURE setHttpQueryParameter(IN envRef REFERENCE, IN sName CHARACTER, IN sValue CHARACTER)
+BEGIN
+	IF sName IS NOT NULL AND sValue IS NOT NULL
+	THEN
+		CREATE LASTCHILD OF envRef.Destination.HTTP.QueryString NAME sName VALUE sValue;
+	END IF;
+	RETURN;
+END;
+
+/**
+ * Clears the set of HTTP Query parameters.
+ */
+ 
+CREATE PROCEDURE clearHttpQueryParameters(IN envRef REFERENCE)
+BEGIN
+	SET envRef.Destination.HTTP.QueryString = NULL;
+	RETURN;
+END;
+/**
+ * Sets the request URL in a SOAP HTTP request. This is
+ * set in the following environment variable and
+ * overrides the URL configured in a SOAP Request Node.
+ * node:
+ *
+ *  OutputLocalEnvironment.Destination.SOAP.Request.Transport.HTTP.WebServiceURL
+ */
+
+CREATE PROCEDURE setSoapHttpRequestUrl(IN envRef REFERENCE, IN sUrl CHARACTER)
+BEGIN
+	SET envRef.Destination.SOAP.Request.Transport.HTTP.WebServiceURL = sUrl;
+	RETURN;
+END;
+
+/**
+ * Returns the request URL used in a SOAP HTTP request. This
+ * is retrieved from the following environment variable:
+ * 
+ * InputLocalEnvironment.Destination.SOAP.Request.Transport.HTTP.WebServiceURL
+ */
+ 
+CREATE PROCEDURE getSoapHttpRequestUrl(IN envRef REFERENCE) RETURNS CHARACTER
+BEGIN
+	DECLARE sRet CHARACTER NULL;
+	
+ 	IF CARDINALITY(envRef.Destination.*[]) > 0
+ 	THEN
+ 		SET sRet = envRef.Destination.SOAP.Request.Transport.HTTP.WebServiceURL;
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;	
+
+/**
+ * Sets the HTTP status code for an HTTP response.
+ */
+ 
+ CREATE PROCEDURE setHttpStatusCode(IN outputRootRef REFERENCE, IN envRef REFERENCE, IN sHttpStatusCode CHARACTER)
+ BEGIN
+ 	IF sHttpStatusCode IS NOT NULL
+ 	THEN
+	 	SET envRef.Destination.HTTP.ReplyStatusCode = sHttpStatusCode;
+	 	
+	 	/**
+		 * The Message Broker documentation recommends using the following
+		 * to set the HTTP Status Code in the response.
+		 * 
+		 *   SET OutputLocalEnvironment.Destination.HTTP.ReplyStatusCode = 503;
+		 *
+		 * This works fine in normal circumstances but fails miserably when
+		 * the compute node is called in a failure situation. In that case
+		 * it becomes necessary to use the secondary recommendation of 
+		 * setting X-Original-HTTP-Status-Code.
+		 */
+	 	
+	 	SET outputRootRef.HTTPReplyHeader."X-Original-HTTP-Status-Code" = sHttpStatusCode;
+ 	ELSE
+ 		SET envRef.Destination.HTTP.ReplyStatusCode = OK_STATUS_CODE;
+	 	SET outputRootRef.HTTPReplyHeader."X-Original-HTTP-Status-Code" = OK_STATUS_CODE;
+ 	END IF;
+	RETURN;
+ END;
+ 
+/**
+ * Returns the HTTP status code from the HTTP response.
+ */
+ 
+CREATE PROCEDURE getHttpStatusCode(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER NULL;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPResponseHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = inputRootRef.HTTPResponseHeader."X-Original-HTTP-Status-Code";
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+
+/**
+ * Returns the HTTP status code from the HTTP response.
+ */
+ 
+CREATE PROCEDURE getHttpStatusLine(IN inputRootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER NULL;
+ 	
+ 	IF CARDINALITY(inputRootRef.HTTPResponseHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = inputRootRef.HTTPResponseHeader."X-Original-HTTP-Status-Line";
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+
+/**
+ * Sets the Content-Type in an HTTP response. This is
+ * set in the following variable:
+ *
+ *  OutputRoot.HTTPReplyHeader."Content-Type"
+ */
+
+CREATE PROCEDURE setHttpContentType(IN outputRootRef REFERENCE, IN sContentType CHARACTER)
+BEGIN
+	SET outputRootRef.HTTPReplyHeader."Content-Type" = sContentType;
+END;
+
+/**
+ * Sets the Content-Type header in an HTTP Request (Content-type)
+ */
+ 
+CREATE PROCEDURE setHttpRequestContentType(IN outputRootRef REFERENCE, in sVal CHARACTER)
+BEGIN
+	SET outputRootRef.HTTPRequestHeader."Content-Type" = sVal;
+END;
+
+/**
+ * Gets the Content-Type header in an HTTP Request (Content-type)
+ */
+ 
+CREATE PROCEDURE getHttpRequestContentType(IN rootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER NULL;
+ 	
+ 	IF CARDINALITY(rootRef.HTTPRequestHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = rootRef.HTTPRequestHeader."Content-Type";
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+
+/**
+ * Sets the Accept header in an HTTP Request (Accept)
+ */
+ 
+CREATE PROCEDURE setHttpRequestAccept(IN outputRootRef REFERENCE, in sVal CHARACTER)
+BEGIN
+	SET outputRootRef.HTTPRequestHeader."Accept" = sVal;
+END;
+
+/**
+ * Gets the Accept header in an HTTP Request (Accept)
+ */
+ 
+CREATE PROCEDURE getHttpRequestAccept(IN rootRef REFERENCE) RETURNS CHARACTER
+BEGIN
+ 	DECLARE sRet CHARACTER NULL;
+ 	
+ 	IF CARDINALITY(rootRef.HTTPRequestHeader.*[]) > 0
+ 	THEN
+ 		SET sRet = rootRef.HTTPRequestHeader."Accept";
+ 	END IF;
+ 	
+ 	RETURN sRet;
+END;
+
+/**
+ * Sets the HTTP Connection header in an HTTP request.
+ */
+ 
+CREATE PROCEDURE setHttpRequestConnection(IN outputRootRef REFERENCE, IN sVal CHARACTER)
+BEGIN
+	SET outputRootRef.HTTPRequestHeader."Connection" = sVal;
+END;
+
+/**
+ * Sets the HTTP Connection header to 'close' in an HTTP request.
+ */
+ 
+CREATE PROCEDURE setHttpRequestConnectionClose(IN outputRootRef REFERENCE)
+BEGIN
+	CALL setHttpRequestConnection(outputRootRef, HTTP_CONNECTION_CLOSE);
+END;
+
+/**
+ * Sets the HTTP Connection header to 'keep-alive' in an HTTP request.
+ */
+ 
+CREATE PROCEDURE setHttpRequestConnectionKeepAlive(IN outputRootRef REFERENCE)
+BEGIN
+	CALL setHttpRequestConnection(outputRootRef, HTTP_CONNECTION_KEEP_ALIVE);
+END;
+
+/**
+ * Sets the Correlation ID in an HTTP Request (X-Correlation-Id).
+ */
+ 
+CREATE PROCEDURE setHttpRequestCorrelationId(IN outputRootRef REFERENCE, in sVal CHARACTER)
+BEGIN
+	SET outputRootRef.HTTPRequestHeader."X-Correlation-Id" = sVal;
+END;
+
+/**
+ * Sets the Store in an HTTP Request (X-Dif-Store-Id).
+ */
+ 
+CREATE PROCEDURE setHttpRequestStore(IN outputRootRef REFERENCE, in sVal CHARACTER)
+BEGIN
+	SET outputRootRef.HTTPRequestHeader."X-Dif-Store-Id" = sVal;
+END;
+
+/**
+ * Sets the Division Number in an HTTP Request (X-Dif-Controller-Id).
+ */
+ 
+CREATE PROCEDURE setHttpRequestDifControllerId(IN outputRootRef REFERENCE, in sVal CHARACTER)
+BEGIN
+	SET outputRootRef.HTTPRequestHeader."X-Dif-Controller-Id" = sVal;
+END;
+
+/**
+ * Sets the Division Number in an HTTP Request (X-Dif-Tlog-Assurance-Id).
+ */
+ 
+CREATE PROCEDURE setHttpRequestDifAssuranceId(IN outputRootRef REFERENCE, in sVal CHARACTER)
+BEGIN
+	SET outputRootRef.HTTPRequestHeader."X-Dif-Tlog-Assurance-Id" = sVal;
+END;
+
+/**
+ * Sets the Division Number in an HTTP Request (X-Dif-Message-Bundle-Count).
+ */
+ 
+CREATE PROCEDURE setHttpRequestDifMsgBundleCnt(IN outputRootRef REFERENCE, in sVal CHARACTER)
+BEGIN
+	SET outputRootRef.HTTPRequestHeader."X-Dif-Message-Bundle-Count" = sVal;
+END;
+
+/**
+ * Sets the Division Number in an HTTP Request (X-Dif-Product-Version).
+ */
+ 
+CREATE PROCEDURE setHttpRequestDifProductVersion(IN outputRootRef REFERENCE, in sVal CHARACTER)
+BEGIN
+	SET outputRootRef.HTTPRequestHeader."X-Dif-Product-Version" = sVal;
+END;
+
+
+/**
+ * Sets the Event Name in an HTTP Request (X-Event-Name).
+ */
+ 
+CREATE PROCEDURE setHttpRequestEventName(IN outputRootRef REFERENCE, in sVal CHARACTER)
+BEGIN
+	SET outputRootRef.HTTPRequestHeader."X-Event-Name" = sVal;
+END;
+
+/**
+ * Sets the Event Type in an HTTP Request (X-Event-Type).
+ */
+ 
+CREATE PROCEDURE setHttpRequestEventType(IN outputRootRef REFERENCE, in sVal CHARACTER)
+BEGIN
+	SET outputRootRef.HTTPRequestHeader."X-Event-Type" = sVal;
+END;
+
+/**
+ * Sets the Source Version in an HTTP Request (X-Source-Version).
+ */
+ 
+CREATE PROCEDURE setHttpRequestSourceVersion(IN outputRootRef REFERENCE, in sVal CHARACTER)
+BEGIN
+	SET outputRootRef.HTTPRequestHeader."X-Source-Version" = sVal;
+END;
+
+/**
+ * Sets the Source Application in an HTTP Request (X-Source-Application).
+ */
+ 
+CREATE PROCEDURE setHttpRequestSourceApplication(IN outputRootRef REFERENCE, in sVal CHARACTER)
+BEGIN
+	SET outputRootRef.HTTPRequestHeader."X-Source-Application" = sVal;
+END;
+
+/**
+ * Sets the remote host (local host) in an HTTP Request (X-Remote-Host).
+ */
+ 
+CREATE PROCEDURE setHttpRequestRemoteHost(IN outputRootRef REFERENCE, in sVal CHARACTER)
+BEGIN
+	SET outputRootRef.HTTPRequestHeader."X-Remote-Host" = sVal;
+END;
+
+/**
+ * Maps all InputRoot HTTP Request Headers to OutputRoot Request Headers.
+ */
+ 
+CREATE PROCEDURE mapHttpRequestHeaders(IN inputRootRef REFERENCE, IN outputRootRef REFERENCE)
+BEGIN
+	DECLARE nCount INTEGER 0;
+	DECLARE ndx INTEGER 0;
+	
+	SET nCount = CARDINALITY(inputRootRef.HTTPRequestHeader.*[]);
+	
+	WHILE ndx < nCount
+	DO
+		SET ndx = ndx + 1;
+		
+		SET outputRootRef.HTTPRequestHeader.*[ndx] = inputRootRef.HTTPRequestHeader.*[ndx];
+	END WHILE;
+END;

@@ -1,0 +1,63 @@
+
+CREATE COMPUTE MODULE AceTlogReceiver_PublishTlog
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE sCorrelationId CHARACTER SigBaseLib.getEnvCorrelationId(InputLocalEnvironment);
+		DECLARE sTopic CHARACTER getTlogPublicationTopic();
+
+		-- CALL CopyMessageHeaders();
+
+		SET OutputLocalEnvironment = InputLocalEnvironment;
+
+		IF isAceTlogProcessorServiceDebugMode() = TRUE
+			THEN
+			CALL SigBaseLib.logInfo(MessageFlowLabel, NodeLabel, 'Processing TLOG, ID = ' || SigBaseLib.formatString(sCorrelationId) || '.');
+		END IF;
+		-- Set Persistence.
+
+		CALL SigBaseLib.setMqMessagePersistence(OutputRoot, TRUE);
+		-- Set RFH2 Headers before setting up the Message.
+
+		SET OutputRoot.MQMD.Format = 'MQHRF2 ';
+		SET OutputRoot.MQRFH2.(MQRFH2.Field)Version = 2;
+		SET OutputRoot.MQRFH2.(MQRFH2.Field)Format = 'MQSTR';
+
+		CALL SigBaseLib.initMqHeadersFromEnv(OutputRoot, OutputLocalEnvironment);
+
+		CALL SigBaseLib.setMqTopic(OutputRoot, sTopic);
+
+		CALL SigBaseLib.logInfo(MessageFlowLabel, NodeLabel,
+		'Publishing tlog: topic=' || SigBaseLib.formatString(sTopic) || '.');
+
+		SET OutputRoot.BLOB.BLOB = InputRoot.BLOB.BLOB;
+
+		PROPAGATE TO TERMINAL 'out'; -- Propagate the message to the queue.
+
+		RETURN FALSE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+
+	CREATE PROCEDURE getTlogPublicationTopic() RETURNS CHARACTER
+	BEGIN
+		DECLARE sTopic CHARACTER getAceTlogTopicString();
+        DECLARE STORE_TOPIC_EXPRESSION CHARACTER '${STORE}';
+        
+		SET sTopic = REPLACE(sTopic, STORE_TOPIC_EXPRESSION, SigBaseLib.getEnvStore(InputLocalEnvironment));		
+
+
+		RETURN sTopic;
+	END;
+END MODULE;

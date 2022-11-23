@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Broker deployBarfile="test01.bar" deployTimestamp="2022-11-23 10:24:17">
+  <CompiledApplication>
+    <ConfigurableProperty uri="startMode">
+    </ConfigurableProperty>
+  </CompiledApplication>
+  <CompiledMessageFlow name="test" deployBarfile="test01.bar" deployTimestamp="2022-11-23 10:24:17">
+    <ConfigurableProperty uri="test#Compute.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#Compute.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#Compute.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#HTTP Input.URLSpecifier" override="/test01">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#HTTP Input.decompressInputMessage">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#HTTP Input.faultFormat">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#HTTP Input.securityProfileName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#HTTP Input.timeoutForClient">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#HTTP Input.useHTTPS">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#HTTP Input.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#MQ Output.AddRequestToGroup">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#MQ Output.GroupRequestFolderName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#MQ Output.GroupRequestTimeout">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#MQ Output.SSLCertificateLabel">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#MQ Output.SSLCipherSpec">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#MQ Output.SSLPeerName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#MQ Output.channelName" override="CHNL.MULE.SVRCONN">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#MQ Output.connection" override="CLIENT">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#MQ Output.destinationQueueManagerName" override="TLOG_DEV_QM">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#MQ Output.listenerPortNumber" override="1414">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#MQ Output.policyUrl">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#MQ Output.queueManagerHostname" override="iibcdcapp99">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#MQ Output.queueManagerName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#MQ Output.queueName" override="TRANSACTION_CANONICAL_SUB_FRP_BACKUP">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#MQ Output.replyToQ">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#MQ Output.replyToQMgr">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#MQ Output.securityIdentity" override="mqtestsid">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#MQ Output.securityProfileName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#MQ Output.useSSL">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#MQ Output.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#additionalInstances">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#commitCount">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#commitInterval">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#consumerPolicySet">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#consumerPolicySetBindings">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#coordinatedTransaction">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#maximumRateMsgsPerSec">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#monitoringProfile">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#notificationThresholdMsgsPerSec">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#processingTimeoutAction">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#processingTimeoutSec">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#providerPolicySet">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#providerPolicySetBindings">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#securityProfileName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#startInstancesWhenFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#startMode">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="test#wlmPolicy">
+    </ConfigurableProperty>
+  </CompiledMessageFlow>
+  <CompiledMessageFlow name="connectDEMOHA" deployBarfile="test01.bar" deployTimestamp="2022-11-23 10:24:17">
+    <ConfigurableProperty uri="connectDEMOHA#Compute.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#Compute.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#Compute.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#Compute1.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#Compute1.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#Compute1.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#Compute2.connectDatasourceBeforeFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#Compute2.dataSource">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#Compute2.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#HTTP Input.URLSpecifier" override="/testdemoha">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#HTTP Input.decompressInputMessage">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#HTTP Input.faultFormat">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#HTTP Input.securityProfileName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#HTTP Input.timeoutForClient">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#HTTP Input.useHTTPS">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#HTTP Input.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#HTTP Reply.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#MQ Output.AddRequestToGroup">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#MQ Output.GroupRequestFolderName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#MQ Output.GroupRequestTimeout">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#MQ Output.SSLCertificateLabel">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#MQ Output.SSLCipherSpec" override="ANY_TLS12_OR_HIGHER">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#MQ Output.SSLPeerName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#MQ Output.channelName" override="DEMOHA.SVRCONN">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#MQ Output.connection" override="CLIENT">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#MQ Output.destinationQueueManagerName" override="DEMOHA">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#MQ Output.listenerPortNumber" override="443">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#MQ Output.policyUrl">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#MQ Output.queueManagerHostname" override="demoha-ibm-mq-qm-mq.apps.ocpd.gianteagle.com">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#MQ Output.queueManagerName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#MQ Output.queueName" override="DEV.ACE.QUEUE.01">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#MQ Output.replyToQ">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#MQ Output.replyToQMgr">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#MQ Output.securityIdentity" override="demohasid">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#MQ Output.securityProfileName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#MQ Output.useSSL" override="yes">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#MQ Output.validateMaster">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#Publication.SSLCipherSpec" override="ANY_TLS12_OR_HIGHER">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#Publication.SSLPeerName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#Publication.channelName" override="DEMOHA.SVRCONN">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#Publication.connection" override="CLIENT">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#Publication.destinationQueueManagerName" override="DEMOHA">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#Publication.listenerPortNumber" override="443">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#Publication.policyUrl">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#Publication.queueManagerHostname" override="demoha-ibm-mq-qm-mq.apps.ocpd.gianteagle.com">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#Publication.securityIdentity" override="demohasid">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#Publication.useSSL" override="yes">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#Trace.filePath">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#additionalInstances">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#commitCount">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#commitInterval">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#consumerPolicySet">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#consumerPolicySetBindings">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#coordinatedTransaction">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#maximumRateMsgsPerSec">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#monitoringProfile">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#notificationThresholdMsgsPerSec">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#processingTimeoutAction">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#processingTimeoutSec">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#providerPolicySet">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#providerPolicySetBindings">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#securityProfileName">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#startInstancesWhenFlowStarts">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#startMode">
+    </ConfigurableProperty>
+    <ConfigurableProperty uri="connectDEMOHA#wlmPolicy">
+    </ConfigurableProperty>
+  </CompiledMessageFlow>
+</Broker>
