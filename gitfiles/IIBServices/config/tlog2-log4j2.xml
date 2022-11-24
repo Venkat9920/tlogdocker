@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="error" strict="true" name="sigservice-log4j2-config">
+
+  <!-- Setting the status to "trace" in the Configuration will display
+       detailed log4j2-internal log statements on the console about what
+       happens during the configuration process. The default setting
+       is "warn". -->
+
+  <Properties>
+    <Property name="log.file.path">${sys:com.gianteagle.is.sig.base}/logs</Property>
+  </Properties>
+
+  <Appenders>
+    <RollingFile name="ROOTLOG" 
+      fileName="${log.file.path}/tlog2.default.log"
+      filePattern="${log.file.path}/archive/tlog2.default.log.%d{yyyy-MM-dd}.%i.gz"
+      bufferedIO="true"
+      append="true">
+      <PatternLayout>
+        <Pattern>%d{MM/dd/yyyy HH:mm:ss.SSS} %-5p %m%n</Pattern>
+      </PatternLayout>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy>
+        <Delete basePath="${log.file.path}/archive" maxDepth="1">
+          <IfFileName glob="tlog2.default.log*">
+            <IfAny>
+              <IfAccumulatedFileCount exceeds="2" />
+            </IfAny>
+          </IfFileName>
+        </Delete>
+      </DefaultRolloverStrategy>
+    </RollingFile>
+
+    <RollingFile name="SIGAPPLOG" 
+      fileName="${log.file.path}/tlog2.app.log"
+      filePattern="${log.file.path}/archive/tlog2.app.log.%d{yyyy-MM-dd}.%i.gz"
+      bufferedIO="true"
+      append="true">
+      <PatternLayout>
+        <Pattern>%d{MM/dd/yyyy HH:mm:ss.SSS} %-5p %m%n</Pattern>
+      </PatternLayout>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="80 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy>
+        <Delete basePath="${log.file.path}/archive" maxDepth="1">
+          <IfFileName glob="tlog2.app.log*">
+            <IfAny>
+              <IfAccumulatedFileCount exceeds="5" />
+            </IfAny>
+          </IfFileName>
+        </Delete>
+      </DefaultRolloverStrategy>
+    </RollingFile>
+
+    <RollingFile name="SIGERROR" 
+      fileName="${log.file.path}/tlog2.error.log"
+      filePattern="${log.file.path}/archive/tlog2.error.log.%d{yyyy-MM-dd}.%i.gz"
+      bufferedIO="true"
+      append="true">
+      <PatternLayout>
+        <Pattern>%d{MM/dd/yyyy HH:mm:ss.SSS} %-5p %m%n</Pattern>
+      </PatternLayout>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="50 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy>
+        <Delete basePath="${log.file.path}/archive" maxDepth="1">
+          <IfFileName glob="tlog2.error.log*">
+            <IfAny>
+              <IfAccumulatedFileCount exceeds="5" />
+            </IfAny>
+          </IfFileName>
+        </Delete>
+      </DefaultRolloverStrategy>
+    </RollingFile>
+
+    <RollingFile name="SIGMESSAGE" 
+      fileName="${log.file.path}/tlog2.message.log"
+      filePattern="${log.file.path}/archive/tlog2.message.log.%d{yyyy-MM-dd}.%i.gz"
+      bufferedIO="true"
+      append="true">
+      <PatternLayout>
+        <Pattern>%d{MM/dd/yyyy HH:mm:ss.SSS} %m%n</Pattern>
+      </PatternLayout>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="200 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy>
+        <Delete basePath="${log.file.path}/archive" maxDepth="1">
+          <IfFileName glob="tlog2.message.log*">
+            <IfAny>
+              <IfAccumulatedFileCount exceeds="5" />
+            </IfAny>
+          </IfFileName>
+        </Delete>
+      </DefaultRolloverStrategy>
+    </RollingFile>
+
+    <RollingFile name="SIGTIMING" 
+      fileName="${log.file.path}/tlog2.timing.log"
+      filePattern="${log.file.path}/archive/tlog2.timing.log.%d{yyyy-MM-dd}.%i.gz"
+      bufferedIO="true"
+      append="true">
+      <PatternLayout>
+        <Pattern>%m%n</Pattern>
+      </PatternLayout>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="100 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy>
+        <Delete basePath="${log.file.path}/archive" maxDepth="1">
+          <IfFileName glob="tlog2.timing.log*">
+            <IfAny>
+              <IfAccumulatedFileCount exceeds="5" />
+            </IfAny>
+          </IfFileName>
+        </Delete>
+      </DefaultRolloverStrategy>
+    </RollingFile>
+
+    <RollingFile name="SIGTRANSACTION"
+      fileName="${log.file.path}/tlog2.transaction.log"
+      filePattern="${log.file.path}/archive/tlog2.transaction.log.%d{yyyy-MM-dd}.%i.gz"
+      bufferedIO="true"
+      append="true">
+      <PatternLayout>
+        <Pattern>%m%n</Pattern>
+      </PatternLayout>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy>
+        <Delete basePath="${log.file.path}/archive" maxDepth="1">
+          <IfFileName glob="tlog2.transaction.log*">
+            <IfAny>
+              <IfAccumulatedFileCount exceeds="2" />
+            </IfAny>
+          </IfFileName>
+        </Delete>
+      </DefaultRolloverStrategy>
+    </RollingFile>
+  </Appenders>
+  
+  <Loggers>
+    <Root level="debug" additivity="false">
+      <AppenderRef ref="ROOTLOG"/>
+    </Root>
+
+    <Logger name="SIGApplicationLog" level="info" additivity="false">
+      <AppenderRef ref="SIGAPPLOG"/>
+    </Logger>
+
+    <Logger name="SIGErrorLog" level="error" additivity="false">
+      <AppenderRef ref="SIGERROR"/>
+    </Logger>
+
+    <Logger name="SIGMessageLog" level="info" additivity="false">
+      <AppenderRef ref="SIGMESSAGE"/>
+    </Logger>
+
+    <Logger name="SIGTimingLog" level="info" additivity="false">
+      <AppenderRef ref="SIGTIMING"/>
+    </Logger>
+
+    <Logger name="SIGTransactionLog" level="info" additivity="false">
+      <AppenderRef ref="SIGTRANSACTION"/>
+    </Logger>
+  </Loggers>
+
+</Configuration>
